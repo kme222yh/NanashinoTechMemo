@@ -30,3 +30,8 @@
   }
 }
 </style>
+
+
+<script>
+    require('./assets/sass/reset.css')
+</script>

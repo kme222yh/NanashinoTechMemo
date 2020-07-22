@@ -1,0 +1,15 @@
+// 色関係
+$main-color: #403E3C;
+$sub-color: #BAB5AF;
+$sub-sub-color: #FFF9EF;
+$c: #4D0D06 #C20300 #005252 #00B6C2;
+@function c($index){
+    @return nth($c, $index);
+}// 色関係
+$main-color: #403E3C;
+$sub-color: #BAB5AF;
+$sub-sub-color: #FFF9EF;
+$c: #4D0D06 #C20300 #005252 #00B6C2;
+@function c($index){
+    @return nth($c, $index);
+}
