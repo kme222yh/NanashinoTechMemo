@@ -1,12 +1,23 @@
 @mixin outer-base{
-    padding: 10px;
+    box-sizing: border-box;
+    padding: 5px;
     @include desktop{
         padding: 15px;
     }
 }
 
+
 @mixin outer-limit{
     margin: auto;
     width: 100%;
-    max-width: 1200px;
+    max-width: $desktop-max;
+}
+
+
+@mixin outer-nav{
+    box-sizing: border-box;
+    padding: 10px;
+    @include desktop{
+        padding: 0;
+    }
 }

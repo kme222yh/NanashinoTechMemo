@@ -1,15 +1,19 @@
-// 色関係
-$main-color: #403E3C;
-$sub-color: #BAB5AF;
-$sub-sub-color: #FFF9EF;
-$c: #4D0D06 #C20300 #005252 #00B6C2;
-@function c($index){
-    @return nth($c, $index);
-}// 色関係
-$main-color: #403E3C;
-$sub-color: #BAB5AF;
+$bg-color: #ececec;
+$main-color: #fbf1ed;
+$sub-color: rgb(18, 47, 61);
 $sub-sub-color: #FFF9EF;
 $c: #4D0D06 #C20300 #005252 #00B6C2;
 @function c($index){
     @return nth($c, $index);
 }
+
+
+$text-color-light: $bg-color;
+$text-color-light-hover: white;
+$text-color-dark: rgba(18, 47, 61, 0.5);
+$text-color-dark-hover: rgb(18, 47, 61);
+
+
+$mobile-max: 481px;
+$tablet-max: 769px;
+$desktop-max: 1200px;

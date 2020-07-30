@@ -4,9 +4,15 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="h1-title" content="<?php echo get_bloginfo( 'name' ); ?>">
+    <meta name="home_url" content="<?php echo home_url() ?>">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <link rel="icon" href="<?php echo home_url() ?>favicon.ico">
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+    <!-- <script type="text/javascript" src="https://platform.twitter.com/widgets.js"> -->
+
+    </script>
+    <title><?php echo get_bloginfo( 'name' ); ?></title>
   </head>
   <body>
     <noscript>

@@ -1,18 +1,31 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <div id="home">
+        <top-articles/>
+        <search-form/>
+        <articles/>
+    </div>
 </template>
 
-<script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 
+
+
+
+<style lang="scss">
+    .search-form{
+        padding: 70px 10px;
+        padding-bottom: 60px;
+    }
+</style>
+
+
+
+
+<script>
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
-  }
+    components: {
+        topArticles: require('../components/TopArticles.vue').default,
+        searchForm: require('../components/SearchForm.vue').default,
+        Articles: require('../components/Articles.vue').default,
+    },
 }
 </script>
