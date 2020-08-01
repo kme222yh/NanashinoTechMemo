@@ -120,9 +120,6 @@ add_action( 'rest_api_init', function () {
 
 /*
 /wp-json/vendor/v1/article
-
-param: per_page(int), page(int), category(slug), tag(slug), search(string)
-res: per_page, next_page(int), all_out(終わりかどうか boolean), articles
 */
 function custom_article( WP_REST_Request $request ) {
     $the_query = new WP_Query(['p' => $request['id'],]);
@@ -148,6 +145,37 @@ add_action( 'rest_api_init', function () {
   register_rest_route( 'vendor/v1', '/article/(?P<id>\d+)', array(
     'methods' => 'GET',
     'callback' => 'custom_article',
+  ) );
+} );
+
+
+/*
+/wp-json/vendor/v1/about
+*/
+function custom_about( WP_REST_Request $request ) {
+    $the_query = new WP_Query(['pagename' => 'about',]);
+    if($the_query->have_posts()){
+        $the_query->the_post();
+        $tags = array_map(function($e){return $e->name;}, get_the_tags());
+		$content = apply_filters( 'the_content', get_the_content() );
+		$content = str_replace( ']]>', ']]&gt;', $content );
+        $response = [
+            'id' => get_the_ID(),
+            'title' => get_the_title(),
+			'content' => $content,
+            'date' => get_the_date(),
+			'date_modified' => get_the_modified_date(),
+            'media' => wp_get_attachment_image_src(get_post_thumbnail_id(), 'full')[0],
+            'category' => get_the_category()[0]->cat_name,
+            'tags' => $tags?$tags:[],
+        ];
+    }
+    return $response;
+}
+add_action( 'rest_api_init', function () {
+  register_rest_route( 'vendor/v1', '/about', array(
+    'methods' => 'GET',
+    'callback' => 'custom_about',
   ) );
 } );
 

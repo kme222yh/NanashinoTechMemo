@@ -151,7 +151,6 @@
                 this.scripts[index].type = "text/javascript";
                 document.getElementsByTagName("head")[0].appendChild(this.scripts[index]);
             }
-            document.getElementById("top-view").scrollIntoView(true)
         },
         beforeDestroy(){
             for(let index in this.scripts){

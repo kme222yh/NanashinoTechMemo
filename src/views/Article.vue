@@ -23,47 +23,21 @@
 
 
 <script>
-    import { mapActions } from 'vuex'
+    import { mapState } from 'vuex'
 
     export default{
         components: {
             TopView: require('../components/TopView.vue').default,
             ArticleContent: require('../components/ArticleContent.vue').default,
         },
-        data(){return {
-            id: null,
-            date: '',
-            date_modified: null,
-            title: '',
-            content: null,
-            media: '',
-            category: '',
-            tags: [],
-        }},
-        async mounted(){
-            const res = await window.axios.get(this.getRequestPath)
-            this.content = res.data.content
-            this.title = res.data.title
-            this.date = res.data.date
-            this.date_modified = res.data.date_modified
-            this.media = res.data.media
-            this.category = res.data.category
-            this.tags = res.data.tags
-            this.openingAnimationHide()
-        },
-        beforeDestroy(){
-            this.openingAnimationVisible()
-        },
-        computed: {
-            getRequestPath(){
-                return `${window.home_url}/wp-json/vendor/v1/article/${this.$route.params.post_id}`
-            },
-        },
-        methods: {
-            ...mapActions({
-                openingAnimationVisible: 'opening_animation_visible',
-                openingAnimationHide: 'opening_animation_hide',
-            }),
-        }
+        computed: mapState({
+            content: state => state.article.content,
+            title: state => state.article.title,
+            date: state => state.article.date,
+            date_modified: state => state.article.date_modified,
+            media: state => state.article.media,
+            category: state => state.article.category,
+            tags: state => state.article.tags,
+        }),
     }
 </script>

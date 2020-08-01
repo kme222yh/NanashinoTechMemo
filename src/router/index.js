@@ -12,7 +12,7 @@ const routes = [
     {
         path: '/about',
         name: 'About',
-        component: require('../views/About.vue').default,
+        component: require('../views/Article.vue').default,
     },
     {
         path: '/:post_id',

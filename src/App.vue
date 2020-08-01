@@ -1,8 +1,9 @@
 <template>
     <div id="app">
-        <Opening/>
+        <Composer/>
+        <Loading/>
         <Header/>
-        <router-view v-if="!taxonomies_is_loading"/>
+        <router-view/>
         <Footer/>
     </div>
 </template>
@@ -29,22 +30,12 @@
 <script>
     require('./assets/sass/reset.css')
 
-    import { mapGetters } from 'vuex'
-
     export default {
         components: {
-            Opening: require('./components/Opening.vue').default,
+            Composer: require('./Composer.vue').default,
+            Loading: require('./components/Loading.vue').default,
             Header: require('./components/Header.vue').default,
             Footer: require('./components/Footer.vue').default,
         },
-        computed: {
-            ...mapGetters({taxonomies_is_loading: 'wp/loading_taxonomies'}),
-        }
-
-        // created(){
-        //     window.axios.get('wp-json/wp/v2/pages').then(res=>{
-        //         console.log(res.data)
-        //     })
-        // },
     }
 </script>

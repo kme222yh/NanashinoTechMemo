@@ -279,7 +279,7 @@
 
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
     data(){return{
@@ -301,18 +301,16 @@ export default {
         }
     }},
     mounted(){
-        this.getCategories()
-        this.getTags()
         this.intervals.scrolling_watch = setInterval(this.scrollingWatch, 50)
-        this.openingAnimationHide()
     },
     computed: {
         is_opend_sub_menu(){
             return this.is_opend.sub.categories || this.is_opend.sub.tags
         },
+
         ...mapState({
-            categories: state => state.wp.categories.data,
-            tags: state => state.wp.tags.data,
+            categories: state => state.categories,
+            tags: state => state.tags,
         }),
     },
     methods: {
@@ -389,15 +387,6 @@ export default {
             scrollTo(0, -parseInt(document.getElementById('app').style.top))
             this.intervals.scrolling_watch = setInterval(this.scrollingWatch, 50)
         },
-
-
-
-
-        ...mapActions({
-            getCategories: 'wp/categories/get',
-            getTags: 'wp/tags/get',
-            openingAnimationHide: 'opening_animation_hide',
-        }),
     },
 }
 </script>

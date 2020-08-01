@@ -52,22 +52,17 @@
 
 
 <script>
-import { mapActions } from 'vuex'
-
 export default {
     data(){return{
         search_word: '',
     }},
     beforeDestroy(){
-        this.assignSearchWord({value: ''})
+        this.$store.state.search_word = ''
     },
     methods: {
         doSearch(){
-            this.assignSearchWord({value: this.search_word})
+            this.$store.state.search_word = this.search_word
         },
-        ...mapActions('wp', {
-            assignSearchWord: 'options/search',
-        }),
     },
 }
 </script>

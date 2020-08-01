@@ -1,7 +1,7 @@
 <template>
-    <footer>
+    <footer v-show="is_visible">
         <div id="footer_widget"><ul v-html="widget"/></div>
-        <div id="footer-copyright" v-show="is_visible">
+        <div id="footer-copyright">
             <small>Copyright Katuura 2019 All right receved.</small>
         </div>
     </footer>
@@ -69,21 +69,11 @@ import { mapState } from 'vuex'
 
 export default{
     data(){return{
-        widget: null,
-        twitter_src: null,
     }},
-    computed: {
-        ...mapState({is_visible: 'footer_visible'})
-    },
-    async created(){
-        const endpoint = `${window.home_url}/wp-json/vendor/v1/widget/footer`
-        const res = await window.axios.get(endpoint)
-        this.widget = res.data
-        this.twitter_src = document.createElement('script')
-        this.twitter_src.src = "https://platform.twitter.com/widgets.js"
-        this.twitter_src.type = "text/javascript";
-        document.getElementsByTagName("head")[0].appendChild(this.twitter_src);
-    },
+    computed: mapState({
+        is_visible: state => state.footer_visible,
+        widget: state => state.widget.footer,
+    }),
 }
 
 </script>
