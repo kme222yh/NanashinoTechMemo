@@ -1,35 +1,28 @@
 <template>
-    <header :class="{visible: header_is_visible, minimize: header_minimize}">
-        <div class="content">
-            <h1> <a href="/">{{siteTitle}}</a> </h1>
-            <div id="mobile-nav">
-                <button type="button" name="menu" @click="menuOpen"><i class="fas fa-bars"></i></button>
-            </div>
-            <transition>
-                <nav id="header-nav" v-show="is_opend.menu" :class="{slided: is_opend_sub_menu}">
-                    <ul>
-                        <li @click="menuClose"> <router-link :to="{name: 'Home'}">Home</router-link> </li>
-                        <li @click="menuClose"> <router-link :to="{name: 'About'}">About</router-link> </li>
-                        <li @mouseover="CategoriesOpen" @mouseleave="CategoriesClose"> <p @click="CategoriesFlip">Categories</p>
-                            <transition>
-                                <ul class="categories" v-show="is_opend.sub.categories">
-                                    <li v-for="category in categories" :key="category.id" @click="menuClose"> <router-link :to="{name: 'Category', params: {category: category.slug}}">{{category.name}}</router-link> </li>
-                                </ul>
-                            </transition>
-                        </li>
-                        <li @mouseover="TagsOpen" @mouseleave="TagsClose"> <p @click="TagsFlip">Tags</p>
-                            <transition>
-                                <ul class="tags" v-show="is_opend.sub.tags">
-                                    <li v-for="tag in tags" :key="tag.id" @click="menuClose"> <router-link :to="{name: 'Tag', params: {tag: tag.slug}}">{{tag.name}}</router-link> </li>
-                                </ul>
-                            </transition>
-                        </li>
-                        <li> <a href="https://portfolio.katuura.info">Portfolio</a> </li>
-                    </ul>
-                </nav>
-            </transition>
-            <transition><div id="menu-bg" v-show="is_opend.menu" @click="menuClose" /></transition>
+    <header itemscope="itemscope" itemtype="http://schema.org/WPHeader" :class="{visible: header_is_visible}">
+        <div id="site-title-bar"  class="inner">
+            <a href="/">{{siteTitle}}</a>
+            <button class="nav-button" type="button" @click="menuOpen"><font-awesome-icon icon="bars"/></button>
         </div>
+        <transition>
+            <nav id="global-nav" v-show="is_opend.menu" :class="{slided: is_opend.sub!=-1}">
+                <ul class="inner-side" @click.self="subMenuClose">
+                    <li v-for="(item, index) in menu" :key="index" @mouseover="subMenuOpen" @mouseleave="subMenuClose" itemprop="name">
+                        <p v-if="item.children.length>0" :index="index" @click="subMenuFlip">{{item.title}}</p>
+                        <router-link @click.native="menuClose" v-if="item.children.length==0&&item.same_origin" itemprop="url" :to="item.path">{{item.title}}</router-link>
+                        <a v-if="!item.same_origin" itemprop="url" :href="item.url">{{item.title}}</a>
+                        <transition>
+                            <ul class="inner-side" v-if="item.children.length>0" v-show="is_opend.sub==index">
+                                <li v-for="(subitem, subindex) in item.children" :key="subindex" itemprop="name">
+                                    <router-link @click.native="menuClose" itemprop="url" :to="subitem.path">{{subitem.title}}</router-link>
+                                </li>
+                            </ul>
+                        </transition>
+                    </li>
+                </ul>
+            </nav>
+        </transition>
+        <transition><div id="menu-bg" v-show="is_opend.menu" @click="menuClose" /></transition>
     </header>
 </template>
 
@@ -37,57 +30,74 @@
 
 
 
+
+
 <style lang="scss">
     header{
-        background-color: $main-color;
+        background-color: $pearl;
         position: sticky;
         z-index: 2;
-        top: -34px;
+        top: -45px;
         transition: .3s;
-        .content{
-            @include outer-limit;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        h1{
-            @include outer-base;
-            @include header-title;
-            a{@include unlink;}
+        a, p, button{
+            color: $transparent-gray;
+            line-height: 1;
         }
         @include tablet{
-            top: -46px;
+            top: -66px;
         }
         @include desktop{
-            top: -103px;
+            position: sticky;
+            top: -150px;
         }
     }
     header.visible{
         top: 0;
         box-shadow: 0px 0px 10px $text-color-dark;
-    }
-    header.minimize{
-        h1{display: none;}
+        @include desktop{
+            top: -90px;
+        }
     }
 
 
-    #mobile-nav{
-        display: flex;
-        button{
-            @include nav-text;
-            background-color: transparent;
-            border: none;
-            padding: 0 5px;
-            &:focus{
-                outline: none;
+
+    #site-title-bar{
+        a, button{
+            font-size: 20px;
+            @include tablet{
+                font-size: 30px;
+            }
+            @include desktop{
+                font-size: 45px;
+                transition: .5s;
+                &:hover{
+                    color: $text-color-dark;
+                }
             }
         }
-        @include desktop{display: none;}
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        @include desktop{
+            justify-content: center;
+            border-bottom: 1px solid $transparent-gray;
+        }
+
+        .nav-button{
+            background-color: transparent;
+            border: none;
+            outline: none;
+            @include desktop{
+                display: none;
+            }
+        }
     }
 
 
 
-    #header-nav{
+
+
+    #global-nav{
         position: fixed;
         top: 0;
         bottom: 0;
@@ -95,183 +105,94 @@
         z-index: 3;
         transition: .5s;
         a, p{
-            @include nav-text;
             padding: 10px 0;
             width: 100%;
             display: block;
-            box-sizing: border-box;
             cursor: pointer;
+            font-size: 18px;
         }
-        ul ul a{@include sub-nav-text;}
-
         ul{
-            @include outer-nav;
-            min-width: 160px;
+            background-color: $pearl;
+            width: 150px;
             height: 100%;
-            background-color: $main-color;
             position: relative;
-
-            .categories a{
-                border-bottom: 1px solid $text-color-dark;
-                padding: 15px 0;
-            }
-            .tags{
-                a{
-                    border: 1px solid $text-color-dark;
-                    border-radius: 30px;
-                    padding: 5px;
-                    margin-bottom: 15px;
-                }
-                li:last-child a{
-                    margin-bottom: 0;
-                }
-            }
-
             ul{
                 position: absolute;
                 top: 0;
+                bottom: 0;
                 right: 0;
-                transform: translateX(100%);
-                overflow-y: scroll;
-
-                a{
-                    text-align: center;
-                }
-
-                &.v-enter-active, &.v-leave-active{
-                    transition: .5s;
-                }
-                &.v-enter, &.v-leave-to{
-                    opacity: 0;
-                    transform: translateX(80%);
-                }
-                &.v-enter-to, &.v-leave{
-                    opacity: 1;
-                    transform: translateX(100%);
-                }
+                transform: translateX(99%);
+                &.v-enter-active{transition: .5s;}
+                &.v-leave-active{transition: .3s;}
+                &.v-enter, &.v-leave-to{opacity: 0;transform: translateX(80%);}
+                &.v-enter-to, &.v-leave{opacity: 1;transform: translateX(99%);}
             }
         }
+        &.v-enter, &.v-leave-to{left: -150px;}
+        &.v-enter-to, &.v-leave{left: 0;}
 
-        &.v-enter-active, &.v-leave-active{
-            transition: .5s;
-        }
-        &.v-enter, &.v-leave-to{
-            left: -160px;
-        }
-        &.v-enter-to, &.v-leave{
-            left: 0;
-        }
+        &.slided{left: -50px;}
+
 
         @include tablet{
+            a, p{
+                padding: 15px 0;
+                font-size: 22px;
+            }
             ul{
-                min-width: 200px;
+                width: 200px;
             }
-            &.v-enter, &.v-leave-to{
-                left: -200px;
-            }
+            &.v-enter, &.v-leave-to{left: -200px;}
+            &.slided{left: 0;}
         }
+
 
         @include desktop{
             position: static;
             display: block !important;
+
+            a, p{
+                text-align: center;
+                padding: 20px 20px;
+                font-size: 20px;
+                transition: .5s;
+                &:hover{color: $dark-gray;}
+            }
             ul{
                 display: flex;
-                position: static;
-                a, p{
-                    padding: 30px 15px;
-                }
-                .categories{
-                    li{
-                        border-left: 1px solid $text-color-light;
-                        &:last-child{border-right: 1px solid $text-color-light;}
-                    }
-                    a{
-                        border-bottom: none;
-                        padding: 10px 30px;
-                    }
-                }
-                .tags{
-                    li{margin: 10px;}
-                    a{
-                        border: 1px solid $text-color-light;
-                        padding: 5px 15px;
-                        margin-bottom: 0;
-                    }
-                }
-                li:hover p{color: $text-color-dark-hover;}
-
+                justify-content: center;
+                width: 100%;
                 ul{
-                    overflow-y: hidden;
-                    @include outer-base;
-                    background-color: $sub-color;
-                    transition: .3s;
-                    top: auto;
-                    bottom: 0;
-                    left: 0;
+                    a{color: white;}
+                    a:hover{color: $transparent-white;}
+                    background-color: $dark-blue;
+                    top: 0;
+                    bottom: auto;
                     right: 0;
-                    min-height: 50px;
-                    height: auto;
-                    display: flex;
-                    flex-wrap: wrap;
-                    justify-content: center;
-                    transform: translateY(100%);
-                    &.v-enter-active{
-                        transition: .5s;
-                    }
-                    &.v-leave-active{
-                        transition: .3s;
-                    }
-                    &.v-enter, &.v-leave-to{
-                        opacity: 0;
-                        transform: translateY(95%);
-                    }
-                    &.v-enter-to, &.v-leave{
-                        opacity: 1;
-                        transform: translateY(100%);
-                    }
+                    left: 0;
+                    transform: translateY(99%);
+                    &.v-enter, &.v-leave-to{opacity: 0;transform: translateY(90%);}
+                    &.v-enter-to, &.v-leave{opacity: 1;transform: translateY(99%);}
                 }
             }
         }
     }
-    #header-nav.slided{
-        left: -50px;
-        @include tablet{
-            left: 0;
-        }
-    }
-    header.minimize #header-nav{
-        width: 100%;
-        ul{
-            justify-content: center;
-        }
-        &>ul>li>a, &>ul>li>p{
-            padding-top: 20px;
-            padding-bottom: 20px;
-        }
-    }
+
+
+
 
 
     #menu-bg{
         position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 2;
-        background-color: $text-color-dark;
-        &.v-enter-active, &.v-leave-active{
-            transition: .5s;
-        }
-        &.v-enter, &.v-leave-to{
-            opacity: 0;
-        }
-        &.v-enter-to, &.v-leave{
-            opacity: 1;
-        }
-        @include desktop{
-            display: none;
-        }
+        top: 0;bottom: 0;left: 0;right: 0;z-index: 2;
+        background-color: $transparent-gray;
+        &.v-enter-active, &.v-leave-active{transition: .5s;}
+        &.v-enter, &.v-leave-to{opacity: 0;}
+        &.v-enter-to, &.v-leave{opacity: 1;}
+        @include desktop{display: none;}
     }
+
+
 </style>
 
 
@@ -283,17 +204,13 @@ import { mapState } from 'vuex'
 
 export default {
     data(){return{
-        siteTitle: document.getElementsByName('h1-title')[0].content,
+        siteTitle: document.getElementsByName('site-title')[0].content,
 
         header_is_visible: true,
-        header_minimize: false,
         scrolled_value: window.pageYOffset,
         is_opend: {
             menu: false,
-            sub: {
-                categories: false,
-                tags: false,
-            },
+            sub: -1,
         },
 
         intervals: {
@@ -303,25 +220,12 @@ export default {
     mounted(){
         this.intervals.scrolling_watch = setInterval(this.scrollingWatch, 50)
     },
-    computed: {
-        is_opend_sub_menu(){
-            return this.is_opend.sub.categories || this.is_opend.sub.tags
-        },
-
-        ...mapState({
-            categories: state => state.categories,
-            tags: state => state.tags,
-        }),
-    },
+    computed: mapState({
+        menu: state => state.menu,
+    }),
     methods: {
         scrollingWatch(){
             if(window.innerWidth > 769){
-                if(window.pageYOffset > 200){
-                    this.header_minimize = true
-                }
-                else{
-                    this.header_minimize = false
-                }
                 if(window.pageYOffset > 600){
                     this.header_is_visible = true
                 }
@@ -351,38 +255,23 @@ export default {
             document.getElementById('app').style.top = `-${window.pageYOffset}px`
             document.getElementById('app').style.position = 'fixed'
         },
-        CategoriesFlip(){
-            if(window.innerWidth >= 769) return
-            this.is_opend.sub.categories = !this.is_opend.sub.categories
-            this.is_opend.sub.tags = false
+        subMenuFlip(el){
+            if(this.is_opend.sub != el.target.attributes.index.value)
+                this.is_opend.sub = el.target.attributes.index.value
+            else
+                this.is_opend.sub = -1
         },
-        CategoriesOpen(){
-            if(window.innerWidth < 769) return
-            this.is_opend.sub.categories = true
+        subMenuOpen(el){
+            if(el.target.attributes.index===undefined)return
+            this.is_opend.sub = el.target.attributes.index.value
         },
-        CategoriesClose(){
-            // if(window.innerWidth < 769) return
-            this.is_opend.sub.categories = false
-        },
-        TagsFlip(){
-            if(window.innerWidth >= 769) return
-            this.is_opend.sub.tags = !this.is_opend.sub.tags
-            this.is_opend.sub.categories = false
-        },
-        TagsOpen(){
-            if(window.innerWidth < 769) return
-            this.is_opend.sub.tags = true
-        },
-        TagsClose(){
-            // if(window.innerWidth < 769) return
-            this.is_opend.sub.tags = false
+        subMenuClose(){
+            this.is_opend.sub = -1
         },
         menuClose(){
             this.is_opend.menu = false
-            this.is_opend.sub.categories = false
-            this.is_opend.sub.tags = false
+            this.is_opend.sub = -1
             if(window.innerWidth >= 769) return
-            console.log('hoge')
             document.getElementById('app').style.position = 'static'
             scrollTo(0, -parseInt(document.getElementById('app').style.top))
             this.intervals.scrolling_watch = setInterval(this.scrollingWatch, 50)

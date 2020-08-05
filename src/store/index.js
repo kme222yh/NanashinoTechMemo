@@ -5,17 +5,19 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        loading_animation_visible: false, // 0で 非表示 1以上で表示
+        during_screen_transition: false,
         footer_visible: true,
+        page_title: '',
 
-
-        categories: [],
-        tags: [],
+        menu: [],
+        pinned: [],
         articles: {
             data: [],
             all_out: false,
             next_page: 1,
             per_page: 12,
+            show_until: -1,
+            load: false, // Articles.vueで書き込み
         },
         article: {
             content: '',
@@ -26,15 +28,10 @@ export default new Vuex.Store({
             category: '',
             tags: [],
         },
+        related: [],
         widget: {
             footer: {},
         },
-        search_word: '',
-    },
-    mutations: {
-    },
-    actions: {
-    },
-    getters: {
+        search_word: '', // SearchForm.vueが書き込み
     },
 })

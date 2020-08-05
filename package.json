@@ -26,7 +26,10 @@
     "eslint-plugin-vue": "^6.2.2",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.2",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "@fortawesome/fontawesome-svg-core": "",
+    "@fortawesome/free-solid-svg-icons": "",
+    "@fortawesome/vue-fontawesome": ""
   },
   "eslintConfig": {
     "root": true,

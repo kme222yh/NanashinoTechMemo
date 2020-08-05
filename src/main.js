@@ -2,11 +2,16 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-
 import Axios from 'axios'
-window.axios = Axios
 
-Vue.config.productionTip = false
+
+window.axios = Axios
+window.Vue = Vue
+
+
+require('./FontAwesome.js')
+
+window.Vue.config.productionTip = false
 
 
 window.home_url = document.getElementsByName('home_url')[0].content

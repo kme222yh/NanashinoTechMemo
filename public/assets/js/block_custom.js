@@ -3,8 +3,8 @@
         blocks = wp.blocks,
         RichText = wp.editor.RichText;
 
-    blocks.registerBlockType('my-plugin/point', {
-        title: 'ポイント',
+    blocks.registerBlockType('my-plugin/subheading', {
+        title: '小見出し',
         icon: 'wordpress-alt',
         category: 'common',
         attributes: {
@@ -20,9 +20,9 @@
                 RichText,
                 {
                     tagName: 'div',
-                    className: "point",
+                    className: "subheading",
                     style: {
-                        borderLeft: '3px solid black',
+                        borderLeft: '3px double black',
                         paddingLeft: '20px',
                     },
                     value: nowContent,
@@ -35,7 +35,7 @@
         save: function (props) {
             return el(RichText.Content, {
                 tagName: 'p',
-                className: "point",
+                className: "subheading",
                 value: props.attributes.content,
             });
         },

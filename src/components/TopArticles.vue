@@ -1,26 +1,30 @@
 <template>
     <section id="top-article">
+        <h1 style="display: none;">Pinned articles</h1>
 
-        <article style="background-image: linear-gradient(to top, rgba(0,0,0,0), 30%, rgba(18, 47, 61, 0.8)), url(http://localhost:8888/wp-content/uploads/2020/07/vue-js.jpg);">
-            <div class="content">
-                <div class="info">
-                    <small> <i class="far fa-clock"></i> 2020-7-18</small>
-                    <div class="categoreis"><i class="fas fa-tags"></i><p>vue.js</p><p>javascript</p></div>
+        <div class="articles" @touchstart="swipeStart" @touchmove="swiping" @touchend="swipeEnd"  @mousedown="slideStart" @mousemove="sliding" @mouseup="swipeEnd">
+            <transition-group>
+                <div class="jumbotron" v-for="(article, index) in articles" :key="index+0" v-show="visible==index" :style="{'background-image': `linear-gradient(rgba(18, 47, 61, 0.5), rgba(18, 47, 61, 0.5)), url(${article.media})`}">
+                    <div class="outer inner">
+                        <h2><router-link :to="{name: 'Article', params: {post_id: article.id}}">{{article.title}}</router-link></h2>
+                        <div class="date">
+                            <small class="wrote"><font-awesome-icon icon="pen-fancy"/> {{article.date}}</small>
+                            <small class="modified" v-if="article.date!=article.date_modified"><font-awesome-icon icon="sync"/> {{article.date_modified}}</small>
+                        </div>
+                        <router-link :to="{name: 'Category', params: {category: article.category_slug}}" class="category">{{article.category}}</router-link>
+                    </div>
                 </div>
-                <h2>Vue.jsでホゲホゲ！！</h2>
-                <p class="discription">box-shadowは簡単ですが、簡単さゆえにできないこともたくさんあります。 下の図（左）は、市松模様の上に水色のbox-shadowで影を落としたものです。 表現によってはこれもありですが、影としてよりリアルなのは（右）の方ではないでしょうか？</p>
+            </transition-group>
+
+            <div class="jumbotron damy">
+
             </div>
-        </article>
+
+            <div class="controller right" @click="nextArticle"><font-awesome-icon icon="chevron-right"/></div>
+            <div class="controller left" @click="previousArticle"><font-awesome-icon icon="chevron-left"/></div>
+        </div>
 
 
-        <!-- <div id="carousel-controller">
-            <div><i class="fas fa-chevron-left"></i></div>
-            <div><i class="fas fa-circle"></i></div>
-            <div><i class="fas fa-circle"></i></div>
-            <div><i class="fas fa-circle"></i></div>
-            <div><i class="fas fa-circle"></i></div>
-            <div><i class="fas fa-chevron-right"></i></div>
-        </div> -->
     </section>
 </template>
 
@@ -30,78 +34,82 @@
 
 <style lang="scss">
     #top-article{
+        overflow: hidden;
+    }
+    #top-article .articles{
         position: relative;
-        z-index: 1;
-        min-height: 500px;
-        height: 35vw;
-        article{
-            height: 100%;
-            background-position: center;
-            background-size: auto 100%;
-            transition: .8s;
-            .content{
-                @include outer-limit;
-                @include outer-base;
-                padding-top: 50px !important;
-                box-sizing: border-box;
-                &>p{
-                    @include main-text;
-                }
+        .jumbotron{
+            a,small{
+                user-select: none;
             }
-            h2{
-                @include main-top-title;
-                text-align: center;
-                margin-bottom: 40px;
+            position: absolute;
+            transform: scale(1.05);
+            &.v-enter-active, &.v-leave-active{
+                transition: 2s;
             }
-            .info, .categoreis{
+            &.v-enter{
+                transform: scale(1);
+                opacity: 0;
+            }
+            &.v-enter-to{
+                transform: scale(1.05);
+                opacity: 1;
+            }
+            &.v-leave{
+                transform: scale(1.05);
+                opacity: 1;
+            }
+            &.v-leave-to{
+                transform: scale(1.1);
+                opacity: 0;
+            }
+        }
+        .jumbotron.damy{
+            pointer-events: none;
+            position: static;
+            opacity: 0;
+        }
+
+        .controller{
+            display: none;
+            @include tablet{
+                cursor: pointer;
+                display: block;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                z-index: 2;
+                background-color: $transparent-white;
+                width: 70px;
+                height: 70px;
+                font-size: 20px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                i{
-                    margin-right: 5px;
+                transition: .5s;
+                &.right{
+                    right: 0;
+                    transform: translate(100%, -50%);
+                }
+                &.left{
+                    left: 0;
+                    transform: translate(-100%, -50%);
                 }
             }
-            .info{
-                @include main-top-small;
-                small, div{
-                    margin-right: 30px;
-                }
-                margin-bottom: 40px;
-            }
-            .categoreis{
-                p{
-                    @include category_tag;
-                    border: 1px solid $text-color-light;
-                }
-            }
-
+        }
+        @include tablet{
             &:hover{
-                background-size: auto 110%;
+                .right{
+                    transform: translate(-20%, -50%);
+                }
+                .left{
+                    transform: translate(20%, -50%);
+                }
+                .controller:hover{
+                        color: $dark-blue;
+                        background-color: $white-gray;
+                }
             }
-        }
-    }
-
-
-    #carousel-controller{
-        position: absolute;
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 50px;
-        background-color: rgba(18, 47, 61, 0.6);
-        border-radius: 25px;
-        padding: 0 20px;
-        div{
-            margin: 0 20px;
-        }
-        i{
-            font-size: 13x;
-        }
-        div:first-of-type i, #carousel-controller div:last-of-type i{
-            font-size: 30px;
         }
     }
 </style>
@@ -111,6 +119,78 @@
 
 
 <script>
+import { mapState } from 'vuex'
+
+
 export default {
+    data(){return{
+        visible: 0,
+        interval: null,
+
+        pointer_start: 0,
+        pointer_end: 0,
+
+        mouse_is_down: false,
+    }},
+    mounted(){
+        this.interval = setInterval(this.f, 10000)
+    },
+    beforeDestroy(){
+        clearInterval(this.interval)
+    },
+    computed: mapState({
+        'articles': state => state.pinned,
+    }),
+    methods: {
+        nextArticle(){
+            clearInterval(this.interval)
+            if(this.visible >= this.articles.length-1)
+                this.visible = 0
+            else
+                this.visible ++
+            this.interval = setInterval(this.f, 10000)
+        },
+        previousArticle(){
+            clearInterval(this.interval)
+            if(this.visible <= 0)
+                this.visible = this.articles.length-1
+            else
+                this.visible --
+            this.interval = setInterval(this.f, 10000)
+        },
+
+
+        swipeStart(e){
+            this.pointer_start = e.touches[0].pageX;
+            this.pointer_end = e.touches[0].pageX
+        },
+        swiping(e){
+            this.pointer_end = e.changedTouches[0].pageX
+        },
+        swipeEnd(){
+            const th = 30
+            if(this.pointer_end - this.pointer_start > th){
+                this.previousArticle()
+            }
+            else if (this.pointer_end - this.pointer_start < -th){
+                this.nextArticle()
+            }
+        },
+        slideStart(e){
+            this.pointer_start = e.pageX;
+            this.pointer_end = e.pageX
+        },
+        sliding(e){
+            this.pointer_end = e.pageX
+        },
+
+
+        f(){
+            if(this.visible >= this.articles.length-1)
+                this.visible = 0
+            else
+                this.visible ++
+        },
+    }
 }
 </script>

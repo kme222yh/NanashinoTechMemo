@@ -1,17 +1,24 @@
-$bg-color: #ececec;
-$main-color: #fbf1ed;
-$sub-color: rgb(18, 47, 61);
-$sub-sub-color: #FFF9EF;
-$c: #4D0D06 #C20300 #005252 #00B6C2;
-@function c($index){
-    @return nth($c, $index);
-}
+
+
+
+// colors
+$transparent-gray: rgba(18, 47, 61, 0.5);
+$transparent-white: rgba(255, 255, 255, 0.3);
+$dark-gray: rgb(18, 47, 61);
+$white-gray:  #ececec;
+$dark-white: #aaa;
+$pearl: #fbf1ed;
+$dark-blue: rgb(18, 47, 61);
+
+
+
+$bg-color: $white-gray;
+
 
 
 $text-color-light: $bg-color;
-$text-color-light-hover: white;
-$text-color-dark: rgba(18, 47, 61, 0.5);
-$text-color-dark-hover: rgb(18, 47, 61);
+$text-color-dark: $dark-gray;
+
 
 
 $mobile-max: 481px;

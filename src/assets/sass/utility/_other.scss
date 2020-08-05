@@ -18,20 +18,3 @@
         @content;
     }
 }
-
-
-
-@mixin unlink{
-    color: inherit;
-    text-decoration: none;
-}
-
-
-
-@mixin category_tag{
-    border: 1px solid $text-color-dark;
-    border-radius: 30px;
-    padding: 5px 15px;
-    margin: 0 5px;
-    text-align: center;
-}

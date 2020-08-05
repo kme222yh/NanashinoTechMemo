@@ -1,9 +1,9 @@
 <template>
-    <div id="home">
-        <top-articles/>
-        <search-form/>
+    <main id="home" class="section">
+        <top-articles class="section"/>
+        <search-form class="section"/>
         <articles/>
-    </div>
+    </main>
 </template>
 
 
@@ -11,10 +11,6 @@
 
 
 <style lang="scss">
-    .search-form{
-        padding: 70px 10px;
-        padding-bottom: 60px;
-    }
 </style>
 
 

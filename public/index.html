@@ -4,11 +4,10 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="h1-title" content="<?php echo get_bloginfo( 'name' ); ?>">
+        <meta name="site-title" content="<?php echo get_bloginfo( 'name' ); ?>">
         <meta name="home_url" content="<?php echo home_url() ?>">
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <link rel="icon" href="<?php echo home_url() ?>favicon.ico">
-        <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
         <title><?php echo get_bloginfo( 'name' ); ?></title>
         <style type="text/css">
             #opening-animation{
@@ -21,7 +20,8 @@
                 background-color: #fbf1ed;
             }
             #opening-animation.hide{
-                animation: op-fade-out 1.5s forwards;
+                transition: 1s;
+                opacity: 0;
             }
             #opening-animation .lds-ripple {
                 display: inline-block;
@@ -58,30 +58,11 @@
                     opacity: 0;
                 }
             }
-            @keyframes op-fade-out{
-                0% {
-                    opacity: 1;
-                }
-                99%{
-                    opacity: 0;
-                    height: 100vh;
-                    width: 100vw;
-                }
-                100%{
-                    opacity: 0;
-                    height: 0;
-                    width: 0;
-                }
-            }
         </style>
     </head>
     <body>
-        <noscript>
-            <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-        </noscript>
         <div id="opening-animation"><div class="lds-ripple"><div></div><div></div></div></div>
         <div id="app"></div>
-        <!-- built files will be auto injected -->
     </body>
     <?php wp_footer() ?>
 </html>

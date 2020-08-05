@@ -23,6 +23,7 @@ const routes = [
         path: '/category/:category',
         name: 'Category',
         component: require('../views/Home.vue').default,
+        alias: '/category/*/:category',
     },
     {
         path: '/tag/:tag',
@@ -34,10 +35,6 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   // base: process.env.BASE_URL,
-  // scrollBehavior () {
-  //     console.log('hoge')
-  //     return false
-  // },
 
   routes
 })

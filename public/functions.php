@@ -1,6 +1,19 @@
 <?php
 add_theme_support('post-thumbnails');
-// add_theme_support('menus');
+add_theme_support('menus');
+
+
+
+
+
+function menu_setup() {
+  register_nav_menus( array(
+    'global' => 'グローバルメニュー(２階層まで！！)',
+    'pinned'   => '固定記事',
+    // 'footer' => 'フッターメニュー',
+  ) );
+}
+add_action( 'after_setup_theme', 'menu_setup' );
 
 
 
@@ -121,7 +134,7 @@ add_action( 'rest_api_init', function () {
 /*
 /wp-json/vendor/v1/article
 */
-function custom_article( WP_REST_Request $request ) {
+function custom_article( $request ) {
     $the_query = new WP_Query(['p' => $request['id'],]);
     if($the_query->have_posts()){
         $the_query->the_post();
@@ -136,6 +149,7 @@ function custom_article( WP_REST_Request $request ) {
 			'date_modified' => get_the_modified_date(),
             'media' => wp_get_attachment_image_src(get_post_thumbnail_id(), 'full')[0],
             'category' => get_the_category()[0]->cat_name,
+            'category_slug' => get_the_category()[0]->slug,
             'tags' => $tags?$tags:[],
         ];
     }
@@ -180,8 +194,9 @@ add_action( 'rest_api_init', function () {
 } );
 
 
-
-
+/*
+/wp-json/vendor/v1/widget/footer
+*/
 function custom_widget_footer( WP_REST_Request $request ) {
 	ob_start();         //出力バッファリングを有効にする
 	dynamic_sidebar( 'footer' );
@@ -193,5 +208,54 @@ add_action( 'rest_api_init', function () {
   register_rest_route( 'vendor/v1', '/widget/footer', array(
     'methods' => 'GET',
     'callback' => 'custom_widget_footer',
+  ) );
+} );
+
+
+/*
+/wp-json/vendor/v1/menu/global
+メニューの内部データの順番を信じてる（海藻は一階層まで）
+*/
+function custom_menu_global( WP_REST_Request $request ) {
+	$items = [];
+	foreach(wp_get_nav_menu_items("global") as $item){
+        $data = [
+			'title' => $item->title,
+			'url' => $item->url,
+            'path' => parse_url($item->url, PHP_URL_PATH),
+            'same_origin' => preg_match('/^'.preg_quote(home_url(), '/').'.*$/', $item->url),
+            'children' => [],
+		];
+        if($item->menu_item_parent != 0)
+            array_push($items[count($items)-1]['children'], $data);
+        else
+    		array_push($items, $data);
+	}
+	return $items;
+}
+add_action( 'rest_api_init', function () {
+  register_rest_route( 'vendor/v1', '/menu/global', array(
+    'methods' => 'GET',
+    'callback' => 'custom_menu_global',
+  ) );
+} );
+
+
+/*
+/wp-json/vendor/v1/menu/pinned
+*/
+function custom_articles_pinned( WP_REST_Request $request ) {
+	$items = [];
+    foreach(wp_get_nav_menu_items("pinned") as $item){
+        $data = custom_article(['id'=>$item->object_id]);
+        unset($data['content']);
+        array_push($items, $data);
+    }
+	return $items;
+}
+add_action( 'rest_api_init', function () {
+  register_rest_route( 'vendor/v1', '/menu/pinned', array(
+    'methods' => 'GET',
+    'callback' => 'custom_articles_pinned',
   ) );
 } );
