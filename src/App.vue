@@ -71,20 +71,20 @@
         box-sizing: border-box;
         padding: 10px;
         @include tablet{
-            padding: 15px;
+            padding: 18px;
         }
         @include desktop{
-            padding: 22px;
+            padding: 25px;
         }
     }
     .inner-side{
         box-sizing: border-box;
         padding: 0 10px;
         @include tablet{
-            padding: 0 15px;
+            padding: 0 18px;
         }
         @include desktop{
-            padding: 0 22px;
+            padding: 0 25px;
         }
     }
 

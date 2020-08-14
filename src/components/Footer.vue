@@ -18,22 +18,24 @@
         color: $transparent-gray;
         h2{
             color: $text-color-dark;
-            border-left: 5px solid;
+            // border-left: 5px solid;
+            border-bottom: 1px solid;
             color: inherit;
             margin-bottom: 10px;
             padding-left: 10px;
         }
-        li{
-            list-style: none;
-            &:first-child{margin-bottom: 50px;}
+        li{list-style: none;}
+        .widget{
+            margin-bottom: 50px;
+            &:last-child{margin-bottom: 0;}
         }
-        @include tablet{
-            ul{
+        @include desktop{
+            &>ul{
                 display: flex;
                 justify-content: space-between;
             }
-            li{
-                width: 48%;
+            .widget{
+                width: 31%;
                 margin-bottom: 0;
             }
         }
@@ -66,7 +68,7 @@ export default{
     },
     computed: mapState({
         is_visible: state => state.footer_visible,
-        widget: state => state.widget.footer,
+        widget: state => state.widgets.footer,
     }),
 }
 

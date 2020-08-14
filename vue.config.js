@@ -1,5 +1,5 @@
 module.exports = {
-    publicPath: '<?php echo home_url() ?>/wp-content/themes/katurara.info/',
+    publicPath: '<?php echo home_url() ?>/wp-content/themes/nanashinotechmemo/',
     indexPath: 'index.php',
   css: {
     loaderOptions: {

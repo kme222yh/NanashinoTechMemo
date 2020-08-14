@@ -34,7 +34,7 @@
 
 <style lang="scss">
     header{
-        background-color: $pearl;
+        background-color: white;
         position: sticky;
         z-index: 2;
         top: -45px;
@@ -44,18 +44,18 @@
             line-height: 1;
         }
         @include tablet{
-            top: -66px;
+            top: -66.25px;
         }
         @include desktop{
             position: sticky;
-            top: -150px;
+            top: -156px;
         }
     }
     header.visible{
         top: 0;
         box-shadow: 0px 0px 10px $text-color-dark;
         @include desktop{
-            top: -90px;
+            top: -96px;
         }
     }
 
@@ -80,7 +80,7 @@
         align-items: center;
         @include desktop{
             justify-content: center;
-            border-bottom: 1px solid $transparent-gray;
+            border-bottom: 1px solid $thin-transparent-gray;
         }
 
         .nav-button{
@@ -112,7 +112,7 @@
             font-size: 18px;
         }
         ul{
-            background-color: $pearl;
+            background-color: white;
             width: 150px;
             height: 100%;
             position: relative;

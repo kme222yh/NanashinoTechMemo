@@ -1,13 +1,13 @@
 <template>
-    <article id="articles" class="outer" itemscope="itemscope" itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
-        <div class="page_title inner">
-            <h1>{{page_title}}</h1>
+    <article id="articles" itemscope="itemscope" itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+        <div class="page_title">
+            <h1 class="outer inner-side">{{page_title}}</h1>
         </div>
-        <div class="no-articles" v-show="articles.data.length==0">
+        <div class="no-articles outer" v-show="articles.data.length==0">
             <p>記事が見つかりませんでした…</p>
             <p>( ；∀；)</p>
         </div>
-        <div class="content inner" v-show="articles.data.length>0">
+        <div class="content inner outer" v-show="articles.data.length>0">
             <div :class="{'article-link':true, 'inner':true, 'visible': index<=articles.show_until}" v-for="(article, index) in articles.data" :key="index">
                 <small><time itemprop="datePublished">{{article.date}}</time></small>
                 <h2 itemprop="name headline">
@@ -32,7 +32,7 @@
 <style lang="scss">
     #articles .article-link{
         background-color: white;
-        margin-bottom: 40px;
+        margin: 20px 0;
         text-align: center;
         color: $transparent-gray;
         small{display: block;}
@@ -87,9 +87,11 @@
     #articles{
         min-height: 70vh;
         position: relative;
+        border-bottom: 1px solid $thin-transparent-gray;
+        padding-bottom: 40px;
         .page_title{
+            border-bottom: 1px solid $thin-transparent-gray;
             h1{
-                border-bottom: 1px solid;
                 color: $transparent-gray;
                 font-size: 20px;
                 @include tablet{font-size: 25px;}

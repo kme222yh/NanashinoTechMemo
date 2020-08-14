@@ -40,7 +40,7 @@
             }
         }
         .article-link{
-            border-radius: 5px;
+            // border-radius: 5px;
             border: 1px solid $dark-white;
             margin: 50px 0;
         }

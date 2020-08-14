@@ -11,6 +11,7 @@ export default new Vuex.Store({
 
         menu: [],
         pinned: [],
+        archives: [],
         articles: {
             data: [],
             all_out: false,
@@ -29,9 +30,11 @@ export default new Vuex.Store({
             tags: [],
         },
         related: [],
-        widget: {
+        widgets: {
             footer: {},
+            side_bar: {},
         },
+        categories: {},
         search_word: '', // SearchForm.vueが書き込み
     },
 })

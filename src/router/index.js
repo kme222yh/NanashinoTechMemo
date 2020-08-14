@@ -10,15 +10,15 @@ const routes = [
         component: require('../views/Home.vue').default,
     },
     {
-        path: '/about',
-        name: 'About',
-        component: require('../views/Article.vue').default,
+        path: '/notfound',
+        name: 'NotFound',
+        component: require('../views/NotFound.vue').default,
     },
-    {
-        path: '/:post_id',
-        name: 'Article',
-        component: require('../views/Article.vue').default,
-    },
+    // {
+    //     path: '/search',//クエリパラメータ ?s= つき
+    //     name: 'Search',
+    //     component: require('../views/Home.vue').default,
+    // },
     {
         path: '/category/:category',
         name: 'Category',
@@ -26,10 +26,19 @@ const routes = [
         alias: '/category/*/:category',
     },
     {
-        path: '/tag/:tag',
-        name: 'Tag',
+        path: '/date/:year/:month',
+        name: 'Archives',
         component: require('../views/Home.vue').default,
-    }
+    },
+    {
+        path: '/:post_id',
+        name: 'Article',
+        component: require('../views/Article.vue').default,
+    },
+    {
+        path: '*',
+        redirect: {name: 'NotFound'},
+    },
 ]
 
 const router = new VueRouter({

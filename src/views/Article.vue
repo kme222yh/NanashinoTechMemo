@@ -17,6 +17,7 @@
                     </figure>
                 </div>
             </div>
+
             <div id="article-content" class="outer inner-side section" itemprop="articleBody" v-html="article.content"/>
 
             <Related></Related>
@@ -31,7 +32,6 @@
 <style lang="scss">
     #article-content{
         background-color: white;
-        // border-radius: 5px;
         min-height: 50vh;
         padding-top: 70px;
         padding-bottom: 70px;
@@ -133,29 +133,5 @@
         computed: mapState({
             article: state => state.article,
         }),
-        // data(){return{
-        //     scripts: [
-        //         "https://platform.twitter.com/widgets.js",
-        //         "http://localhost:8888/wp-content/plugins/highlighting-code-block/assets/js/prism.js?ver=1.2.1",
-        //         "http://localhost:8888/wp-content/plugins/highlighting-code-block/build/js/hcb_script.js?ver=1.2.1",
-        //     ],
-        // }},
-        // watch: {
-        //     article(){
-        //         for(let index in this.scripts){
-        //             const src = this.scripts[index]
-        //             this.scripts[index] = document.createElement('script')
-        //             this.scripts[index].src = src
-        //             this.scripts[index].type = "text/javascript";
-        //             document.getElementsByTagName("head")[0].appendChild(this.scripts[index]);
-        //         }
-        //     }
-        // },
-        // beforeDestroy(){
-        //     console.log('destroy!!')
-        //     for(let index in this.scripts){
-        //         document.getElementsByTagName("head")[0].removeChild(this.scripts[index]);
-        //     }
-        // },
     }
 </script>

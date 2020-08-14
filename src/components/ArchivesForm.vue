@@ -1,7 +1,10 @@
 <template>
-    <form class="search-form outer inner" action="javascript:void(0)">
-        <input type="text" v-model="search_word" placeholder="search ...">
-        <button @click="doSearch"><font-awesome-icon icon="search"/></button>
+    <form class="archives-form outer inner" action="javascript:void(0)">
+        <select v-model="param">
+            <option value="">archives</option>
+            <option v-for="(archive, index) in archives" :key="index" :value="archive.year+'/'+archive.month">{{archive.year}}-{{archive.month}} ({{archive.post_count}})</option>
+        </select>
+        <button @click="gotoArchives">go</button>
     </form>
 </template>
 
@@ -10,11 +13,11 @@
 
 
 <style lang="scss">
-    .search-form{
+    .archives-form{
         display: flex;
         justify-content: center;
 
-        input, button{
+        select, button{
             display: block;
             background: transparent;
             font-family: 'M PLUS Rounded 1c', sans-serif;
@@ -43,7 +46,7 @@
                 outline: none;
             }
         }
-        input{
+        select{
             width: 250px;
             &:focus{
                 box-shadow: 0 0 0px 3px $transparent-gray;
@@ -63,22 +66,24 @@
 
 <script>
 import { mapState } from 'vuex'
+
 export default {
     data(){return{
-        search_word: '',
+        param: '',
     }},
     computed: mapState({
-        stored_search_word: state => state.search_word,
+        archives: state=>state.archives,
     }),
-    watch: {
-        stored_search_word(){
-            this.search_word = this.stored_search_word
-        }
-    },
     methods: {
-        doSearch(){
-            this.$store.state.search_word = this.search_word
+        gotoArchives(){
+            if(this.param == ''){
+                if(this.$route.path != '/')
+                    this.$router.push('/')
+            }
+            else
+                if(this.$route.path != '/date/'+this.param+'/')
+                    this.$router.push('/date/'+this.param+'/')
         },
-    },
+    }
 }
 </script>
