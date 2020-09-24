@@ -1,6 +1,6 @@
 <template>
     <form class="search-form outer inner" action="javascript:void(0)">
-        <input type="text" v-model="search_word" placeholder="search ...">
+        <input type="text" v-model="s" placeholder="search ...">
         <button @click="doSearch"><font-awesome-icon icon="search"/></button>
     </form>
 </template>
@@ -45,6 +45,7 @@
         }
         input{
             width: 250px;
+            box-sizing: border-box;
             &:focus{
                 box-shadow: 0 0 0px 3px $transparent-gray;
                 border: 1px solid $transparent-gray;
@@ -62,23 +63,37 @@
 
 
 <script>
-import { mapState } from 'vuex'
 export default {
     data(){return{
-        search_word: '',
+        s: '',
+        s_origin: '',
     }},
-    computed: mapState({
-        stored_search_word: state => state.search_word,
-    }),
+    created(){
+        this.initSearchParam()
+    },
     watch: {
-        stored_search_word(){
-            this.search_word = this.stored_search_word
-        }
+        $route(){this.initSearchParam()},
     },
     methods: {
         doSearch(){
-            this.$store.state.search_word = this.search_word
+            if(this.s == this.s_origin)
+                return
+            else if(this.s == '')
+                this.$router.push({name: 'Home'})
+            else
+                this.$router.push({name: 'Search', query: {s: this.s}})
         },
+
+        initSearchParam(){
+            if(this.$route.query.s != undefined){
+                this.s = this.$route.query.s
+                this.s_origin = this.$route.query.s
+            }
+            else{
+                this.s = ''
+                this.s_origin = ''
+            }
+        }
     },
 }
 </script>

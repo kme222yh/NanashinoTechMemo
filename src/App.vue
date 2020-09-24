@@ -63,6 +63,12 @@
     }
 
 
+    input, select, button{
+        -moz-appearance: none;
+        -webkit-appearance: none;
+    }
+
+
     .outer{
         max-width: $desktop-max;
         margin: 0 auto;

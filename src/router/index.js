@@ -14,11 +14,11 @@ const routes = [
         name: 'NotFound',
         component: require('../views/NotFound.vue').default,
     },
-    // {
-    //     path: '/search',//クエリパラメータ ?s= つき
-    //     name: 'Search',
-    //     component: require('../views/Home.vue').default,
-    // },
+    {
+        path: '/search',//クエリパラメータ ?s= つき
+        name: 'Search',
+        component: require('../views/Home.vue').default,
+    },
     {
         path: '/category/:category',
         name: 'Category',

@@ -12,8 +12,6 @@
 
     export default{
         data(){return{
-            search_word_change_ignore: false,
-            search_word_dont_reset: false,
             article_dependency: [
                 "https://platform.twitter.com/widgets.js",
                 `${window.home_url}/wp-content/plugins/highlighting-code-block/assets/js/prism.js?ver=1.2.1`,
@@ -36,9 +34,6 @@
             else if(this.$route.name == "Category" && !(this.$route.params.category in this.$store.state.categories)){
                 this.$router.push({name: "NotFound"})
             }
-            else if(this.$route.name == "Archives" && !({year: this.$route.params.year, month: this.$route.params.month} in this.$store.state.archives)){
-                this.$router.push({name: "NotFound"})
-            }
             else
                 await this.fetchArticles()
             this.pageTitleFix()
@@ -51,17 +46,6 @@
             this.$router.beforeEach(async (to, from, next)=>{
                 this.screenTransitionStart()
                 await this.waitmSecound()
-                if(this.search_word_dont_reset == false){
-                    this.search_word_change_ignore = true
-                    this.$store.state.search_word = ''
-                }
-
-                if(to.name == "Category" && !(to.params.category in this.$store.state.categories)){
-                    next({name: "NotFound"})
-                }
-                else if(to.name == "Archives" && !({year: to.params.year, month: to.params.month} in this.$store.state.archives)){
-                    next({name: "NotFound"})
-                }
                 next()
             })
             this.$router.afterEach(async ()=>{
@@ -77,27 +61,10 @@
                     document.getElementsByClassName("search-form")[0].scrollIntoView(true)
                 }
                 this.pageTitleFix()
-                this.search_word_dont_reset = false
-                this.search_word_change_ignore = false
                 this.screenTransitionEnd()
             })
         },
         watch: {
-            async search_word(){
-                if(this.search_word_change_ignore == true) return
-                if(this.$route.name != "Home"){
-                    this.search_word_dont_reset = true
-                    this.$router.push({name: "Home"})
-                }
-                else{
-                    this.screenTransitionStart()
-                    await this.waitmSecound()
-                    await this.refreshArticles()
-                    this.pageTitleFix()
-                    document.getElementsByClassName("search-form")[0].scrollIntoView(true)
-                    this.screenTransitionEnd()
-                }
-            },
             async articles_load(){
                 if(this.articles_load == false) return
                 this.$store.state.articles.load = false
@@ -111,7 +78,6 @@
 
 
         computed: mapState({
-            search_word: state => state.search_word,
             articles_load: state => state.articles.load,
         }),
 
@@ -212,8 +178,8 @@
                     query += `&category=${this.$route.params.category}`
                 else if(this.$route.name == 'Archives')
                     query += `&year=${this.$route.params.year}&month=${this.$route.params.month}`
-                else if(this.search_word != '')
-                    query += `&search=${this.search_word}`
+                else if(this.$route.name == 'Search')
+                    query += `&search=${this.$route.query.s}`
                 return query
             },
 
@@ -227,8 +193,8 @@
                 else if(this.$route.name == 'Archives'){
                     this.$store.state.page_title = `${this.$route.params.year}年${this.$route.params.month}月に投稿された記事`
                 }
-                else if(this.search_word != ''){
-                    this.$store.state.page_title = `「${this.search_word}」の検索結果`
+                else if(this.$route.name == 'Search'){
+                    this.$store.state.page_title = `「${this.$route.query.s}」の検索結果`
                 }
                 else{
                     this.$store.state.page_title = ''

@@ -9,8 +9,9 @@
                 <ul class="inner-side" @click.self="subMenuClose">
                     <li v-for="(item, index) in menu" :key="index" @mouseover="subMenuOpen" @mouseleave="subMenuClose" itemprop="name">
                         <p v-if="item.children.length>0" :index="index" @click="subMenuFlip">{{item.title}}</p>
-                        <router-link @click.native="menuClose" v-if="item.children.length==0&&item.same_origin" itemprop="url" :to="item.path">{{item.title}}</router-link>
-                        <a v-if="!item.same_origin" itemprop="url" :href="item.url">{{item.title}}</a>
+                        <router-link v-else-if="item.children.length==0&&item.same_origin" @click.native="menuClose" itemprop="url" :to="item.path">{{item.title}}</router-link>
+                        <a v-else-if="!item.same_origin" itemprop="url" :href="item.url">{{item.title}}</a>
+
                         <transition>
                             <ul class="inner-side" v-if="item.children.length>0" v-show="is_opend.sub==index">
                                 <li v-for="(subitem, subindex) in item.children" :key="subindex" itemprop="name">
@@ -84,6 +85,7 @@
         }
 
         .nav-button{
+            padding: 0;
             background-color: transparent;
             border: none;
             outline: none;
@@ -256,12 +258,15 @@ export default {
             document.getElementById('app').style.position = 'fixed'
         },
         subMenuFlip(el){
-            if(this.is_opend.sub != el.target.attributes.index.value)
+            if(window.innerWidth >= 769) return
+            if(this.is_opend.sub != el.target.attributes.index.value){
                 this.is_opend.sub = el.target.attributes.index.value
+            }
             else
                 this.is_opend.sub = -1
         },
         subMenuOpen(el){
+            if(window.innerWidth < 769) return
             if(el.target.attributes.index===undefined)return
             this.is_opend.sub = el.target.attributes.index.value
         },

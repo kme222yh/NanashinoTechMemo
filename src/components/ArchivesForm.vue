@@ -81,8 +81,8 @@ export default {
                     this.$router.push('/')
             }
             else
-                if(this.$route.path != '/date/'+this.param+'/')
-                    this.$router.push('/date/'+this.param+'/')
+                if(this.$route.path != '/date/'+this.param)
+                    this.$router.push('/date/'+this.param)
         },
     }
 }
