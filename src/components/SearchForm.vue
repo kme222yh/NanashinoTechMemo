@@ -1,7 +1,7 @@
 <template>
-    <form class="search-form outer inner" action="javascript:void(0)">
+    <form class="search-form outer" action="javascript:void(0)">
         <input type="text" v-model="s" placeholder="search ...">
-        <button @click="doSearch"><font-awesome-icon icon="search"/></button>
+        <button @click="doSearch"><i class="fas fa-search"></i></button>
     </form>
 </template>
 
@@ -11,50 +11,55 @@
 
 <style lang="scss">
     .search-form{
+        box-sizing: border-box;
+        max-width: 320px;
+        width: 100%;
+        padding: 0 10px;
+
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
 
         input, button{
-            display: block;
-            background: transparent;
-            font-family: 'M PLUS Rounded 1c', sans-serif;
-            color: $text-color-dark;
-            background-color: $bg-color;
-
-            line-height: 2;
-            font-size: 15px;
-            @include tablet{
-                font-size: 18px;
-            }
-            @include desktop{
-                font-size: 20px;
-            }
-            border-radius: 5px;
+            background-color: transparent;
             height: 40px;
-            padding: 0 10px;
-            margin: 0 10px;
-            transition: .5s;
+            padding: 0;
+            box-sizing: border-box;
             border: 1px solid;
+
+            font-family: 'M PLUS Rounded 1c', sans-serif;
             color: $transparent-gray;
-            &:hover{
-                color: $dark-gray;
-            }
+            font-size: 20px;
+            line-height: 1.5;
+
+            transition: .5s;
+
             &:focus{
                 outline: none;
             }
+
+            @include desktop{
+                &:hover{
+                    color: $dark-gray;
+                }
+            }
         }
+
         input{
-            width: 250px;
-            box-sizing: border-box;
+            max-width: 240px;
+            width: calc(100% - 50px);
+            padding: 0 10px;
+            border-radius: 5px;
+
             &:focus{
                 box-shadow: 0 0 0px 3px $transparent-gray;
                 border: 1px solid $transparent-gray;
                 color: $dark-gray;
             }
         }
+
         button{
-            min-width: 40px;
-            border-radius: 50px;
+            width: 40px;
+            border-radius: 20px;
         }
     }
 </style>

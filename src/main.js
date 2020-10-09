@@ -9,8 +9,6 @@ window.axios = Axios
 window.Vue = Vue
 
 
-require('./FontAwesome.js')
-
 window.Vue.config.productionTip = false
 
 

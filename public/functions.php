@@ -8,9 +8,9 @@ add_theme_support('menus');
 
 function menu_setup() {
   register_nav_menus( array(
-    'global' => 'グローバルメニュー(２階層まで！！)',
-    'pinned'   => '固定記事',
-    // 'footer' => 'フッターメニュー',
+    'global' => 'global',
+    'pinned'   => 'pinned',
+    'footer' => 'footer',
   ) );
 }
 add_action( 'after_setup_theme', 'menu_setup' );

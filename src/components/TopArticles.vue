@@ -4,24 +4,21 @@
 
         <div class="articles" @touchstart="swipeStart" @touchmove="swiping" @touchend="swipeEnd"  @mousedown="slideStart" @mousemove="sliding" @mouseup="swipeEnd">
             <transition-group>
-                <div class="jumbotron" v-for="(article, index) in articles" :key="index+0" v-show="visible==index" :style="{'background-image': `linear-gradient(rgba(18, 47, 61, 0.5), rgba(18, 47, 61, 0.5)), url(${article.media})`}">
-                    <div class="outer inner">
-                        <h2><router-link :to="{name: 'Article', params: {post_id: article.id}}">{{article.title}}</router-link></h2>
-                        <div class="date">
-                            <small class="wrote"><font-awesome-icon icon="pen-fancy"/> {{article.date}}</small>
-                            <small class="modified" v-if="article.date!=article.date_modified"><font-awesome-icon icon="sync"/> {{article.date_modified}}</small>
-                        </div>
-                        <router-link :to="{name: 'Category', params: {category: article.category_slug}}" class="category">{{article.category}}</router-link>
-                    </div>
-                </div>
+                <top-view v-for="(article, index) in articles" :key="index+0" v-show="visible==index"
+                    :media="article.media"
+                    :title="article.title"
+                    :id="article.id"
+                    :date="article.date"
+                    :date_modified="article.date_modified"
+                    :category="article.category"
+                    :category_slug="article.category_slug"
+                />
             </transition-group>
 
-            <div class="jumbotron damy">
+            <top-view class="damy"/>
 
-            </div>
-
-            <div class="controller right" @click="nextArticle"><font-awesome-icon icon="chevron-right"/></div>
-            <div class="controller left" @click="previousArticle"><font-awesome-icon icon="chevron-left"/></div>
+            <div class="controller right" @click="nextArticle"><i class="fas fa-chevron-right"></i></div>
+            <div class="controller left" @click="previousArticle"><i class="fas fa-chevron-left"></i></div>
         </div>
 
 
@@ -38,7 +35,7 @@
     }
     #top-article .articles{
         position: relative;
-        .jumbotron{
+        .top-view{
             a,small{
                 user-select: none;
             }
@@ -64,7 +61,7 @@
                 opacity: 0;
             }
         }
-        .jumbotron.damy{
+        .top-view.damy{
             pointer-events: none;
             position: static;
             opacity: 0;
@@ -83,6 +80,7 @@
                 width: 70px;
                 height: 70px;
                 font-size: 20px;
+                border-radius: 4px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -123,6 +121,9 @@ import { mapState } from 'vuex'
 
 
 export default {
+    components: {
+        TopView: require('../parts/TopView.vue').default,
+    },
     data(){return{
         visible: 0,
         interval: null,

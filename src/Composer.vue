@@ -29,7 +29,7 @@
             }
             else if(this.$route.name == "Article"){
                 await this.fetchArticleInfo()
-                document.getElementById("top-view").scrollIntoView(true)
+                document.getElementsByClassName("top-view")[0].scrollIntoView(true)
             }
             else if(this.$route.name == "Category" && !(this.$route.params.category in this.$store.state.categories)){
                 this.$router.push({name: "NotFound"})
@@ -54,7 +54,11 @@
                 }
                 else if(this.$route.name == "Article"){
                     await this.fetchArticleInfo()
-                    document.getElementById("top-view").scrollIntoView(true)
+                    document.getElementsByClassName("top-view")[0].scrollIntoView(true)
+                }
+                else if(this.$route.name == "Contact"){
+                    // await this.fetchArticleInfo()
+                    window.scrollTo(0, 0)
                 }
                 else{
                     await this.refreshArticles()
@@ -93,6 +97,7 @@
                 const res = await window.axios.get(endpoint)
                 this.$store.state.menu = res.data.menu.global
                 this.$store.state.pinned = res.data.menu.pinned
+                this.$store.state.footermenu = res.data.menu.footer
                 this.$store.state.widgets.footer = res.data.widgets.footer
                 this.$store.state.widgets.side_bar = res.data.widgets.side_bar
                 this.$store.state.archives = res.data.archives

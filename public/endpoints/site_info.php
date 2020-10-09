@@ -9,6 +9,7 @@ add_action('rest_api_init', function(){
             $information['menu'] = [
                 'global' => custom_menu_global(),
                 'pinned' => custom_articles_pinned(),
+                'footer' => custom_menu_footer(),
             ];
             $information['widgets'] = [
                 'footer' => custom_widget('footer'),
@@ -39,6 +40,21 @@ function custom_menu_global() {
             array_push($items[count($items)-1]['children'], $data);
         else
     		array_push($items, $data);
+	}
+	return $items;
+}
+
+
+function custom_menu_footer() {
+	$items = [];
+	foreach(wp_get_nav_menu_items("footer") as $item){
+        $data = [
+			'title' => $item->title,
+			'url' => $item->url,
+            'path' => parse_url($item->url, PHP_URL_PATH),
+            'same_origin' => preg_match('/^'.preg_quote(home_url(), '/').'.*$/', $item->url),
+		];
+		array_push($items, $data);
 	}
 	return $items;
 }

@@ -2,7 +2,7 @@
     <header itemscope="itemscope" itemtype="http://schema.org/WPHeader" :class="{visible: header_is_visible}">
         <div id="site-title-bar"  class="inner">
             <a href="/">{{siteTitle}}</a>
-            <button class="nav-button" type="button" @click="menuOpen"><font-awesome-icon icon="bars"/></button>
+            <button class="nav-button" type="button" @click="menuOpen"><i class="fas fa-bars"></i></button>
         </div>
         <transition>
             <nav id="global-nav" v-show="is_opend.menu" :class="{slided: is_opend.sub!=-1}">
