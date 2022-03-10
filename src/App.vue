@@ -20,10 +20,14 @@ import HelloWorld from '@/components/HelloWorld.vue'
   <RouterView />
 </template>
 
-<style>
-@import '@/assets/base.css';
+<style lang="scss">
+@import '@/assets/css/reset.css';
+@import '@/assets/css/base.css';
 
 #app {
+  @include desktop{
+    background-color: red;
+  }
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;

@@ -3,27 +3,31 @@ import { fileURLToPath, URL } from 'url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
+import fg from 'fast-glob';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue(),
+    {
+      // add public to watch list
+      name: 'watch-external',
+      async buildStart(){
+        const files = await fg('public/**');
+        for(let file of files){this.addWatchFile(file);}
+      }
+    }
+  ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  build: {
-    // output dir for production build
-    emptyOutDir: true,
-
-    outDir: 'public/dist',
-
-    // our entry
-    rollupOptions: {
-      input: path.resolve(__dirname, 'src/main.js'),
-    },
-
-    // emit manifest so PHP can find the hashed files
-    manifest: true,
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // scss file to be added to each vue template
+        additionalData: '@import "@/assets/sass/prepends.scss";'
+      }
+    }
   },
 })

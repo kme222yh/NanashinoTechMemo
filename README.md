@@ -29,6 +29,6 @@ php -S localhost:8000
 ### Command log
 
 ```
-ln -s ~/Development/web/projects/NanashinoTechMemo/public ~/Development/web/projects/NanashinoTechMemo/wordpress/wp-content/themes/NanashinoTechMemo
+ln -s ~/Development/web/projects/NanashinoTechMemo/dist ~/Development/web/projects/NanashinoTechMemo/wordpress/wp-content/themes/NanashinoTechMemo
 
 ```
