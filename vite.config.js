@@ -16,7 +16,7 @@ export default defineConfig({
     // output dir for production build
     emptyOutDir: true,
 
-    outDir: '../../public/dist',
+    outDir: 'public/dist',
 
     // our entry
     rollupOptions: {
