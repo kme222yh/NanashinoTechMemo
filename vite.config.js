@@ -9,7 +9,7 @@ import fg from 'fast-glob';
 export default defineConfig({
   plugins: [vue(),
     {
-      // add public to watch list
+      // add /public to watch list
       name: 'watch-external',
       async buildStart(){
         const files = await fg('public/**');
