@@ -1,101 +1,76 @@
-@charset "UTF-8";
+/***
+    The new CSS reset - version 1.5.1 (last updated 1.3.2022)
+    GitHub page: https://github.com/elad2412/the-new-css-reset
+***/
 
 /*
-html5doctor.com Reset Stylesheet
-v1.4
-2009-07-27
-Author: Richard Clark - http://richclarkdesign.com
-*/
-
-html, body, div, span, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-abbr, address, cite, code,
-del, dfn, em, img, ins, kbd, q, samp,
-small, strong, sub, sup, var,
-b, i,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, dialog, figure, footer, header,
-hgroup, menu, nav, section,
-time, mark, audio, video {
-	margin:0;
-	padding:0;
-	border:0;
-	outline:0;
-	font-size:100%;
-	vertical-align:baseline;
-	background:transparent;
-}
-body {
-	line-height:1;
+    Remove all the styles of the "User-Agent-Stylesheet", except for the 'display' property
+    - The "symbol *" part is to solve Firefox SVG sprite bug
+ */
+*:where(:not(iframe, canvas, img, svg, video):not(svg *, symbol *)) {
+    all: unset;
+    display: revert;
 }
 
-article, aside, dialog, figure, footer, header,
-hgroup, nav, section {
-	display:block;
+/* Preferred box-sizing value */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
 
-nav ul {
-	list-style:none;
-    list-style-type:none;
+/* Reapply the pointer cursor for anchor tags */
+a, button {
+    cursor: revert;
 }
 
-blockquote, q {
-	quotes:none;
+/* Remove list styles (bullets/numbers) */
+ol, ul, menu {
+    list-style: none;
 }
 
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content:'';
-	content:none;
+/* For images to not be able to exceed their container */
+img {
+    max-width: 100%;
 }
 
-a {
-	margin:0;
-	padding:0;
-	border:0;
-	font-size:100%;
-	vertical-align:baseline;
-	background:transparent;
-}
-
-ins {
-	background-color:#ff9;
-	color:#000;
-	text-decoration:none;
-}
-
-mark {
-	background-color:#ff9;
-	color:#000;
-	font-style:italic;
-	font-weight:bold;
-}
-
-del {
-	text-decoration: line-through;
-}
-
-abbr[title], dfn[title] {
-	border-bottom:1px dotted #000;
-	cursor:help;
-}
-
+/* removes spacing between cells in tables */
 table {
-	border-collapse:collapse;
-	border-spacing:0;
+    border-collapse: collapse;
 }
 
-hr {
-    display:block;
-    height:1px;
-    border:0;
-    border-top:1px solid #cccccc;
-    margin:1em 0;
-    padding:0;
+/* revert the 'white-space' property for textarea elements on Safari */
+textarea {
+    white-space: revert;
 }
 
-input, select {
-	vertical-align:middle;
+/* minimum style to allow to style meter element */
+meter {
+    -webkit-appearance: revert;
+    appearance: revert;
+}
+
+/* reset default text opacity of input placeholder */
+::placeholder {
+    color: unset;
+}
+
+/* fix the feature of 'hidden' attribute.
+   display:revert; revert to element instead of attribute */
+:where([hidden]) {
+    display: none;
+}
+
+/* revert for bug in Chromium browsers
+   - fix for the content editable attribute will work properly. */
+:where([contenteditable]) {
+    -moz-user-modify: read-write;
+    -webkit-user-modify: read-write;
+    overflow-wrap: break-word;
+    -webkit-line-break: after-white-space;
+}
+
+/* apply back the draggable feature - exist only in Chromium and Safari */
+:where([draggable="true"]) {
+    -webkit-user-drag: element;
 }

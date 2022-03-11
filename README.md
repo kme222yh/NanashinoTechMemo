@@ -30,5 +30,4 @@ php -S localhost:8000
 
 ```
 ln -s ~/Development/web/projects/NanashinoTechMemo/dist ~/Development/web/projects/NanashinoTechMemo/wordpress/wp-content/themes/NanashinoTechMemo
-
 ```

@@ -26,7 +26,7 @@ import HelloWorld from '@/components/HelloWorld.vue'
 
 #app {
   @include desktop{
-    background-color: red;
+    background-color: gray;
   }
   max-width: 1280px;
   margin: 0 auto;
