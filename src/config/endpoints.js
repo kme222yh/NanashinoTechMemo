@@ -1,17 +1,23 @@
 /*
 This file configures endpoints which fetch site-data from.
 */
+
 let Endpoints = {
-    base: '/wp-json/vendor/v1/base',
-    article: '/article',
-    articleList: '/article-list',
+    posts: '/wp/v2/posts',
+    related: '/yarpp/v1/related',
+    popular: '/wordpress-popular-posts/v1/popular-posts',
+    globalMenu: '/nanashinotechmemo/v1/menu/global',
+    pinnedMenu: '/nanashinotechmemo/v1/menu/pinned',
+    footerMenu: '/nanashinotechmemo/v1/menu/footer',
+    archives: '/nanashinotechmemo/v1/archives',
+    footerWidget: '/nanashinotechmemo/v1/widgets/footer',
 }
 
 
 
-
-let base = document.getElementsByName('home_url')[0].content;
-for (let key of Object.keys(Endpoints)) {
-    Endpoints[key] = base + Endpoints[key];
+const homeUrl = document.getElementsByName('home_url')[0].content;
+const wpApiPrefix = '/wp-json';
+for (const key of Object.keys(Endpoints)) {
+    Endpoints[key] = homeUrl + wpApiPrefix + Endpoints[key];
 }
 export default Endpoints

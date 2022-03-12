@@ -4,12 +4,12 @@
     }
 }
 @mixin desktop{
-    @media screen and (min-width: $tablet-max){
+    @media screen and (max-width: $desktop-max){
         @content;
     }
 }
 @mixin tablet{
-    @media screen and (min-width: $mobile-max){
+    @media screen and (max-width: $tablet-max){
         @content;
     }
 }
