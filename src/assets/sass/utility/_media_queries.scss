@@ -1,13 +1,13 @@
-@mixin jumbotron{
-    @media screen and (min-width: $desktop-max){
-        @content;
-    }
-}
+// Desktop design as the basic of the design.
+
+// wider than
 @mixin desktop{
-    @media screen and (max-width: $desktop-max){
+    @media screen and (min-width: $tablet-max){
         @content;
     }
 }
+
+// smaller than
 @mixin tablet{
     @media screen and (max-width: $tablet-max){
         @content;

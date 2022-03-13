@@ -4,7 +4,7 @@
             <a class="siteTitleBar-text" href="/">
                 {{ siteTitle }}
             </a>
-            <button class="siteTitleBar-button" type="button" @click="openGlobalMenu"><i class="fas fa-bars"></i></button>
+            <GlobalMenuButton/>
         </div>
     </div>
 </template>
@@ -17,8 +17,9 @@
         @include outerBody;
         display: flex;
         justify-content: center;
+        align-items: center;
     }
-    &-text, &-button{
+    &-text{
         font-size: 45px;
         transition: .5s;
         color: $text-transparent-gray;
@@ -26,23 +27,19 @@
             color: $text-dark;
         }
     }
-    &-button{
-        cursor: pointer;
-        display: none;
-    }
 
     @include tablet{
         &-body{
             justify-content: space-between;
         }
-        &-text, &-button{
+        &-text{
             font-size: 30px;
             display: initial;
         }
     }
 
     @include mobile{
-        &-text, &-button{
+        &-text{
             font-size: 20px;
         }
     }
@@ -52,8 +49,11 @@
 
 <script setup>
 import { ref } from 'vue'
+import GlobalMenuButton from './GlobalMenuButton.vue'
+
 const siteTitle = document.title;
-const openGlobalMenu = () => {
-    console.log('open!!!!');
-};
+
+// importing openManagimentStore
+import { useOpenManagimentStore } from '@/stores/openManagiment'
+const openManagimentStore = useOpenManagimentStore();
 </script>

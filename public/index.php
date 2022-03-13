@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <?php wp_head() ?>
+  <?php //wp_head() ?>
   <head>
     <meta charset="UTF-8" />
     <meta name="home_url" content="<?php echo home_url() ?>">
@@ -12,5 +12,5 @@
   <body>
     <div id="app"></div>
   </body>
-  <?php wp_footer() ?>
+  <?php //wp_footer() ?>
 </html>

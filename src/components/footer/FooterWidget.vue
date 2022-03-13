@@ -37,7 +37,7 @@
     }
 
     @include tablet{
-        padding: 30px 0 40px;
+        padding: 30px 0 55px;
         &-body{
             display: block;
         }
@@ -66,7 +66,6 @@ const widget = ref([]);
 onMounted(()=>{
     axios.get(Endpoints.footerWidget).then((res)=>{
         widget.value = res.data;
-        console.log(widget);
     })
 });
 </script>
