@@ -51,8 +51,8 @@
 
 
 <script setup>
-import { ref, defineProps } from 'vue'
-const siteTitle = ref(document.getElementsByName('site-title')[0].content);
+import { ref } from 'vue'
+const siteTitle = document.title;
 const openGlobalMenu = () => {
     console.log('open!!!!');
 };
