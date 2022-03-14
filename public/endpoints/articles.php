@@ -49,7 +49,7 @@ function custom_articles( WP_REST_Request $request ) {
     return $response;
 }
 add_action( 'rest_api_init', function () {
-  register_rest_route( 'vendor/v1', '/articles', array(
+  register_rest_route($GLOBALS['CustomEndpointBase'], '/articles', array(
     'methods' => 'GET',
     'callback' => 'custom_articles',
   ) );

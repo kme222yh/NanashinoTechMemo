@@ -3,7 +3,7 @@ This file configures endpoints which fetch site-data from.
 */
 
 let Endpoints = {
-    posts: '/wp/v2/posts',
+    articles: '/nanashinotechmemo/v1/articles',
     related: '/yarpp/v1/related',
     popular: '/wordpress-popular-posts/v1/popular-posts',
     globalMenu: '/nanashinotechmemo/v1/menu/global',
