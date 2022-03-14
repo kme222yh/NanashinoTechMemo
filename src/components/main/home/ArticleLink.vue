@@ -2,9 +2,11 @@
     <div class="articleLink">
         <div class="articleLink-body">
             <small class="articleLink-date"><time>{{date}}</time></small>
-            <component class="articleLink-title" :is="htag"><router-link to="/">{{title}}</router-link></component>
+            <component class="articleLink-title" :is="htag">
+                <router-link :to="{name: 'Article', params: {post_id: id}}">{{title}}</router-link>
+            </component>
             <div class="articleLink-media">
-                <router-link to="/" :style="{'background-image': `url(${media})`}"/>
+                <router-link :to="{name: 'Article', params: {post_id: id}}" :style="{'background-image': `url(${media})`}"/>
             </div>
             <p class="articleLink-category">
                 <router-link to="/">{{categories[0].name}}</router-link>

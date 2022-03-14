@@ -4,6 +4,7 @@ This file configures endpoints which fetch site-data from.
 
 let Endpoints = {
     articles: '/nanashinotechmemo/v1/articles',
+    article: '/nanashinotechmemo/v1/article',
     related: '/yarpp/v1/related',
     popular: '/wordpress-popular-posts/v1/popular-posts',
     globalMenu: '/nanashinotechmemo/v1/menu/global',

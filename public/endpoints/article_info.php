@@ -1,7 +1,7 @@
 <?php
 // /wp-json/vendor/v1/article
 add_action( 'rest_api_init', function () {
-    register_rest_route( 'vendor/v1', '/article/(?P<id>\d+)', array(
+    register_rest_route($GLOBALS['CustomEndpointBase'], '/article/(?P<id>\d+)', array(
         'methods' => 'GET',
         'callback' => 'custom_article',
     ) );
