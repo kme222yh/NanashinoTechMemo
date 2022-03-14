@@ -2,10 +2,6 @@
 import { RouterView } from 'vue-router'
 import Header from '@/components/header/Header.vue'
 import Footer from '@/components/footer/Footer.vue'
-
-
-import valuables from '@/assets/sass/exports.module.scss'
-console.log(valuables);
 </script>
 
 
