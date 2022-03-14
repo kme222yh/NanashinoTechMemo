@@ -43,14 +43,27 @@
 
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import Endpoints from '@/config/endpoints'
 import ArticleLink from './ArticleLink.vue'
 
+const router = useRouter();
+const route = useRoute();
+let routerHook = null;
+
 const articles = ref([]);
+const initArticles = async ()=>{
+    articles.value = [];
+    const res = await axios.get(Endpoints.articles, {params: Object.assign(route.params, route.query)});
+    articles.value = res.data.articles;
+}
+
 onMounted(()=>{
-    axios.get(Endpoints.articles).then((res)=>{
-        articles.value = res.data.articles;
-    })
+    initArticles();
+    routerHook = router.afterEach(initArticles);
+});
+onUnmounted(()=>{
+    routerHook();
 });
 </script>

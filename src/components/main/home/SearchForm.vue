@@ -1,8 +1,8 @@
 <template>
     <div class="searchForm">
         <form class="searchForm-body" @submit.prevent>
-            <input class="searchForm-input" type="text" placeholder="search ...">
-            <button class="searchForm-button" ><i class="icon fas fa-search"></i></button>
+            <input class="searchForm-input" type="text" placeholder="search ..." v-model="searchWord">
+            <button class="searchForm-button" type="button" @click="doSearch"><i class="icon fas fa-search"></i></button>
         </form>
     </div>
 </template>
@@ -38,6 +38,7 @@
         }
     }
     &-button{
+        cursor: pointer;
         width: 40px;
         border-radius: 20px;
         margin-left: 20px;
@@ -52,4 +53,39 @@
 
 
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+
+const router = useRouter();
+const route = useRoute();
+let routerHook = null;
+
+const searchWord = ref('');
+const oldSearchWord = ref('');
+const doSearch = ()=>{
+    if(searchWord.value == oldSearchWord.value)
+        return;
+    else if(searchWord.value == '')
+        router.push({name: 'Home'});
+    else
+        router.push({name: 'Search', query: {s: searchWord.value}});
+}
+const initSearchWord = () => {
+    if(route.query.s != undefined){
+        searchWord.value = route.query.s;
+        oldSearchWord.value = route.query.s;
+    }
+    else{
+        searchWord.value = '';
+        oldSearchWord.value = '';
+    }
+}
+
+onMounted(()=>{
+    initSearchWord();
+    routerHook = router.afterEach(initSearchWord);
+});
+onUnmounted(()=>{
+    routerHook();
+})
 </script>

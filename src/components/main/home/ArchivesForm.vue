@@ -1,7 +1,7 @@
 <template>
     <div class="archivesForm">
         <form class="archivesForm-body" @submit.prevent>
-            <select class="archivesForm-select">
+            <select class="archivesForm-select" v-model="searchParam" @change="doSearch">
                 <option value="">archives</option>
                 <option v-for="(archive, index) in archives" :key="index" :value="archive.year+'/'+archive.month">{{archive.year}}-{{archive.month}} ({{archive.post_count}})</option>
             </select>
@@ -56,13 +56,39 @@
 
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, onUnmounted } from 'vue'
 import Endpoints from '@/config/endpoints'
+import { useRouter, useRoute } from 'vue-router'
+const router = useRouter();
+const route = useRoute();
+let routerHook = null;
+
+const searchParam = ref('');
+const doSearch = ()=>{
+    if(searchParam.value == ''){
+        router.push({name: 'Home'});
+    } else {
+        router.push('/archive/'+searchParam.value);
+    }
+}
+const initSearchParam = () => {
+    if(route.name != 'Archive'){
+        searchParam.value = '';
+    }
+    else{
+        searchParam.value = `${route.params.year}/${route.params.month}`
+    }
+}
 
 const archives = ref([]);
 onMounted(()=>{
     axios.get(Endpoints.archives).then((res)=>{
         archives.value = res.data;
-    })
+    });
+    initSearchParam();
+    routerHook = router.afterEach(initSearchParam);
 });
+onUnmounted(()=>{
+    routerHook();
+})
 </script>

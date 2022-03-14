@@ -13,7 +13,7 @@ function custom_articles( WP_REST_Request $request ) {
         'posts_per_page' => isset($params['per_page'])?$params['per_page']:'20',
         'paged' => isset($params['page'])?$params['page']:'1',
         'category_name' => isset($params['category'])?$params['category']:'',
-        's' => isset($params['search'])?$params['search']:'',
+        's' => isset($params['s'])?$params['s']:'',
         'year' => isset($params['year'])?$params['year']:'',
         'monthnum' => isset($params['month'])?$params['month']:'',
     );
