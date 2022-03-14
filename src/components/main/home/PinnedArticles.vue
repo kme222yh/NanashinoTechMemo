@@ -4,17 +4,17 @@
         <div class="pinnedArticles-body" @touchstart="swipeStart" @touchmove="swiping" @touchend="swipeEnd"  @mousedown="slideStart" @mousemove="sliding" @mouseup="swipeEnd">
 
             <transition-group>
-                <div class="pinnedArticles-item" v-for="(article, index) in articles" :key="index+0" v-show="visibleArticle==index" :style="{'background-image': article.bgStyle }">
-                    <h2 class="pinnedArticles-item-title"><router-link to="/">{{article.title}}</router-link></h2>
-                    <router-link class="pinnedArticles-item-category" v-if="article.category_slug" to="/">{{article.category}}</router-link>
-                    <div class="pinnedArticles-item-date">
-                        <small class="wrote"><i class="fas fa-pen"></i> {{article.date}}</small>
-                        <small class="modified" v-if="article.date!=article.date_modified"><i class="fas fa-sync-alt"></i> {{article.date_modified}}</small>
-                    </div>
-                </div>
+                <TopVisual v-for="(article, index) in articles" :key="index+0" v-show="visibleArticle==index"
+                    :title="article.title"
+                    :category="article.category"
+                    :category_slug="article.category_slug"
+                    :date="article.date"
+                    :date_modified="article.date_modified"
+                    :media="article.media"
+                />
             </transition-group>
 
-            <div class="pinnedArticles-item pinnedArticles-dammy"/>
+            <TopVisual class="pinnedArticles-dammy"/>
 
             <div class="pinnedArticles-control next" @click="pinnedArticleNext"><i class="fas fa-chevron-right"></i></div>
             <div class="pinnedArticles-control previous" @click="pinnedArticlePrevious"><i class="fas fa-chevron-left"></i></div>
@@ -30,64 +30,8 @@
     &-body{
 
     }
-    &-item{
+    .topVisual{
         position: absolute;
-        width: 100%;
-        height: 500px;
-        background-size :cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        &-title{
-            text-align: center;
-            color: $text-light;
-            font-size: 40px;
-            @include tablet{font-size: 30px;}
-            @include mobile{font-size: 25px;}
-        }
-        &-category{
-            color: $text-light;
-            position: absolute;
-            top: 80px;
-            right: 50%;
-            transform: translateX(50%);
-            font-size: 20px;
-            padding: 0px 30px;
-            border: 1px solid;
-            border-radius: 5px;
-        }
-        &-date{
-            color: $text-light;
-            position: absolute;
-            bottom: 130px;
-            right: 50%;
-            transform: translateX(50%);
-            width: 100%;
-            text-align: center;
-            .wrote, .modified{font-size: 14px;}
-            .modified{
-                margin-left: 20px;
-                &::before{
-                    position: absolute;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    left: 50%;
-                    width: 1px;
-                    height: 10px;
-                    background-color: $bg-transparent-white;
-                    content: '';
-                }
-            }
-        }
-        a{
-            transition: .5s;
-            &:hover{
-                color: $bg-transparent-white;
-            }
-        }
-
         a,small{
             user-select: none;
         }
@@ -114,7 +58,7 @@
     }
     &-dammy{
         pointer-events: none;
-        position: static;
+        position: static !important;
         opacity: 0;
     }
     &-control{
@@ -158,6 +102,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import Endpoints from '@/config/endpoints'
+import TopVisual from './TopVisual.vue'
 
 const articles = ref([]);
 

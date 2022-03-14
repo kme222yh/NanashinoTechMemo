@@ -1,8 +1,12 @@
 <template>
-    <PinnedArticles/>
-    <SearchForm/>
-    <Articles/>
-    <ArchivesForm/>
+    <main class="homeView">
+        <div class="homeView-body">
+            <PinnedArticles/>
+            <SearchForm/>
+            <Articles/>
+            <ArchivesForm/>
+        </div>
+    </main>
 </template>
 
 

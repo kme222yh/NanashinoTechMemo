@@ -61,7 +61,10 @@ const initArticles = async ()=>{
 
 onMounted(()=>{
     initArticles();
-    routerHook = router.afterEach(initArticles);
+    routerHook = router.afterEach(()=>{
+        document.getElementsByClassName("searchForm")[0].scrollIntoView(true);
+        initArticles();
+    });
 });
 onUnmounted(()=>{
     routerHook();

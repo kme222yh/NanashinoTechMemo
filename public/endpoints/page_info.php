@@ -22,7 +22,7 @@ function custom_about( WP_REST_Request $request ) {
         return new WP_Error( 'are_you_ok?', 'Invalid post ID', array( 'status' => 404 ) );
 }
 add_action( 'rest_api_init', function () {
-  register_rest_route( 'vendor/v1', 'article/(?P<page>.+)', array(
+  register_rest_route($GLOBALS['CustomEndpointBase'], 'article/(?P<page>.+)', array(
     'methods' => 'GET',
     'callback' => 'custom_about',
   ) );

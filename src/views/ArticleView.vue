@@ -1,27 +1,65 @@
 <template>
-    <Content :content="article.content" />
+    <main class="articleView">
+        <div class="articleView-body">
+            <Breadcrumb :title="article.title" :category="article.category" :category_slug="article.category_slug" />
+            <TopVisual
+                :title="article.title"
+                :category="article.category"
+                :category_slug="article.category_slug"
+                :date="article.date"
+                :date_modified="article.date_modified"
+                :media="article.media"
+            />
+            <Content :content="article.content" />
+            <Breadcrumb :title="article.title" :category="article.category" :category_slug="article.category_slug" />
+        </div>
+    </main>
 </template>
 
 
 <style lang="scss">
+.articleView{
+    &-body{
+
+    }
+    .topVisual{
+        @include outerBody;
+    }
+}
 </style>
 
 
 <script setup>
+import TopVisual from '@/components/main/home/TopVisual.vue'
 import Content from '@/components/main/article/Content.vue'
+import Breadcrumb from '@/components/main/article/Breadcrumb.vue'
 
-import { onMounted, ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import Endpoints from '@/config/endpoints'
 
-const article = ref([]);
+import { useRoute, useRouter } from 'vue-router'
+const router = useRouter();
+const route = useRoute();
+let routerHook = null;
 
-import { useRoute } from 'vue-router'
-const route = useRoute()
+const article = ref([]);
+const getArticleInfo = async () => {
+    article.value = [];
+    const res = await axios.get(Endpoints.article + '/' + route.params.post_id);
+    article.value = res.data;
+}
 
 onMounted(()=>{
-    axios.get(Endpoints.article + '/' + route.params.post_id).then((res)=>{
-        article.value = res.data;
-        console.log(article.value);
+    document.getElementsByClassName("topVisual")[0].scrollIntoView(true);
+    getArticleInfo()
+    routerHook = router.afterEach((to, from)=>{
+        if(to.name == 'Article'){
+            document.getElementsByClassName("topVisual")[0].scrollIntoView(true);
+            getArticleInfo();
+        }
     });
+});
+onUnmounted(()=>{
+    routerHook();
 });
 </script>
