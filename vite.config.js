@@ -28,6 +28,6 @@ export default defineConfig({
         // scss file to be added to each vue template
         additionalData: '@import "@/assets/sass/prepends.scss";'
       }
-    }
+    },
   },
 })

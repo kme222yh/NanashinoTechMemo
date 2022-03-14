@@ -1,0 +1,15 @@
+/*
+This file is used to share sass variables to the vue template.
+Sass valuables is configured in _valuables.scss .
+
+Usage in vue template:
+import valuables from '@/assets/sass/exports.module.scss'
+valuables.<valuenname>  =>  string value
+*/
+:export {
+    breakpoints: {
+        desktop: $desktop-max;
+        tablet: $tablet-max;
+        mobile: $mobile-max;
+    }
+}
