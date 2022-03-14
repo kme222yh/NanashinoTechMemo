@@ -1,9 +1,13 @@
-<script setup>
-// import TheWelcome from '@/components/TheWelcome.vue'
-</script>
-
 <template>
-  <main>
-    <!-- <TheWelcome /> -->
-  </main>
+    <PinnedArticles/>
 </template>
+
+
+<style lang="scss">
+
+</style>
+
+
+<script setup>
+import PinnedArticles from '@/components/main/home/PinnedArticles.vue'
+</script>

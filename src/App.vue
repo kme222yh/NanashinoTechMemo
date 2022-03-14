@@ -7,10 +7,13 @@ import Footer from '@/components/footer/Footer.vue'
 
 <template>
     <Header/>
-    <main style="height:2000px;">
 
+    <main class="main">
+        <div class="main-body">
+            <RouterView/>
+        </div>
     </main>
-    <RouterView/>
+
     <Footer/>
 </template>
 
