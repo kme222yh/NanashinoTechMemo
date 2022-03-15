@@ -37,12 +37,6 @@
             display: initial;
         }
     }
-
-    @include mobile{
-        &-text{
-            font-size: 20px;
-        }
-    }
 }
 </style>
 

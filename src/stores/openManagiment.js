@@ -1,5 +1,9 @@
 import { defineStore } from 'pinia'
 
+const notscroll = (e) => {
+	e.preventDefault();
+}
+
 export const useOpenManagimentStore = defineStore('openManagiment', {
     state: ()=>{return {
         nowOpened: null,
@@ -18,15 +22,21 @@ export const useOpenManagimentStore = defineStore('openManagiment', {
     actions: {
         open(something){
             this.nowOpened = something;
+            document.addEventListener("wheel", notscroll, { passive: false });
+            document.addEventListener("touchmove", notscroll, { passive: false });
+            console.log('prevent scroll !!');
         },
         close(){
             this.nowOpened = null;
+            document.removeEventListener("wheel", notscroll, { passive: false });
+            document.removeEventListener("touchmove", notscroll, { passive: false });
+            console.log('allow to scroll !!');
         },
         toggle(something){
             if(this.nowOpened == something){
-                this.nowOpened = null;
+                this.close();
             } else {
-                this.nowOpened = something;
+                this.open(something);
             }
         },
     }

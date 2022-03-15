@@ -1,5 +1,5 @@
 <template>
-    <header class="header" :class="{visible: headerVisible}">
+    <header class="header" :class="{visible: headerVisible&&headerVisibleByScrolling}">
         <div class="header-body">
 
             <SiteTitleBar/>
@@ -19,18 +19,17 @@
     z-index: 101;
     top: -156px;
     transition: .3s;
-    @include tablet{
-        top: -66.25px;
-        .globalNav{@include box-shadow;}
-    }
-    @include mobile{
-        top: -45px;
-    }
+
     &.visible{
         @include box-shadow;
         .globalNav{@include box-shadow;}
         top: -91px;
-        @include tablet{
+    }
+
+    @include tablet{
+        top: -61px;
+        .globalNav{@include box-shadow;}
+        &.visible{
             top: 0px;
         }
     }
@@ -56,24 +55,21 @@ const switchheaderVisibility = ()=>{
         if(openManagimentStore.isOpened('globalMenu')){
             headerVisible.value = true;
         } else {
-            if(window.pageYOffset < 600){
-                headerVisible.value = false;
-            } else {
-                scrollingWatch();
-            }
+            headerVisible.value = window.pageYOffset > 600;
         }
     }
 }
+const headerVisibleByScrolling = ref(false);
 const scrolledValue = ref(0);
 const scrollingWatch = ()=>{
     const scrolled = window.pageYOffset - scrolledValue.value
     if(scrolled > 10){
         scrolledValue.value = window.pageYOffset
-        headerVisible.value = false
+        headerVisibleByScrolling.value = false
     }
     else if(scrolled < -30){
         scrolledValue.value = window.pageYOffset
-        headerVisible.value = true
+        headerVisibleByScrolling.value = true
     }
 };
 
@@ -87,6 +83,7 @@ const switchGloballNavTeleport = () => {
 
 // start watching scroll
 onMounted(()=>{setInterval(()=>{
+    scrollingWatch();
     switchheaderVisibility();
     switchGloballNavTeleport();
 }, 400);})

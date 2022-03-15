@@ -1,6 +1,6 @@
 <template>
-    <div class="globalMenuButton" :class="{opened: openManagimentStore.isOpened('globalMenu')}" @click="openManagimentStore.toggle('globalMenu')">
-        <div class="globalMenuButton-body">
+    <div class="globalMenuButton" :class="{opened: openManagimentStore.isOpened('globalMenu')}">
+        <div class="globalMenuButton-body" @click="openManagimentStore.toggle('globalMenu')">
             <div class="hamburger">
                 <hr>
                 <hr>
@@ -60,26 +60,6 @@
 
     @include tablet{
         display: block;
-    }
-    @include mobile{
-        &-body{
-            height: 30px;
-            width: 30px;
-        }
-        .hamburger{
-            height: 14px;
-            width: 14px;
-        }
-        &.opened{
-            .hamburger{
-                hr:nth-child(1){
-                    transform: translateY(6.5px) rotate(45deg);
-                }
-                hr:nth-child(3){
-                    transform: translateY(-6px) rotate(-45deg);
-                }
-            }
-        }
     }
 }
 </style>
