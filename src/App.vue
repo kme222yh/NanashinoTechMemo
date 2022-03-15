@@ -1,8 +1,20 @@
 <script setup>
+import { onMounted } from 'vue'
+
 import { RouterView } from 'vue-router'
 import Header from '@/components/header/Header.vue'
 import Footer from '@/components/footer/Footer.vue'
 import GrayBackground from '@/components/other/GrayBackground.vue'
+import ScreenTransition from '@/components/other/ScreenTransition.vue'
+
+
+onMounted(()=>{
+    setTimeout(()=>{
+        const el = document.getElementById('opening-animation');
+        el.classList.add('hide');
+        setTimeout(()=>{el.style.display="none"}, 1010);
+    }, 1500);
+})
 </script>
 
 
@@ -11,6 +23,7 @@ import GrayBackground from '@/components/other/GrayBackground.vue'
     <RouterView/>
     <Footer/>
     <GrayBackground />
+    <ScreenTransition />
 </template>
 
 

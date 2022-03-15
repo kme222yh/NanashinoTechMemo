@@ -54,8 +54,8 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
 
+import { useRouter, useRoute } from 'vue-router'
 const router = useRouter();
 const route = useRoute();
 let routerHook = null;

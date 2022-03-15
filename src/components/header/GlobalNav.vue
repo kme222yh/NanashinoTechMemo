@@ -46,7 +46,6 @@
         border-top: none;
         &-body{
             display: block;
-            min-width: 210px;
             &:before{
                 content: '';
                 background: url('@/assets/img/triangle.svg');
@@ -58,8 +57,12 @@
                 height: 34px;
             }
         }
+        &-item{
+            min-width: 190px;
+        }
         &-link{
             white-space: nowrap;
+            padding: 0 30px;
         }
         &.v-enter-active, &.v-leave-active{
             transition: .3s;
@@ -71,16 +74,6 @@
         &.v-enter-to, &.v-leave-from{
             opacity: 1;
             transform: translateY(0px);
-        }
-    }
-
-    @include mobile{
-        &-body{
-            min-width: 0;
-        }
-        &-link{
-            white-space: nowrap;
-            font-size: 15px;
         }
     }
 }

@@ -67,7 +67,7 @@ const scrollingWatch = ()=>{
         scrolledValue.value = window.pageYOffset
         headerVisibleByScrolling.value = false
     }
-    else if(scrolled < -30){
+    else if(scrolled < -20){
         scrolledValue.value = window.pageYOffset
         headerVisibleByScrolling.value = true
     }
@@ -81,10 +81,12 @@ const switchGloballNavTeleport = () => {
     doesGlobalNavTeleport.value = window.innerWidth < Number(valuables.breakpointsTablet.replace(/[^0-9]/g, ''));
 }
 
-// start watching scroll
-onMounted(()=>{setInterval(()=>{
-    scrollingWatch();
-    switchheaderVisibility();
-    switchGloballNavTeleport();
-}, 400);})
+// start switching visibility
+onMounted(()=>{
+    setInterval(()=>{
+        scrollingWatch();
+        switchheaderVisibility();
+        switchGloballNavTeleport();
+    }, 400);
+})
 </script>
