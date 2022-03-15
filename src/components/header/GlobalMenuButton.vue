@@ -14,6 +14,7 @@
 <style lang="scss">
 .globalMenuButton{
     display: none;
+    position: relative;
 
     &-body{
         height: 40px;
@@ -85,7 +86,17 @@
 
 
 <script setup>
+import { ref, onMounted } from 'vue'
+
 // importing openManagimentStore
 import { useOpenManagimentStore } from '@/stores/openManagiment'
 const openManagimentStore = useOpenManagimentStore();
+
+// importing useTeleportReadyStore
+import { useTeleportReadyStore } from '@/stores/teleportReady'
+const teleportReadyStore = useTeleportReadyStore();
+
+onMounted(()=>{
+    teleportReadyStore.readyToGo('globalMenuButton');
+});
 </script>

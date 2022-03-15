@@ -3,7 +3,10 @@
         <div class="header-body">
 
             <SiteTitleBar/>
-            <GlobalNav/>
+
+            <Teleport to=".globalMenuButton" v-if="teleportReadyStore.isReady('globalMenuButton')" :disabled="doesGlobalNavTeleport==false">
+                <GlobalNav/>
+            </Teleport>
 
         </div>
     </header>
@@ -12,20 +15,21 @@
 
 <style lang="scss">
 .header{
-    @include box-shadow;
     position: sticky;
-    z-index: 2;
+    z-index: 101;
     top: -156px;
     transition: .3s;
     @include tablet{
         top: -66.25px;
+        .globalNav{@include box-shadow;}
     }
     @include mobile{
         top: -45px;
     }
     &.visible{
-        top: -91px;
         @include box-shadow;
+        .globalNav{@include box-shadow;}
+        top: -91px;
         @include tablet{
             top: 0px;
         }
@@ -36,31 +40,54 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import valuables from '@/assets/sass/exports.module.scss'
 
 import SiteTitleBar from './SiteTitleBar.vue'
 import GlobalNav from './GlobalNav.vue'
 
-// switch visibility acording to value of scrolled.
+// switch header visibility
+import { useOpenManagimentStore } from '@/stores/openManagiment'
+const openManagimentStore = useOpenManagimentStore();
 const headerVisible = ref(false);
+const switchheaderVisibility = ()=>{
+    if(window.innerWidth > Number(valuables.breakpointsTablet.replace(/[^0-9]/g, ''))){
+        headerVisible.value = window.pageYOffset > 600;
+    } else {
+        if(openManagimentStore.isOpened('globalMenu')){
+            headerVisible.value = true;
+        } else {
+            if(window.pageYOffset < 600){
+                headerVisible.value = false;
+            } else {
+                scrollingWatch();
+            }
+        }
+    }
+}
 const scrolledValue = ref(0);
 const scrollingWatch = ()=>{
-    if(window.innerWidth > 850){
-        if(window.pageYOffset > 600){headerVisible.value = true}
-        else{headerVisible.value = false}
+    const scrolled = window.pageYOffset - scrolledValue.value
+    if(scrolled > 10){
+        scrolledValue.value = window.pageYOffset
+        headerVisible.value = false
     }
-    else{
-        const scrolled = window.pageYOffset - scrolledValue.value
-        if(scrolled > 10){
-            scrolledValue.value = window.pageYOffset
-            headerVisible.value = false
-        }
-        else if(scrolled < -30){
-            scrolledValue.value = window.pageYOffset
-            headerVisible.value = true
-        }
+    else if(scrolled < -30){
+        scrolledValue.value = window.pageYOffset
+        headerVisible.value = true
     }
 };
 
+// watch ready to teleport
+import { useTeleportReadyStore } from '@/stores/teleportReady'
+const teleportReadyStore = useTeleportReadyStore();
+const doesGlobalNavTeleport = ref(false);
+const switchGloballNavTeleport = () => {
+    doesGlobalNavTeleport.value = window.innerWidth < Number(valuables.breakpointsTablet.replace(/[^0-9]/g, ''));
+}
+
 // start watching scroll
-onMounted(()=>{setInterval(scrollingWatch, 100);})
+onMounted(()=>{setInterval(()=>{
+    switchheaderVisibility();
+    switchGloballNavTeleport();
+}, 400);})
 </script>

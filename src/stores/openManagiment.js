@@ -6,7 +6,13 @@ export const useOpenManagimentStore = defineStore('openManagiment', {
     }},
     getters: {
         isOpened(){
-            return something => {return this.nowOpened == something;};
+            return something => {
+                if(something){
+                    return this.nowOpened == something;
+                } else {
+                    return this.nowOpened;
+                }
+            };
         }
     },
     actions: {

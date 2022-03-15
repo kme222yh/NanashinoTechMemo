@@ -40,25 +40,26 @@
 
     @include tablet{
         position: absolute;
-        z-index: 10;
-        right: 22px;
-        top: calc(100% + 35px);
+        right: calc(50% - 18px);
+        top: calc(100% + 40px);
         border-radius: 7px;
         border-top: none;
         &-body{
             display: block;
-            width: 210px;
-            @include box-shadow;
+            min-width: 210px;
             &:before{
                 content: '';
                 background: url('@/assets/img/triangle.svg');
                 background-size: cover;
                 position: absolute;
-                right: 0;
-                bottom: calc(100% - 4px);
+                right: -2px;
+                bottom: calc(100% - 6px);
                 width: 40px;
                 height: 34px;
             }
+        }
+        &-link{
+            white-space: nowrap;
         }
         &.v-enter-active, &.v-leave-active{
             transition: .3s;
@@ -70,6 +71,16 @@
         &.v-enter-to, &.v-leave-from{
             opacity: 1;
             transform: translateY(0px);
+        }
+    }
+
+    @include mobile{
+        &-body{
+            min-width: 0;
+        }
+        &-link{
+            white-space: nowrap;
+            font-size: 15px;
         }
     }
 }

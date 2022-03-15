@@ -4,7 +4,7 @@
             <a class="siteTitleBar-text" href="/">
                 {{ siteTitle }}
             </a>
-            <GlobalMenuButton/>
+            <GlobalMenuButton id="globalMenuButton" />
         </div>
     </div>
 </template>
