@@ -10,7 +10,7 @@ function custom_articles( WP_REST_Request $request ) {
     $articles = [];
     $args = array(
         'post_type' => 'post',
-        'posts_per_page' => isset($params['per_page'])?$params['per_page']:'20',
+        'posts_per_page' => isset($params['per_page'])?$params['per_page']:'4',
         'paged' => isset($params['page'])?$params['page']:'1',
         'category_name' => isset($params['category'])?$params['category']:'',
         's' => isset($params['s'])?$params['s']:'',
@@ -42,8 +42,8 @@ function custom_articles( WP_REST_Request $request ) {
     }
     $response = [
         'per_page' => $args['posts_per_page']+0,
-        'next_page' => $args['paged']+1,
-        'all_out' => $args['posts_per_page']*$args['paged'] >= $the_query->found_posts,
+        'next_page' => $args['posts_per_page']*$args['paged'] < $the_query->found_posts ? $args['paged']+1 : null,
+        // 'all_out' => $args['posts_per_page']*$args['paged'] >= $the_query->found_posts,
         'articles' => $articles,
     ];
     return $response;

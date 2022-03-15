@@ -9,6 +9,7 @@ import ScreenTransition from '@/components/other/ScreenTransition.vue'
 
 
 onMounted(()=>{
+    // hide opening animation
     setTimeout(()=>{
         const el = document.getElementById('opening-animation');
         el.classList.add('hide');

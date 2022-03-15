@@ -13,6 +13,9 @@
                 :categories="article.categories"
             />
         </div>
+        <div class="articles-load" v-if="nextPage" @click="moreArticles">
+            <p class="articles-load-text">さらに読み込む…</p>
+        </div>
     </section>
 </template>
 
@@ -38,33 +41,54 @@
         color: $text-transparent-gray;
         font-size: 20px;
     }
+    &-load{
+        @include outerBody;
+        margin-top: 40px;
+        margin-bottom: 60px;
+        text-align: center;
+        max-width: 300px;
+        &-text{
+            cursor: pointer;
+            padding: 0px 30px;
+            border: 1px solid;
+            border-radius: 5px;
+            color: $text-transparent-gray;
+            transition: .5s;
+            &:hover{color: $text-dark;}
+        }
+    }
 }
 </style>
 
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
 import Endpoints from '@/config/endpoints'
 import ArticleLink from './ArticleLink.vue'
 
+import { useRouter, useRoute } from 'vue-router'
 const router = useRouter();
 const route = useRoute();
 let routerHook = null;
 
 const articles = ref([]);
+const nextPage = ref(1);
 const initArticles = async ()=>{
+    nextPage.value = 1;
     articles.value = [];
-    const res = await axios.get(Endpoints.articles, {params: Object.assign(route.params, route.query)});
+    const res = await axios.get(Endpoints.articles, {params: Object.assign(route.params, route.query, {page: nextPage.value})});
     articles.value = res.data.articles;
+    nextPage.value = res.data.next_page;
+}
+const moreArticles = async ()=>{
+    const res = await axios.get(Endpoints.articles, {params: Object.assign(route.params, route.query, {page: nextPage.value})});
+    Array.prototype.push.apply(articles.value, res.data.articles);
+    nextPage.value = res.data.next_page;
 }
 
 onMounted(()=>{
     initArticles();
-    routerHook = router.afterEach(()=>{
-        document.getElementsByClassName("searchForm")[0].scrollIntoView(true);
-        initArticles();
-    });
+    routerHook = router.afterEach(initArticles);
 });
 onUnmounted(()=>{
     routerHook();

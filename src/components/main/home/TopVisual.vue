@@ -1,7 +1,13 @@
 <template>
     <div class="topVisual" :style="{'background-image': bgStyle }">
-        <h2 class="topVisual-title"><router-link to="/">{{props.title}}</router-link></h2>
-        <router-link class="topVisual-category" v-if="props.category_slug" to="/">{{props.category}}</router-link>
+        <h2 class="topVisual-title">
+            <router-link v-if="props.id" :to="{name: 'Article', params: {post_id: props.id}}">{{props.title}}</router-link>
+            <p v-else>{{props.title}}</p>
+        </h2>
+
+        <router-link class="topVisual-category" v-if="props.category_slug" :to="{name: 'Category', params: {category: props.category_slug}}">{{props.category}}</router-link>
+        <p class="topVisual-category" v-else-if="props.category">{{props.category}}</p>
+        
         <div class="topVisual-date">
             <small class="wrote"><i class="fas fa-pen"></i> {{props.date}}</small>
             <small class="modified" v-if="props.date!=props.date_modified"><i class="fas fa-sync-alt"></i> {{props.date_modified}}</small>
@@ -75,6 +81,7 @@
 <script setup>
 import { defineProps, computed } from 'vue'
 const props = defineProps({
+    id: String,
     title: String,
     category: String,
     category_slug: String,

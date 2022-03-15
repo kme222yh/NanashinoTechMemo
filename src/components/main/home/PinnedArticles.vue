@@ -1,10 +1,10 @@
 <template>
     <section class="pinnedArticles">
-        <h1 style="display: none;">Pinned articles</h1>
         <div class="pinnedArticles-body" @touchstart="swipeStart" @touchmove="swiping" @touchend="swipeEnd"  @mousedown="slideStart" @mousemove="sliding" @mouseup="swipeEnd">
 
             <transition-group>
                 <TopVisual v-for="(article, index) in articles" :key="index+0" v-show="visibleArticle==index"
+                    :id="article.id"
                     :title="article.title"
                     :category="article.category"
                     :category_slug="article.category_slug"

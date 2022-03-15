@@ -35,12 +35,13 @@
         }
     }
     &-select{
+        display: flex;
+        align-items: center;
         height: 40px;
         width: 100%;
         border: 1px solid;
         color: $text-transparent-gray;
         font-size: 20px;
-        line-height: 1.5;
         padding: 0 10px;
         border-radius: 5px;
         transition: .5s;

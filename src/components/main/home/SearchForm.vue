@@ -2,7 +2,7 @@
     <div class="searchForm">
         <form class="searchForm-body" @submit.prevent>
             <input class="searchForm-input" type="text" placeholder="search ..." v-model="searchWord">
-            <button class="searchForm-button" type="button" @click="doSearch"><i class="icon fas fa-search"></i></button>
+            <button class="searchForm-button" type="submit" @click="doSearch"><i class="icon fas fa-search"></i></button>
         </form>
     </div>
 </template>

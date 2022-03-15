@@ -1,5 +1,5 @@
 <template>
-    <header class="header" :class="{visible: headerVisible&&headerVisibleByScrolling}">
+    <header class="header" :class="{visible: isHeaderVisible}">
         <div class="header-body">
 
             <SiteTitleBar/>
@@ -38,7 +38,7 @@
 
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import valuables from '@/assets/sass/exports.module.scss'
 
 import SiteTitleBar from './SiteTitleBar.vue'
@@ -47,15 +47,15 @@ import GlobalNav from './GlobalNav.vue'
 // switch header visibility
 import { useOpenManagimentStore } from '@/stores/openManagiment'
 const openManagimentStore = useOpenManagimentStore();
-const headerVisible = ref(false);
-const switchheaderVisibility = ()=>{
+const headerVisiblity = ref(false);
+const switchHeaderVisibility = ()=>{
     if(window.innerWidth > Number(valuables.breakpointsTablet.replace(/[^0-9]/g, ''))){
-        headerVisible.value = window.pageYOffset > 600;
+        headerVisiblity.value = window.pageYOffset > 600;
     } else {
         if(openManagimentStore.isOpened('globalMenu')){
-            headerVisible.value = true;
+            headerVisiblity.value = true;
         } else {
-            headerVisible.value = window.pageYOffset > 600;
+            headerVisiblity.value = window.pageYOffset > 600;
         }
     }
 }
@@ -72,6 +72,13 @@ const scrollingWatch = ()=>{
         headerVisibleByScrolling.value = true
     }
 };
+const isHeaderVisible = computed(()=>{
+    if(window.innerWidth > Number(valuables.breakpointsTablet.replace(/[^0-9]/g, ''))){
+        return headerVisiblity.value;
+    } else {
+        return headerVisiblity.value && headerVisibleByScrolling.value;
+    }
+});
 
 // watch ready to teleport
 import { useTeleportReadyStore } from '@/stores/teleportReady'
@@ -85,7 +92,7 @@ const switchGloballNavTeleport = () => {
 onMounted(()=>{
     setInterval(()=>{
         scrollingWatch();
-        switchheaderVisibility();
+        switchHeaderVisibility();
         switchGloballNavTeleport();
     }, 400);
 })

@@ -5,17 +5,14 @@
                 <router-link :to="{name: 'Home'}"><span><i class="fas fa-home"></i></span></router-link>
                 &gt;&nbsp;
             </span>
-            <span v-if="category_slug!==undefined" class="breadcrumbs">
-                <router-link to="/"><span>{{category}}</span></router-link>
+            <span v-if="category_slug" class="breadcrumbs">
+                <router-link :to="{name: 'Category', params: {category: props.category_slug}}"><span>{{category}}</span></router-link>
                 &gt;&nbsp;
             </span>
             <span>{{title}}</span>
         </div>
     </div>
 </template>
-
-
-
 
 
 <style lang="scss">
@@ -32,8 +29,6 @@
         }
     }
 </style>
-
-
 
 
 <script setup>

@@ -9,7 +9,7 @@
                 <router-link :to="{name: 'Article', params: {post_id: id}}" :style="{'background-image': `url(${media})`}"/>
             </div>
             <p class="articleLink-category">
-                <router-link to="/">{{categories[0].name}}</router-link>
+                <router-link :to="{name: 'Category', params: {category: categories[0].slug}}">{{categories[0].name}}</router-link>
             </p>
         </div>
     </div>
