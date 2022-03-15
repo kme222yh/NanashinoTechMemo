@@ -30,7 +30,7 @@
 
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch, computed, nextTick } from 'vue'
 
 import { useRouter } from 'vue-router'
 const router = useRouter();
@@ -43,14 +43,54 @@ const waitmSecound = (s=500)=>{
     })
 }
 
+
+const hideOpeningAnimation = ()=>{
+    const el = document.getElementById('opening-animation');
+    el.classList.add('hide');
+    setTimeout(()=>{el.style.display="none"}, 1010);
+}
+
+
+import ep from '@/config/endpoints' // ep : endpoints
+import { useAjaxReadyStore } from '@/stores/ajaxReady'
+const ars = useAjaxReadyStore();    // ars : ajaxReadyStore
+let watchStopHandler = null;
+const startRoutingWatch = (target)=>{
+    return watch(target, ()=>{
+        watchStopHandler();
+        visible.value = false;
+        hideOpeningAnimation();
+    })
+}
+
+const doesReadyHomeView = computed(()=>{
+    return  ars.isReady(ep.globalMenu) &&
+            ars.isReady(ep.pinnedMenu) &&
+            ars.isReady(ep.footerWidget) &&
+            ars.isReady(ep.footerMenu) &&
+            ars.isReady(ep.articles) &&
+            ars.isReady(ep.archives)
+;});
+const doesReadyArticleView = computed(()=>{
+    return  ars.isReady(ep.globalMenu) &&
+            ars.isReady(ep.footerWidget) &&
+            ars.isReady(ep.footerMenu) &&
+            ars.isReady(ep.article)
+;});
+
+
 onMounted(()=>{
     router.beforeEach(async ()=>{
         visible.value = true;
         await waitmSecound();
+        ars.refresh();
     });
-    router.afterEach(async ()=>{
-        await waitmSecound();
-        visible.value = false;
+    router.afterEach((to, from)=>{
+        if(to.name=='Home'||to.name=='Search'||to.name=='Category'||to.name=='Archive'){
+            watchStopHandler = startRoutingWatch(doesReadyHomeView);
+        } else if(to.name=='Article'){
+            watchStopHandler = startRoutingWatch(doesReadyArticleView);
+        }
     });
 })
 </script>

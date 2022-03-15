@@ -100,13 +100,38 @@
 
 
 <script setup>
-import { onMounted, ref } from 'vue'
-import Endpoints from '@/config/endpoints'
+// import template
 import TopVisual from './TopVisual.vue'
 
+
+import { onMounted, ref, onUnmounted } from 'vue'
+import Endpoints from '@/config/endpoints'
+
+
+import { useAjaxReadyStore } from '@/stores/ajaxReady'
+const ajaxReadyStore = useAjaxReadyStore();
+
+
 const articles = ref([]);
+const initArticles = async ()=>{
+    articles.value = [];
+    const res = await axios.get(Endpoints.pinnedMenu);
+    articles.value = res.data;
+    for (const key of Object.keys(articles.value)) {
+        articles.value[key].bgStyle = 'linear-gradient(rgba(18, 47, 61, 0.5), rgba(18, 47, 61, 0.5))';
+        if(articles.value[key].media) articles.value[key].bgStyle += `,url(${articles.value[key].media})`;
+    }
+    ajaxReadyStore.ready(Endpoints.pinnedMenu, true);
+}
 
 
+onMounted(()=>{
+    initArticles();
+    pinnedArticleChangeInterval.value = setInterval(()=>pinnedArticleChange(true), 10000);
+});
+
+
+// switch visibled article
 const visibleArticle = ref(0);
 const pinnedArticleChangeInterval = ref(null);
 const pinnedArticleChange = (next)=>{
@@ -134,8 +159,7 @@ const pinnedArticlePrevious = ()=>{
     pinnedArticleChange(false);
     pinnedArticleChangeInterval.value = setInterval(()=>pinnedArticleChange(true), 10000);
 }
-
-
+// switch visibled article by swipe
 const pointerStart = ref(0);
 const pointerEnd = ref(0);
 const swipeStart = (e)=>{
@@ -161,18 +185,4 @@ const slideStart = (e)=>{
 const sliding = (e)=>{
     pointerEnd.value = e.pageX
 }
-
-
-onMounted(()=>{
-    // obtain pinned article data.
-    axios.get(Endpoints.pinnedMenu).then((res)=>{
-        articles.value = res.data;
-        for (const key of Object.keys(articles.value)) {
-            articles.value[key].bgStyle = 'linear-gradient(rgba(18, 47, 61, 0.5), rgba(18, 47, 61, 0.5))';
-            if(articles.value[key].media) articles.value[key].bgStyle += `,url(${articles.value[key].media})`;
-        }
-    });
-    // start pinned article changing
-    pinnedArticleChangeInterval.value = setInterval(()=>pinnedArticleChange(true), 10000);
-});
 </script>

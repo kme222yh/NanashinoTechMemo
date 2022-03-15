@@ -54,6 +54,9 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import Endpoints from '@/config/endpoints'
 import ArticleLink from '@/components/main/home/ArticleLink.vue'
 
+import { useAjaxReadyStore } from '@/stores/ajaxReady'
+const ajaxReadyStore = useAjaxReadyStore();
+
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter();
 const route = useRoute();
@@ -66,6 +69,7 @@ const initArticles = async ()=>{
         const res = await axios.get(Endpoints.related + '/' + route.params.post_id, {params: {_embed: true, limit: 10}});
         articles.value = res.data;
     }
+    ajaxReadyStore.ready(Endpoints.related);
 }
 
 onMounted(()=>{

@@ -84,10 +84,14 @@
 import { onMounted, ref } from 'vue'
 import Endpoints from '@/config/endpoints'
 
+import { useAjaxReadyStore } from '@/stores/ajaxReady'
+const ajaxReadyStore = useAjaxReadyStore();
+
 const menus = ref([]);
 onMounted(()=>{
     axios.get(Endpoints.globalMenu).then((res)=>{
         menus.value = res.data;
+        ajaxReadyStore.ready(Endpoints.globalMenu, true);
     })
 });
 
