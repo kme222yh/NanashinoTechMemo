@@ -104,29 +104,13 @@
 import TopVisual from './TopVisual.vue'
 
 
-import { onMounted, ref, onUnmounted } from 'vue'
-import Endpoints from '@/config/endpoints'
+import { onMounted, ref, onUnmounted, inject } from 'vue'
 
 
-import { useAjaxReadyStore } from '@/stores/ajaxReady'
-const ajaxReadyStore = useAjaxReadyStore();
-
-
-const articles = ref([]);
-const initArticles = async ()=>{
-    articles.value = [];
-    const res = await axios.get(Endpoints.pinnedMenu);
-    articles.value = res.data;
-    for (const key of Object.keys(articles.value)) {
-        articles.value[key].bgStyle = 'linear-gradient(rgba(18, 47, 61, 0.5), rgba(18, 47, 61, 0.5))';
-        if(articles.value[key].media) articles.value[key].bgStyle += `,url(${articles.value[key].media})`;
-    }
-    ajaxReadyStore.ready(Endpoints.pinnedMenu, true);
-}
+const articles = inject('pinnedArticles');
 
 
 onMounted(()=>{
-    initArticles();
     pinnedArticleChangeInterval.value = setInterval(()=>pinnedArticleChange(true), 10000);
 });
 

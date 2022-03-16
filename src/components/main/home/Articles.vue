@@ -5,7 +5,7 @@
                 <p>記事が見つかりませんでした…</p>
                 <p>( ；∀；)</p>
             </div>
-            <ArticleLink v-for="(article, index) in articles" :key="index"
+            <ArticleLink v-for="(article, index) in articles" :key="index" :class="{'hidden': index>displayedArticleIdx}"
                 :id="article.id"
                 :date="article.date"
                 :title="article.title"
@@ -57,17 +57,30 @@
             &:hover{color: $text-dark;}
         }
     }
+
+    .articleLink{
+        transition: 1s;
+        opacity: 1;
+        transform: none;
+        &.hidden{
+            opacity: 0;
+            transform: translateY(5%) scale(0.98);
+        }
+    }
 }
 </style>
 
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, watch } from 'vue'
 import Endpoints from '@/config/endpoints'
 import ArticleLink from './ArticleLink.vue'
 
 import { useAjaxReadyStore } from '@/stores/ajaxReady'
 const ajaxReadyStore = useAjaxReadyStore();
+
+import usePageDisplayReady from '@/config/pageDisplayReady'
+const {doesReadyHomeView} = usePageDisplayReady();
 
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter();
@@ -75,11 +88,14 @@ const route = useRoute();
 let routerHook = null;
 
 const articles = ref([]);
+const displayedArticleIdx = ref(-1);
 const nextPage = ref(1);
 const initArticles = async ()=>{
     nextPage.value = 1;
     articles.value = [];
+    displayedArticleIdx.value = -1;
     const res = await axios.get(Endpoints.articles, {params: Object.assign(route.params, route.query, {page: nextPage.value})});
+    watchStopHandler = startRoutingWatch(doesReadyHomeView);
     articles.value = res.data.articles;
     nextPage.value = res.data.next_page;
     ajaxReadyStore.ready(Endpoints.articles);
@@ -88,6 +104,21 @@ const moreArticles = async ()=>{
     const res = await axios.get(Endpoints.articles, {params: Object.assign(route.params, route.query, {page: nextPage.value})});
     Array.prototype.push.apply(articles.value, res.data.articles);
     nextPage.value = res.data.next_page;
+    setTimeout(f, 300);
+}
+
+let watchStopHandler = null;
+const f = ()=>{
+    if(displayedArticleIdx.value < articles.value.length-1){
+        displayedArticleIdx.value++
+        setTimeout(f, 300);
+    }
+}
+const startRoutingWatch = (target)=>{
+    return watch(target, ()=>{
+        watchStopHandler();
+        setTimeout(f, 300);
+    })
 }
 
 onMounted(()=>{

@@ -57,15 +57,11 @@
 
 
 <script setup>
-import { onMounted, ref, onUnmounted } from 'vue'
-import Endpoints from '@/config/endpoints'
+import { onMounted, ref, onUnmounted, inject } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter();
 const route = useRoute();
 let routerHook = null;
-
-import { useAjaxReadyStore } from '@/stores/ajaxReady'
-const ajaxReadyStore = useAjaxReadyStore();
 
 const searchParam = ref('');
 const doSearch = ()=>{
@@ -84,16 +80,9 @@ const initSearchParam = () => {
     }
 }
 
-const archives = ref([]);
-const initArchives = async ()=>{
-    archives.value = [];
-    const res = await axios.get(Endpoints.archives);
-    archives.value = res.data;
-    ajaxReadyStore.ready(Endpoints.archives, true);
-}
+const archives = inject('archives');
 
 onMounted(()=>{
-    initArchives()
     initSearchParam();
     routerHook = router.afterEach(initSearchParam);
 });

@@ -59,17 +59,11 @@
 
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, inject } from 'vue'
 import Endpoints from '@/config/endpoints'
 
 import { useAjaxReadyStore } from '@/stores/ajaxReady'
 const ajaxReadyStore = useAjaxReadyStore();
 
-const widget = ref([]);
-onMounted(()=>{
-    axios.get(Endpoints.footerWidget).then((res)=>{
-        widget.value = res.data;
-        ajaxReadyStore.ready(Endpoints.footerWidget, true);
-    })
-});
+const widget = inject('footerWidget');
 </script>

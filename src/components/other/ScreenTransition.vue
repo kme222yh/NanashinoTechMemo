@@ -51,9 +51,10 @@ const hideOpeningAnimation = ()=>{
 }
 
 
-import ep from '@/config/endpoints' // ep : endpoints
-import { useAjaxReadyStore } from '@/stores/ajaxReady'
-const ars = useAjaxReadyStore();    // ars : ajaxReadyStore
+import usePageDisplayReady from '@/config/pageDisplayReady'
+const {doesReadyHomeView ,doesReadyArticleView ,refresh} = usePageDisplayReady();
+
+
 let watchStopHandler = null;
 const startRoutingWatch = (target)=>{
     return watch(target, ()=>{
@@ -63,27 +64,12 @@ const startRoutingWatch = (target)=>{
     })
 }
 
-const doesReadyHomeView = computed(()=>{
-    return  ars.isReady(ep.globalMenu) &&
-            ars.isReady(ep.pinnedMenu) &&
-            ars.isReady(ep.footerWidget) &&
-            ars.isReady(ep.footerMenu) &&
-            ars.isReady(ep.articles) &&
-            ars.isReady(ep.archives)
-;});
-const doesReadyArticleView = computed(()=>{
-    return  ars.isReady(ep.globalMenu) &&
-            ars.isReady(ep.footerWidget) &&
-            ars.isReady(ep.footerMenu) &&
-            ars.isReady(ep.article)
-;});
-
 
 onMounted(()=>{
     router.beforeEach(async ()=>{
         visible.value = true;
         await waitmSecound();
-        ars.refresh();
+        refresh();
     });
     router.afterEach((to, from)=>{
         if(to.name=='Home'||to.name=='Search'||to.name=='Category'||to.name=='Archive'){

@@ -12,13 +12,10 @@ require_once('wp_custom/widgets.php');
 require_once('endpoints/index.php');
 
 
-// wp_head, wp_footerの出力内容を変更
-// remove_action( 'wp_head', 'rest_output_link_wp_head' );
-// remove_action( 'wp_head', 'wp_oembed_add_discovery_links' );
-// remove_action( 'wp_head', 'wp_oembed_add_host_js' );
 function twpp_deregister_scripts() {
 	wp_deregister_script( 'hcb_prism_script' );
 	wp_deregister_script('hcb_script');
+	// wp_deregister_script('wpp-js');
 }
 add_action( 'wp_enqueue_scripts', 'twpp_deregister_scripts', 100 );
 
@@ -30,3 +27,14 @@ function add_my_assets_to_block_editor(){
 	// wp_enqueue_script( 'block-custom', get_stylesheet_directory_uri() . '/assets/js/block_custom.js',array(), "", true);
 }
 add_action( 'enqueue_block_editor_assets', 'add_my_assets_to_block_editor' );
+
+
+
+
+// find script handler key
+// function get_enqueued_scripts () {
+//     $scripts = wp_scripts();
+//     var_dump( array_keys( $scripts->groups ) );
+// 	exit;
+// }
+// add_action( 'wp_head', 'get_enqueued_scripts' );

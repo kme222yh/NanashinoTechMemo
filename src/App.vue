@@ -1,11 +1,75 @@
 <script setup>
-import { onMounted, computed, watch } from 'vue'
-
+// import templates
 import { RouterView } from 'vue-router'
 import Header from '@/components/header/Header.vue'
 import Footer from '@/components/footer/Footer.vue'
 import GrayBackground from '@/components/other/GrayBackground.vue'
 import ScreenTransition from '@/components/other/ScreenTransition.vue'
+
+
+import { onMounted, provide, ref } from 'vue'
+import { useRouter } from 'vue-router'
+const router = useRouter();
+
+
+// fetch layout data from endpoint and provide to child components.
+import ep from '@/config/endpoints'
+import { useAjaxReadyStore } from '@/stores/ajaxReady'
+const ars = useAjaxReadyStore();
+const epAppKeys = [ // axios.get(ep.app) returns ...
+    'archives',
+    'categories',
+    'footerMenu',
+    'footerWidget',
+    'globalMenu',
+    'pinnedArticles',
+];
+let epRefObject = [];   // holds values as an arrays to dynamically define reactive variables.
+for (const key of epAppKeys) {
+    epRefObject[key] = ref([]);
+    provide(key, epRefObject[key]);
+}
+const fetchLayoutData = async ()=>{
+    const res = await axios.get(ep.app);
+    const app = res.data;
+    for(const key of epAppKeys){
+        epRefObject[key].value = app[key];
+    }
+    ars.ready(ep.app, true);
+}
+
+
+// Control the javascript that wp depends on.
+import wjd from '@/config/wpJavascriptDependency'
+let $scripts = [];
+// const $head = document.getElementsByTagName("head")[0];
+const $head = document.body;
+const loadScripts = ()=>{
+    for(const js of wjd){
+        const $script =document.createElement('script')
+        $script.src = js;
+        $script.type = "text/javascript";
+        $head.appendChild($script);
+        $scripts.push($script);
+    }
+    document.dispatchEvent((new Event('DOMContentLoaded')));
+}
+const unLoadScript = ()=>{
+    for(const $script of $scripts){
+        $head.removeChild($script);
+    }
+    $scripts = [];
+}
+import usePageDisplayReady from '@/config/pageDisplayReady'
+const { doesAppReady } = usePageDisplayReady();
+import sw from '@/helper/simpleWatcher'
+const appWatcher = new sw(doesAppReady, loadScripts);
+
+
+// add function to event hook
+onMounted(fetchLayoutData);
+router.beforeEach(unLoadScript);
+router.afterEach(()=>appWatcher.run());
 </script>
 
 

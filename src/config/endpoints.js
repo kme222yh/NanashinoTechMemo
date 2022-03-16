@@ -3,6 +3,7 @@ This file configures endpoints which fetch site-data from.
 */
 
 let Endpoints = {
+    app: '/nanashinotechmemo/v1/app',
     articles: '/nanashinotechmemo/v1/articles',
     article: '/nanashinotechmemo/v1/article',
     categories: '/wp/v2/categories',

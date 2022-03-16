@@ -90,7 +90,7 @@
 
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, inject } from 'vue'
 import Endpoints from '@/config/endpoints'
 
 import { useAjaxReadyStore } from '@/stores/ajaxReady'
@@ -98,13 +98,7 @@ const ajaxReadyStore = useAjaxReadyStore();
 
 const copyright = `copyright ©︎ ${(new Date).getFullYear()} ${document.title}.`;
 
-const menus = ref([]);
-onMounted(()=>{
-    axios.get(Endpoints.footerMenu).then((res)=>{
-        menus.value = res.data;
-        ajaxReadyStore.ready(Endpoints.footerMenu, true);
-    })
-});
+const menus = inject('footerMenu');
 
 const scrollToTop = ()=>{
     const f = function(t){

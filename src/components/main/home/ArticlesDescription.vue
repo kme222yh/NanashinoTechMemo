@@ -28,7 +28,7 @@
 
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, inject } from 'vue'
 
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter();
@@ -38,7 +38,7 @@ let routerHook = null;
 const description = ref('');
 const initDescription = () => {
     if(route.name == 'Category'){
-        description.value = categories.value.find(category=>category.slug==route.params.category).name + "に関する記事";
+        description.value = categories.value[route.params.category] + "に関する記事";
     }
     else if(route.name == 'Archive'){
         description.value = `${route.params.year}年${route.params.month}月に投稿された記事`
@@ -51,16 +51,9 @@ const initDescription = () => {
     }
 }
 
-import Endpoints from '@/config/endpoints'
-const categories = ref([]);
-const getCategories = async () => {
-    categories.value = [];
-    const res = await axios.get(Endpoints.categories);
-    categories.value = res.data;
-}
+const categories = inject('categories');
 
 onMounted(async ()=>{
-    await getCategories();
     initDescription();
     routerHook = router.afterEach(initDescription);
 });
