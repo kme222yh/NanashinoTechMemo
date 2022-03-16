@@ -8,8 +8,9 @@ import ScreenTransition from '@/components/other/ScreenTransition.vue'
 
 
 import { onMounted, provide, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 const router = useRouter();
+const route = useRoute();
 
 
 // fetch layout data from endpoint and provide to child components.
@@ -56,7 +57,7 @@ router.afterEach(()=>appWatcher.run());
 
 <template>
     <Header/>
-    <RouterView/>
+    <RouterView :key="route.fullPath" />
     <Footer/>
     <GrayBackground />
     <ScreenTransition />

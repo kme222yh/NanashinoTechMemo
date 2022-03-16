@@ -65,12 +65,37 @@ import Endpoints from '@/config/endpoints'
 import { useAjaxReadyStore } from '@/stores/ajaxReady'
 const ajaxReadyStore = useAjaxReadyStore();
 
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 const router = useRouter();
-router.afterEach(()=>{
+router.afterEach( async (to, from)=>{
+    if(to.path==from.path&&to.name==from.name) return;
     widget.value = ''; // clean up widget temporally. because wpp script occurs soome problem.
-    nextTick(()=>{widget.value = initialWidget.value});
+    await nextTick(()=>{widget.value = initialWidget.value});
+    startTryOverWriteWppLink();
 });
+
+
+// over write links of wpp widget
+const overWritten = ref(false);
+const tryOverWriteWppLink = ()=>{
+    const $wpp = document.getElementsByClassName('popular-posts-sr')[0];
+    if($wpp){
+        const $aList = $wpp.shadowRoot.querySelectorAll('a');
+        for(const $a of $aList){
+            $a.addEventListener('click', e=>{
+                const url = (new URL(e.currentTarget.getAttribute('href'))).pathname;
+                if(url != window.location.pathname){
+                    router.push(url);
+                }
+                e.preventDefault();
+            })
+        }
+        overWritten.value = true;
+    } else {
+        setTimeout(tryOverWriteWppLink, 500);
+    }
+}
+const startTryOverWriteWppLink = ()=>{setTimeout(tryOverWriteWppLink, 500)};
 
 
 const initialWidget = inject('footerWidget');

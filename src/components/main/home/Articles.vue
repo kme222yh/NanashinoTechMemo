@@ -94,14 +94,14 @@ const initArticles = async ()=>{
     nextPage.value = 1;
     articles.value = [];
     displayedArticleIdx.value = -1;
-    const res = await axios.get(Endpoints.articles, {params: Object.assign(route.params, route.query, {page: nextPage.value})});
+    const res = await axios.get(Endpoints.articles, {params: Object.assign({page: nextPage.value}, route.query, route.params)});
     watchStopHandler = startRoutingWatch(doesReadyHomeView);
     articles.value = res.data.articles;
     nextPage.value = res.data.next_page;
     ajaxReadyStore.ready(Endpoints.articles);
 }
 const moreArticles = async ()=>{
-    const res = await axios.get(Endpoints.articles, {params: Object.assign(route.params, route.query, {page: nextPage.value})});
+    const res = await axios.get(Endpoints.articles, {params: Object.assign({page: nextPage.value}, route.query, route.params)});
     Array.prototype.push.apply(articles.value, res.data.articles);
     nextPage.value = res.data.next_page;
     setTimeout(f, 300);
@@ -123,7 +123,9 @@ const startRoutingWatch = (target)=>{
 
 onMounted(()=>{
     initArticles();
-    routerHook = router.afterEach(initArticles);
+    routerHook = router.afterEach(()=>{
+        initArticles();
+    });
 });
 onUnmounted(()=>{
     routerHook();

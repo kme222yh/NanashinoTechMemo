@@ -60,12 +60,12 @@ const appWatcher = new sw(doesAppReady, ()=>{
 });
 
 
-onMounted(()=>{
-    router.beforeEach(async ()=>{
-        visible.value = true;
-        await waitmSecound();
-        refresh();
-    });
-    router.afterEach(()=>appWatcher.run());
-})
+router.beforeEach(async (to, from)=>{
+    visible.value = true;
+    refresh();
+    await waitmSecound();
+});
+router.afterEach((to, from)=>{
+    appWatcher.run()
+});
 </script>

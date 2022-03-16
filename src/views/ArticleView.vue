@@ -59,12 +59,13 @@ const getArticleInfo = async () => {
 }
 
 onMounted(()=>{
-    document.getElementsByClassName("topVisual")[0].scrollIntoView(true);
+    console.log('mouted!!!');
+    // document.getElementsByClassName("topVisual")[0].scrollIntoView(true);
     getArticleInfo()
     routerHook = router.afterEach((to, from)=>{
-        if(to.params.post_id==from.params.post_id)  return;
+        // if(to.params.post_id==from.params.post_id)  return;
         if(to.name == 'Article'){
-            document.getElementsByClassName("topVisual")[0].scrollIntoView(true);
+            // document.getElementsByClassName("topVisual")[0].scrollIntoView(true);
             getArticleInfo();
         }
     });
