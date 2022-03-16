@@ -40,26 +40,7 @@ const fetchLayoutData = async ()=>{
 
 
 // Control the javascript that wp depends on.
-import wjd from '@/config/wpJavascriptDependency'
-let $scripts = [];
-// const $head = document.getElementsByTagName("head")[0];
-const $head = document.body;
-const loadScripts = ()=>{
-    for(const js of wjd){
-        const $script =document.createElement('script')
-        $script.src = js;
-        $script.type = "text/javascript";
-        $head.appendChild($script);
-        $scripts.push($script);
-    }
-    document.dispatchEvent((new Event('DOMContentLoaded')));
-}
-const unLoadScript = ()=>{
-    for(const $script of $scripts){
-        $head.removeChild($script);
-    }
-    $scripts = [];
-}
+import { loadScripts, unLoadScript } from '@/config/wpJavascriptDependency'
 import usePageDisplayReady from '@/config/pageDisplayReady'
 const { doesAppReady } = usePageDisplayReady();
 import sw from '@/helper/simpleWatcher'

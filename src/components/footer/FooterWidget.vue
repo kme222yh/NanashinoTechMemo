@@ -59,11 +59,20 @@
 
 
 <script setup>
-import { ref, onMounted, inject } from 'vue'
+import { ref, onMounted, inject, nextTick } from 'vue'
 import Endpoints from '@/config/endpoints'
 
 import { useAjaxReadyStore } from '@/stores/ajaxReady'
 const ajaxReadyStore = useAjaxReadyStore();
 
-const widget = inject('footerWidget');
+import { useRoute, useRouter } from 'vue-router'
+const router = useRouter();
+router.afterEach(()=>{
+    widget.value = ''; // clean up widget temporally. because wpp script occurs soome problem.
+    nextTick(()=>{widget.value = initialWidget.value});
+});
+
+
+const initialWidget = inject('footerWidget');
+const widget = ref(0);
 </script>

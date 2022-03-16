@@ -62,6 +62,7 @@ onMounted(()=>{
     document.getElementsByClassName("topVisual")[0].scrollIntoView(true);
     getArticleInfo()
     routerHook = router.afterEach((to, from)=>{
+        if(to.params.post_id==from.params.post_id)  return;
         if(to.name == 'Article'){
             document.getElementsByClassName("topVisual")[0].scrollIntoView(true);
             getArticleInfo();

@@ -31,11 +31,9 @@
 
 <script setup>
 import { ref, onMounted, watch, computed, nextTick } from 'vue'
-
 import { useRouter } from 'vue-router'
 const router = useRouter();
 
-const visible = ref(false);
 
 const waitmSecound = (s=500)=>{
     return new Promise((resolve)=>{
@@ -52,17 +50,14 @@ const hideOpeningAnimation = ()=>{
 
 
 import usePageDisplayReady from '@/config/pageDisplayReady'
-const {doesReadyHomeView ,doesReadyArticleView ,refresh} = usePageDisplayReady();
-
-
-let watchStopHandler = null;
-const startRoutingWatch = (target)=>{
-    return watch(target, ()=>{
-        watchStopHandler();
-        visible.value = false;
-        hideOpeningAnimation();
-    })
-}
+const { doesAppReady, refresh } = usePageDisplayReady();
+import { loadScripts, unLoadScript } from '@/config/wpJavascriptDependency'
+import sw from '@/helper/simpleWatcher'
+const visible = ref(false);
+const appWatcher = new sw(doesAppReady, ()=>{
+    visible.value = false;
+    hideOpeningAnimation();
+});
 
 
 onMounted(()=>{
@@ -71,12 +66,6 @@ onMounted(()=>{
         await waitmSecound();
         refresh();
     });
-    router.afterEach((to, from)=>{
-        if(to.name=='Home'||to.name=='Search'||to.name=='Category'||to.name=='Archive'){
-            watchStopHandler = startRoutingWatch(doesReadyHomeView);
-        } else if(to.name=='Article'){
-            watchStopHandler = startRoutingWatch(doesReadyArticleView);
-        }
-    });
+    router.afterEach(()=>appWatcher.run());
 })
 </script>
