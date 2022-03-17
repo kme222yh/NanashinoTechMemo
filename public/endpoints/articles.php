@@ -10,7 +10,7 @@ function custom_articles( WP_REST_Request $request ) {
     $articles = [];
     $args = array(
         'post_type' => 'post',
-        'posts_per_page' => isset($params['per_page'])?$params['per_page']:'4',
+        'posts_per_page' => isset($params['per_page'])?$params['per_page']:'12',
         'paged' => isset($params['page'])?$params['page']:'1',
         'category_name' => isset($params['category'])?$params['category']:'',
         's' => isset($params['s'])?$params['s']:'',

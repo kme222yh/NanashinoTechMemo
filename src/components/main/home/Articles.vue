@@ -121,13 +121,5 @@ const startRoutingWatch = (target)=>{
     })
 }
 
-onMounted(()=>{
-    initArticles();
-    routerHook = router.afterEach(()=>{
-        initArticles();
-    });
-});
-onUnmounted(()=>{
-    routerHook();
-});
+onMounted(initArticles);
 </script>

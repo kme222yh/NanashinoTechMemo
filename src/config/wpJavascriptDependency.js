@@ -25,7 +25,6 @@ const loadScripts = ()=>{
         $script.id = scriptClass;
         $body.appendChild($script);
     }
-    document.dispatchEvent((new Event('DOMContentLoaded')));
 }
 const unLoadScript = ()=>{
     const $scripts = document.querySelectorAll('script#'+scriptClass);

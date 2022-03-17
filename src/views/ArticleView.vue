@@ -45,10 +45,8 @@ import Endpoints from '@/config/endpoints'
 import { useAjaxReadyStore } from '@/stores/ajaxReady'
 const ajaxReadyStore = useAjaxReadyStore();
 
-import { useRoute, useRouter } from 'vue-router'
-const router = useRouter();
+import { useRoute } from 'vue-router'
 const route = useRoute();
-let routerHook = null;
 
 const article = ref([]);
 const getArticleInfo = async () => {
@@ -58,19 +56,5 @@ const getArticleInfo = async () => {
     ajaxReadyStore.ready(Endpoints.article);
 }
 
-onMounted(()=>{
-    console.log('mouted!!!');
-    // document.getElementsByClassName("topVisual")[0].scrollIntoView(true);
-    getArticleInfo()
-    routerHook = router.afterEach((to, from)=>{
-        // if(to.params.post_id==from.params.post_id)  return;
-        if(to.name == 'Article'){
-            // document.getElementsByClassName("topVisual")[0].scrollIntoView(true);
-            getArticleInfo();
-        }
-    });
-});
-onUnmounted(()=>{
-    routerHook();
-});
+onMounted(getArticleInfo);
 </script>

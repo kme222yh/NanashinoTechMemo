@@ -28,7 +28,21 @@ const router = createRouter({
             name: 'Article',
             component: () => import('@/views/ArticleView.vue'),
         },
-    ]
+    ],
+    scrollBehavior (to, from, savedPosition) {
+        if(to.name == 'Article'){
+            return {
+                el: '.topVisual',
+                top: 0,
+            }
+        } else if(from.name) {  // HomeView
+            return {
+                el: '.articlesDescription',
+                top: 60,
+            }
+        }
+        return { top: 0 }
+    }
 })
 
 export default router

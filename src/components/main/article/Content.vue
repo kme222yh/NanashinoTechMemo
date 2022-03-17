@@ -130,13 +130,48 @@
         li{margin: 8px 0;}
     }
 
+    // Table of Contents Plus [wordpress plugin]
+    #toc_container{
+        ul{
+            border: none;
+            font-size: 16px;
+            a{
+                color: $text-blue;
+            }
+        }
+        @include mobile{
+            width: 100%;
+        }
+    }
+
 }
 </style>
 
 
 <script setup>
-import { defineProps } from 'vue'
+import { defineProps, onMounted } from 'vue'
 const props = defineProps({
     content: String,
 })
+
+const tryOverWriteTocLink = ()=>{
+    const $toc = document.getElementById('toc_container');
+    if($toc){
+        const $aList = $toc.querySelectorAll('a');
+        for(const $a of $aList){
+            $a.addEventListener('click', e=>{
+                const id = e.currentTarget.getAttribute('href').substr(1);
+                document.getElementById(id).scrollIntoView();
+                window.scrollBy(0, -70)
+                e.preventDefault();
+            })
+        }
+    } else {
+        setTimeout(tryOverWriteTocLink, 700);
+    }
+}
+const startTryOverWriteTocLink = ()=>{setTimeout(tryOverWriteTocLink, 500)};
+
+
+onMounted(startTryOverWriteTocLink);
 </script>
