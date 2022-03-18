@@ -14,17 +14,28 @@ let Endpoints = {
     footerMenu: '/nanashinotechmemo/v1/menu/footer',
     archives: '/nanashinotechmemo/v1/archives',
     footerWidget: '/nanashinotechmemo/v1/widgets/footer',
-    mailer: 'https://mailer.reuhul.org/ppapi/ppapi/issue_token',
+}
+
+
+let OuterEndpoints = {
+    mailerSend: 'https://mailer.reuhul.org',
+    mailerIssueToken: 'https://mailer.reuhul.org/ppapi/ppapi/issue_token',
+}
+if(import.meta.env.DEV){
+    OuterEndpoints.mailerSend = 'http://127.0.0.1:8001';
+    OuterEndpoints.mailerIssueToken = 'http://127.0.0.1:8001/ppapi/ppapi/issue_token';
 }
 
 
 
 const homeUrl = document.getElementsByName('home_url')[0].content;
 const wpApiPrefix = '/wp-json';
-const reg = /^(http|https):\/\/.+/g;
+// const reg = /^(http|https):\/\/.+/g;
 for (const key of Object.keys(Endpoints)) {
-    if(!reg.test(Endpoints[key])){
+    // if(!reg.test(Endpoints[key])){
         Endpoints[key] = homeUrl + wpApiPrefix + Endpoints[key];
-    }
+    // }
 }
+Object.assign(Endpoints, OuterEndpoints)
+// console.log(Endpoints)
 export default Endpoints

@@ -6,7 +6,7 @@
     "build": "vite build --base=/wp-content/themes/nanashinotechmemo/",
     "preview": "vite preview --port 5050",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-    "watch": "vite build --base=/wp-content/themes/nanashinotechmemo/ --watch"
+    "watch": "vite build --mode development --base=/wp-content/themes/nanashinotechmemo/ --watch"
   },
   "dependencies": {
     "axios": "^0.26.1",

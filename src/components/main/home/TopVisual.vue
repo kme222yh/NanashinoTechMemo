@@ -7,7 +7,7 @@
 
         <router-link class="topVisual-category" v-if="props.category_slug" :to="{name: 'Category', params: {category: props.category_slug}}">{{props.category}}</router-link>
         <p class="topVisual-category" v-else-if="props.category">{{props.category}}</p>
-        
+
         <div class="topVisual-date">
             <small class="wrote"><i class="fas fa-pen"></i> {{props.date}}</small>
             <small class="modified" v-if="props.date!=props.date_modified"><i class="fas fa-sync-alt"></i> {{props.date_modified}}</small>
@@ -81,7 +81,7 @@
 <script setup>
 import { defineProps, computed } from 'vue'
 const props = defineProps({
-    id: String,
+    id: Number,
     title: String,
     category: String,
     category_slug: String,

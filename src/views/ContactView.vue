@@ -1,6 +1,7 @@
 <template>
     <main class="contactView">
         <div class="contactView-body">
+            <Messanger/>
             <h1 class="contactView-title">{{article.title}}</h1>
             <ContactForm/>
             <Breadcrumb :title="article.title" :category="article.category" :category_slug="article.category_slug" />
@@ -37,6 +38,7 @@
 <script setup>
 import Breadcrumb from '@/components/main/article/Breadcrumb.vue'
 import ContactForm from '@/components/main/contact/ContactForm.vue'
+import Messanger from '@/components/main/contact/Messanger.vue'
 
 import { ref, onMounted, onUnmounted } from 'vue'
 import Endpoints from '@/config/endpoints'
