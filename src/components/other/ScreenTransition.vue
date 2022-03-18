@@ -61,17 +61,10 @@ const appWatcher = new sw(doesAppReady, ()=>{
 
 
 router.beforeEach(async (to, from)=>{
-    if(from.name && to.fullPath == from.fullPath){
-        return ;
-    }
+    if(from.name && to.fullPath == from.fullPath){return;}
     visible.value = true;
     refresh();
     await waitmSecound();
-});
-router.afterEach((to, from)=>{
-    if(from.name && to.fullPath == from.fullPath){
-        return ;
-    }
     appWatcher.run()
 });
 </script>

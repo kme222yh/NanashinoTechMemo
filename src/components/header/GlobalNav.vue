@@ -20,9 +20,6 @@
         display: flex;
         justify-content: center;
     }
-    &-item{
-        min-width: 150px;
-    }
     &-link{
         display: block;
         text-align: center;

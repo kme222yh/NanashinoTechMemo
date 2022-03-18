@@ -45,15 +45,20 @@ import Endpoints from '@/config/endpoints'
 import { useAjaxReadyStore } from '@/stores/ajaxReady'
 const ajaxReadyStore = useAjaxReadyStore();
 
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 const route = useRoute();
+const router = useRouter();
 
 const article = ref([]);
 const getArticleInfo = async () => {
     article.value = [];
-    const res = await axios.get(Endpoints.article + '/' + route.params.post_id);
-    article.value = res.data;
-    ajaxReadyStore.ready(Endpoints.article);
+
+    axios.get(Endpoints.article + '/' + route.params.post_id).then((res)=>{
+        article.value = res.data;
+        ajaxReadyStore.ready(Endpoints.article);
+    }).catch((res)=>{
+        router.push({name: 'NotFound'});
+    });
 }
 
 onMounted(getArticleInfo);

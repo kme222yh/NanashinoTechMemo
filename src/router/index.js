@@ -24,13 +24,27 @@ const router = createRouter({
             component: () => import('@/views/HomeView.vue'),
         },
         {
+            path: '/contact',
+            name: 'Contact',
+            component: () => import('@/views/ContactView.vue'),
+        },
+        {
             path: '/:post_id',
             name: 'Article',
             component: () => import('@/views/ArticleView.vue'),
         },
+        {
+            path: '/:pathMatch(.*)*',
+            name: 'NotFound',
+            component: () => import('@/views/NotFoundView.vue'),
+        },
     ],
     scrollBehavior (to, from, savedPosition) {
-        if(to.name == 'Article'){
+        if(from.name && to.fullPath == from.fullPath){
+            return;
+        } else if(to.name == 'NotFound' || to.name == 'Contact'){
+            return { top: 0 }
+        } else if(to.name == 'Article'){
             return {
                 el: '.topVisual',
                 top: 0,
@@ -41,7 +55,7 @@ const router = createRouter({
                 top: 60,
             }
         }
-        return { top: 0 }
+        return { top: 0 } // fallback
     }
 })
 

@@ -67,12 +67,16 @@ const ajaxReadyStore = useAjaxReadyStore();
 
 import { useRouter } from 'vue-router'
 const router = useRouter();
-// router.afterEach( async (to, from)=>{
-//     if(to.path==from.path&&to.name==from.name) return;
-//     widget.value = ''; // clean up widget temporally. because wpp script occurs soome problem.
-//     await nextTick(()=>{widget.value = initialWidget.value});
-//     startTryOverWriteWppLink();
-// });
+
+
+// Control the javascript that wp depends on.
+import usePageDisplayReady from '@/config/pageDisplayReady'
+const { doesAppReady } = usePageDisplayReady();
+import sw from '@/helper/simpleWatcher'
+const appWatcher = new sw(doesAppReady, ()=>{
+    // wpp widget setup
+    nextTick(()=>{document.dispatchEvent((new Event('DOMContentLoaded')))})
+});
 
 
 // over write links of wpp widget
@@ -92,8 +96,7 @@ const tryOverWriteWppLink = ()=>{
         }
         overWritten.value = true;
     } else {
-        document.dispatchEvent((new Event('DOMContentLoaded')));
-        setTimeout(tryOverWriteWppLink, 500);
+        startTryOverWriteWppLink();
     }
 }
 const startTryOverWriteWppLink = ()=>{setTimeout(tryOverWriteWppLink, 500)};
@@ -103,6 +106,7 @@ const widget = inject('footerWidget');
 
 
 onMounted(async ()=>{
+    appWatcher.run()
     startTryOverWriteWppLink();
 })
 </script>
