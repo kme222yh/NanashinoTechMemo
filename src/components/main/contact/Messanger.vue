@@ -54,13 +54,32 @@
         margin-bottom: 20px;
         color: $text-dark;
 
+        &:before{
+            font-family: "Font Awesome 5 Free";
+            -webkit-font-smoothing: antialiased;
+            display: inline-block;
+            font-style: normal;
+            font-variant: normal;
+            text-rendering: auto;
+            line-height: 1;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
         &.warning{
             background-color: $text-warning;
             color: $text-light;
+            &:before{content: "\f06a";}
         }
         &.success{
             background-color: $text-success;
             color: $text-transparent-gray;
+            &:before{content: "\f00c";}
+        }
+        &.info{
+            background-color: $text-info;
+            color: $text-transparent-gray;
+            &:before{content: "\f129";}
         }
     }
 }

@@ -22,6 +22,7 @@
                 <div class="contactForm-button" :class="{disabled: send}" @click="button_action">{{buttonMessage}}</div>
             </div>
         </div>
+        <StayBackground :visible="sending"/>
     </form>
 </template>
 
@@ -96,6 +97,7 @@ import ep from '@/config/endpoints.js'
 import AxiosMailer from 'axios'
 AxiosMailer.defaults.withCredentials = true;
 
+import StayBackground from '@/components/other/StayBackground.vue'
 
 import { useMessangerStore } from '@/stores/Messanger'
 const messangerStore = useMessangerStore();
@@ -152,10 +154,20 @@ const validation = ()=>{
 }
 const button_action = ()=>{
     if(mayBeyouAreBot.value){
+        sending.value = true;
         AxiosMailer.get(ep.mailerIssueToken).then((res)=>{
             mayBeyouAreBot.value = false
             form.value._token=res.data
             setTimeout(decrease, 10);
+            setTimeout(()=>{
+                sending.value = false;
+                messangerStore.push('Submit button activated', 'info');
+            }, 1500);
+        }).catch(()=>{
+            setTimeout(()=>{
+                sending.value = false;
+                messangerStore.push('Failed to acquire token', 'warning');
+            }, 500);
         })
     } else if (validation()){
         sending.value = true
@@ -163,15 +175,18 @@ const button_action = ()=>{
         for (let key in form.value) {
             params.append(key, form.value[key])
         }
-        // AxiosMailer.post(ep.mailerSend, params).then(()=>{
-        //     sending.value = false
-        //     send.value = true
-        // })
-        sending.value = false
-        send.value = true
-        messangerStore.push('お問い合わせが完了しました', 'success');
+        AxiosMailer.post(ep.mailerSend, params).then(()=>{
+            sending.value = false
+            send.value = true
+            messangerStore.push('Your inquiry has been completed', 'success');
+        }).catch(()=>{
+            setTimeout(()=>{
+                sending.value = false;
+                messangerStore.push('Transmission failed', 'warning');
+            }, 500);
+        })
     } else {
-        messangerStore.push('記載内容を確認してください', 'warning');
+        messangerStore.push('Please confirm your inquiry', 'warning');
     }
 }
 
@@ -181,7 +196,7 @@ const decrease = ()=>{
     if(buttonMessage.value.length > 1)
         setTimeout(decrease, 80)
     else
-        setTimeout(increase, 500)
+        setTimeout(increase, 400)
 }
 const increase = ()=>{
     buttonMessage.value = 'submit'.substr(6-buttonMessage.value.length-1,buttonMessage.value.length+1)
