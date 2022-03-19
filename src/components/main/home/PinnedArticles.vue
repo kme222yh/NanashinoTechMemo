@@ -3,7 +3,7 @@
         <div class="pinnedArticles-body" @touchstart="swipeStart" @touchmove="swiping" @touchend="swipeEnd"  @mousedown="slideStart" @mousemove="sliding" @mouseup="swipeEnd">
 
             <transition-group>
-                <TopVisual v-for="(article, index) in articles" :key="index+0" v-show="visibleArticle==index"
+                <TopVisual v-for="(article, index) in articles" :key="index+0" v-show="visible.index==index" :class="visible.moveTo"
                     :id="article.id"
                     :title="article.title"
                     :category="article.category"
@@ -25,35 +25,44 @@
 
 <style lang="scss">
 .pinnedArticles{
-    position: relative;
-    overflow: hidden;
     &-body{
-
+        position: relative;
+        overflow: hidden;
     }
     .topVisual{
+        $slideDis : 50px;
+        width: calc(100% + $slideDis + $slideDis);
         position: absolute;
+        right: -$slideDis;
+        left: -$slideDis;
         a,small{
             user-select: none;
         }
-        transform: scale(1.05);
         &.v-enter-active, &.v-leave-active{
-            transition: 2s;
+            transition: 1.5s;
         }
-        &.v-enter-from{
-            transform: scale(1);
+        &.v-enter-from, &.v-leave-to{
             opacity: 0;
         }
-        &.v-enter-to{
-            transform: scale(1.05);
+        &.v-enter-to, &.v-leave-from{
             opacity: 1;
+            transform: translateX(0);
         }
-        &.v-leave-from{
-            transform: scale(1.05);
-            opacity: 1;
+        &.right{
+            &.v-enter-from{
+                transform: translateX(-$slideDis);
+            }
+            &.v-leave-to{
+                transform: translateX($slideDis);
+            }
         }
-        &.v-leave-to{
-            transform: scale(1.1);
-            opacity: 0;
+        &.left{
+            &.v-enter-from{
+                transform: translateX($slideDis);
+            }
+            &.v-leave-to{
+                transform: translateX(-$slideDis);
+            }
         }
     }
     &-dammy{
@@ -91,9 +100,11 @@
             display: none;
         }
     }
-    &:hover{
-        .next{transform: translate(-20%, -50%);}
-        .previous{transform: translate(20%, -50%);}
+    &:hover &-control.next{
+        transform: translate(-20%, -50%);
+    }
+    &:hover &-control.previous{
+        transform: translate(20%, -50%);
     }
 }
 </style>
@@ -116,21 +127,23 @@ onMounted(()=>{
 
 
 // switch visibled article
-const visibleArticle = ref(0);
+const visible = ref({index: 0, moveTo: 0})
 const pinnedArticleChangeInterval = ref(null);
 const pinnedArticleChange = (next)=>{
     if(next == true){
-        if(visibleArticle.value >= articles.value.length-1){
-            visibleArticle.value = 0
+        if(visible.value.index >= articles.value.length-1){
+            visible.value.index = 0
         } else {
-            visibleArticle.value ++
+            visible.value.index ++
         }
+        visible.value.moveTo = 'left';
     } else {
-        if(visibleArticle.value <= 0){
-            visibleArticle.value = articles.value.length-1
+        if(visible.value.index <= 0){
+            visible.value.index = articles.value.length-1
         } else {
-            visibleArticle.value --
+            visible.value.index --
         }
+        visible.value.moveTo = 'right';
     }
 }
 const pinnedArticleNext = ()=>{

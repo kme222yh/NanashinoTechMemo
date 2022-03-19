@@ -12,7 +12,7 @@
     <?= file_get_contents(__DIR__.'/index.html') ?>
   </head>
   <body>
-      <div id="opening-animation"><div class="lds-ripple"><div></div><div></div></div></div>
+      <div id="opening-animation"></div>
       <div id="app"></div>
   </body>
   <?php wp_footer() ?>

@@ -3,6 +3,7 @@
 import { RouterView } from 'vue-router'
 import Header from '@/components/header/Header.vue'
 import Footer from '@/components/footer/Footer.vue'
+import Messanger from '@/components/other//Messanger.vue'
 import GrayBackground from '@/components/other/GrayBackground.vue'
 import ScreenTransition from '@/components/other/ScreenTransition.vue'
 
@@ -59,6 +60,7 @@ router.afterEach(()=>appWatcher.run());
     <Header/>
     <RouterView :key="route.fullPath" />
     <Footer/>
+    <Messanger/>
     <GrayBackground />
     <ScreenTransition />
 </template>

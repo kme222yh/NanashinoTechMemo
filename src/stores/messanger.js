@@ -17,5 +17,8 @@ export const useMessangerStore = defineStore('Messanger', {
                 timeoutId:null,
             });
         },
+        clear(){
+            this.messageQueue = [];
+        },
     }
 })

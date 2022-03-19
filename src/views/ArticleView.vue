@@ -24,6 +24,7 @@
     }
     .topVisual{
         @include outerBody;
+        padding: 0 !important;
     }
     .relatedArticles{
         margin-top: 70px;

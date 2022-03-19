@@ -1,16 +1,18 @@
 <template>
     <div class="topVisual" :style="{'background-image': bgStyle }">
-        <h2 class="topVisual-title">
-            <router-link v-if="props.id" :to="{name: 'Article', params: {post_id: props.id}}">{{props.title}}</router-link>
-            <p v-else>{{props.title}}</p>
-        </h2>
+        <div class="topVisual-body">
+            <h2 class="topVisual-title">
+                <router-link v-if="props.id" :to="{name: 'Article', params: {post_id: props.id}}">{{props.title}}</router-link>
+                <p v-else>{{props.title}}</p>
+            </h2>
 
-        <router-link class="topVisual-category" v-if="props.category_slug" :to="{name: 'Category', params: {category: props.category_slug}}">{{props.category}}</router-link>
-        <p class="topVisual-category" v-else-if="props.category">{{props.category}}</p>
+            <router-link class="topVisual-category" v-if="props.category_slug" :to="{name: 'Category', params: {category: props.category_slug}}">{{props.category}}</router-link>
+            <p class="topVisual-category" v-else-if="props.category">{{props.category}}</p>
 
-        <div class="topVisual-date">
-            <small class="wrote"><i class="fas fa-pen"></i> {{props.date}}</small>
-            <small class="modified" v-if="props.date!=props.date_modified"><i class="fas fa-sync-alt"></i> {{props.date_modified}}</small>
+            <div class="topVisual-date">
+                <small class="wrote"><i class="fas fa-pen"></i> {{props.date}}</small>
+                <small class="modified" v-if="props.date!=props.date_modified"><i class="fas fa-sync-alt"></i> {{props.date_modified}}</small>
+            </div>
         </div>
     </div>
 </template>
@@ -18,15 +20,20 @@
 
 <style lang="scss">
 .topVisual{
-    position: relative;
     width: 100%;
-    height: 500px;
     background-size :cover;
     background-position: center;
     background-repeat: no-repeat;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    &-body{
+        @include innerBody;
+        max-width: 100vw;
+        height: 500px;
+        margin: 0 auto;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
     &-title{
         text-align: center;
         color: $text-light;

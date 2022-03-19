@@ -52,10 +52,10 @@ const router = createRouter({
         } else if(from.name) {  // HomeView
             return {
                 el: '.articlesDescription',
-                top: 60,
+                top: 70,
             }
         }
-        return { top: 0 } // fallback
+        return { top: 0 } // default
     }
 })
 

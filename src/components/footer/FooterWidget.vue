@@ -83,7 +83,7 @@ const appWatcher = new sw(doesAppReady, ()=>{
 const overWritten = ref(false);
 const tryOverWriteWppLink = ()=>{
     const $wpp = document.getElementsByClassName('popular-posts-sr')[0];
-    if($wpp){
+    if($wpp && $wpp.shadowRoot){
         const $aList = $wpp.shadowRoot.querySelectorAll('a');
         for(const $a of $aList){
             $a.addEventListener('click', e=>{

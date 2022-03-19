@@ -89,6 +89,8 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { useMessangerStore } from '@/stores/Messanger'
+import { useRouter } from 'vue-router'
+const router = useRouter();
 const messages = ref([]);
 const messangerStore = useMessangerStore();
 const messageQueue = computed(() => messangerStore.messageQueue);
@@ -108,4 +110,10 @@ const getMessage = () => {
 };
 
 watch(messageQueue, getMessage, {deep: true});
+router.beforeEach((to, from)=>{
+    if(from.name && to.fullPath == from.fullPath){
+        return;
+    }
+    messangerStore.clear();
+});
 </script>
