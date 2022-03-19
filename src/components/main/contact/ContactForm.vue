@@ -3,7 +3,7 @@
         <div class="contactForm-body">
             <div class="contactForm-row">
                 <transition><p class="contactForm-error" v-if="error.name">{{error.name}}</p></transition>
-                <input class="contactForm-input" type="text" v-model="form.name" placeholder="name">
+                <input class="contactForm-input" type="text" v-model="form.name" placeholder="お名前">
             </div>
             <div class="contactForm-row">
                 <transition><p class="contactForm-error" v-if="error.email">{{error.email}}</p></transition>
@@ -11,14 +11,14 @@
             </div>
             <div class="contactForm-row">
                 <transition><p class="contactForm-error" v-if="error.subject">{{error.subject}}</p></transition>
-                <input class="contactForm-input" type="text" v-model="form.subject" placeholder="subject">
+                <input class="contactForm-input" type="text" v-model="form.subject" placeholder="件名">
             </div>
             <div class="contactForm-row">
                 <transition><p class="contactForm-error" v-if="error.message">{{error.message}}</p></transition>
-                <textarea class="contactForm-input" name="message" v-model="form.message" rows="8" placeholder="message"></textarea>
+                <textarea class="contactForm-input" name="message" v-model="form.message" rows="8" placeholder="お問合せ内容"></textarea>
             </div>
             <div class="contactForm-row">
-                <transition><p class="contactForm-send" v-if="send">Your message has been sent successfully.</p></transition>
+                <transition><p class="contactForm-send" v-if="send">メッセージの送信が完了しました</p></transition>
                 <div class="contactForm-button" :class="{disabled: send}" @click="button_action">{{buttonMessage}}</div>
             </div>
         </div>
@@ -130,23 +130,23 @@ const validation = ()=>{
     error.value.email = '';
     let result = true
     if(!form.value.name){
-        error.value.name = 'Required';
+        error.value.name = '必須';
         result = result&false;
     }
     if(!form.value.subject){
-        error.value.subject = 'Required';
+        error.value.subject = '必須';
         result = result&false;
     }
     if(!form.value.message){
-        error.value.message = 'Required';
+        error.value.message = '必須';
         result = result&false;
     }
     var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if(!form.value.email){
-        error.value.email = 'Required';
+        error.value.email = '必須';
         result = result&false;
     } else if(!re.test(form.value.email)){
-        error.value.email = 'Please enter correct email address'
+        error.value.email = '正しいメールアドレスを入力してください'
         result = result&false
     }
 
@@ -161,12 +161,12 @@ const button_action = ()=>{
             setTimeout(decrease, 10);
             setTimeout(()=>{
                 sending.value = false;
-                messangerStore.push('Submit button activated', 'info');
+                messangerStore.push('送信ボタンが有効化されました', 'info');
             }, 1500);
         }).catch(()=>{
             setTimeout(()=>{
                 sending.value = false;
-                messangerStore.push('Failed to acquire token', 'warning');
+                messangerStore.push('送信ボタンの有効化に失敗しました', 'warning');
             }, 500);
         })
     } else if (validation()){
@@ -178,15 +178,15 @@ const button_action = ()=>{
         AxiosMailer.post(ep.mailerSend, params).then(()=>{
             sending.value = false
             send.value = true
-            messangerStore.push('Your inquiry has been completed', 'success');
+            messangerStore.push('お問い合わせが完了しました', 'success');
         }).catch(()=>{
             setTimeout(()=>{
                 sending.value = false;
-                messangerStore.push('Transmission failed', 'warning');
+                messangerStore.push('送信に失敗しました', 'warning');
             }, 500);
         })
     } else {
-        messangerStore.push('Please confirm your inquiry', 'warning');
+        messangerStore.push('お問合せ内容をご確認ください', 'warning');
     }
 }
 

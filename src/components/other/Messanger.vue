@@ -52,7 +52,7 @@
         padding: 15px;
         line-height: 1.5;
         margin-bottom: 20px;
-        color: $text-dark;
+        color: $bg-white;
 
         &:before{
             font-family: "Font Awesome 5 Free";
@@ -68,18 +68,37 @@
 
         &.warning{
             background-color: $text-warning;
-            color: $text-light;
             &:before{content: "\f06a";}
         }
         &.success{
             background-color: $text-success;
-            color: $text-transparent-gray;
             &:before{content: "\f00c";}
         }
         &.info{
             background-color: $text-info;
-            color: $text-transparent-gray;
             &:before{content: "\f129";}
+        }
+    }
+
+
+    @include tablet{
+        &-text{
+            font-size: 18px;
+        }
+        &-item{
+            &.v-enter-to, &.v-leave-from{
+                max-height: 57px;
+            }
+        }
+    }
+    @include mobile{
+        &-text{
+            font-size: 16px;
+        }
+        &-item{
+            &.v-enter-to, &.v-leave-from{
+                max-height: 54px;
+            }
         }
     }
 }
