@@ -22,11 +22,10 @@
     text-align: center;
     max-width: 550px;
     width: 100%;
-    padding: 25px;
     margin: 20px;
     border-radius: 15px;
     &-body{
-
+        padding: 25px;
     }
     &-date{
         display: block;
@@ -59,6 +58,26 @@
     }
     &-title:hover, &-category:hover,{
         color: $text-transparent-gray;
+    }
+
+
+    @include tablet{
+        max-width: 480px;
+        margin: 20px 0;
+        &-body{
+            padding: 20px;
+        }
+        &-date{
+            margin-bottom: 15px;
+        }
+        &-title{
+            margin-bottom: 25px;
+            font-size: 19px;
+        }
+        &-media{
+            height: 179px;
+            margin-bottom: 25px;
+        }
     }
 }
 </style>

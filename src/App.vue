@@ -82,6 +82,7 @@ body{
     background-color: $bg-light;
     line-height: 2;
     font-size: 15px;
+    letter-spacing: .03em;
 }
 
 h2, h3, h4, h5{

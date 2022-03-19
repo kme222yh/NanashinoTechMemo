@@ -20,11 +20,18 @@
         &-body{
             @include outerBody;
             padding-top: 40px;
+            line-height: 1.3;
+            padding-bottom: 5px;
         }
         a{
             color: $text-blue;
             &:hover{
                 text-decoration: underline;
+            }
+        }
+        @include tablet{
+            &-body{
+                padding-top: 20px;
             }
         }
     }

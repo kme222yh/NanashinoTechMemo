@@ -30,6 +30,22 @@
             content: '';
         }
     }
+
+
+    @include tablet{
+        padding-top: 25px;
+        &-title{
+            margin-bottom: 15px;
+            &::after{
+                margin-top: 5px;
+            }
+        }
+    }
+    @include mobile{
+        &-title{
+            margin-bottom: 10px;
+        }
+    }
 }
 </style>
 

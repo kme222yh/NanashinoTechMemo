@@ -21,9 +21,10 @@
 .relatedArticles{
     &-body{
         padding-top: 50px;
+        @include outerBody;
+        max-width: 100vw;
     }
     &-title{
-        @include outerBody;
         color: $bg-transparent-gray;
         text-align: center;
         &::after{
@@ -44,6 +45,18 @@
         align-items: flex-start;
         flex-wrap: wrap;
         padding: 30px 0;
+    }
+
+    @include tablet{
+        &-body{
+            // padding-top: 40px;
+        }
+        &-title::after{
+            margin-top: 7px;
+        }
+        &-list{
+            padding: 25px 0;
+        }
     }
 }
 </style>

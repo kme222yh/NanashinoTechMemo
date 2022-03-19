@@ -24,13 +24,15 @@
 <style lang="scss">
 .articles{
     &-body{
+        padding: 30px 0;
+        @include outerBody;
+        max-width: 100vw;
         min-height: 70vh;
         position: relative;
         display: flex;
         justify-content: center;
         align-items: flex-start;
         flex-wrap: wrap;
-        padding: 30px 0;
     }
     &-empty{
         position: absolute;
@@ -66,6 +68,20 @@
         &.hidden{
             opacity: 0;
             transform: translateY(5%) scale(0.98);
+        }
+    }
+
+
+    @include tablet{
+        &-body{
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+    }
+    @include mobile{
+        &-body{
+            padding-top: 15px;
+            padding-bottom: 15px;
         }
     }
 }

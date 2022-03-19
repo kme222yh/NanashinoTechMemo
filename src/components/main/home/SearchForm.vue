@@ -48,6 +48,17 @@
         }
         flex-shrink: 0;
     }
+
+    @include tablet{
+        &-body{
+            height: 210px;
+        }
+    }
+    @include mobile{
+        &-body{
+            height: 180px;
+        }
+    }
 }
 </style>
 

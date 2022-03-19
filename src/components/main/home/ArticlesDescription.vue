@@ -17,10 +17,10 @@
         color: $text-transparent-gray;
         font-size: 35px;
         @include tablet{
-            font-size: 25px;
+            font-size: 30px;
         }
         @include mobile{
-            font-size: 20px;
+            font-size: 25px;
         }
     }
 }

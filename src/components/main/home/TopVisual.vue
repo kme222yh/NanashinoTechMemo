@@ -38,15 +38,14 @@
         text-align: center;
         color: $text-light;
         font-size: 40px;
-        @include tablet{font-size: 30px;}
-        @include mobile{font-size: 25px;}
+        line-height: 1.5;
     }
     &-category{
         color: $text-light;
         position: absolute;
-        top: 80px;
+        top: 50%;
         right: 50%;
-        transform: translateX(50%);
+        transform: translate(50%, -135px);
         font-size: 20px;
         padding: 0px 30px;
         border: 1px solid;
@@ -55,9 +54,9 @@
     &-date{
         color: $text-light;
         position: absolute;
-        bottom: 130px;
+        top: 50%;
         right: 50%;
-        transform: translateX(50%);
+        transform: translate(50%, 90px);
         width: 100%;
         text-align: center;
         .wrote, .modified{font-size: 14px;}
@@ -79,6 +78,39 @@
         transition: .5s;
         &:hover{
             color: $bg-transparent-white;
+        }
+    }
+
+
+    @include tablet{
+        &-body{
+            height: 450px;
+        }
+        &-title{
+            font-size: 30px;
+        }
+        &-category{
+            font-size: 18px;
+            transform: translate(50%, -120px);
+        }
+        &-date{
+            transform: translate(50%, 80px);
+        }
+    }
+    @include mobile{
+        &-body{
+            height: 400px;
+        }
+        &-title{
+            font-size: 25px;
+        }
+        &-category{
+            font-size: 17px;
+            transform: translate(50%, -110px);
+        }
+        &-date{
+            font-size: 13px;
+            transform: translate(50%, 75px);
         }
     }
 }

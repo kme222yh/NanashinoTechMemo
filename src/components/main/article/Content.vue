@@ -48,16 +48,20 @@
     }
 
 
-    h2,h3{
-        padding-left: 20px;
-        margin: 80px 0 30px 0;
+    h2,h3,p.subheading{
+        @include innerBody;
+        position: relative;
+        line-height: 1.4;
     }
     h2{
+        margin: 80px 0 30px 0;
         font-size: 26px;
-        margin-bottom: 10px;
+        margin-bottom: 40px;
         &::after{
-            margin-left: -20px;
-            display: block;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: calc(100% + 5px);
             height: 9px;
             width: 100%;
             border-radius: 10px;
@@ -66,8 +70,9 @@
         }
     }
     h3{
+        margin: 80px 0 30px 0;
+        padding-left: 15px;
         margin-top: 60px;
-        position: relative;
         &::before{
             position: absolute;
             top: 50%;
@@ -84,24 +89,21 @@
 
     p{
         font-size: 18px;
-        margin-bottom: 40px;
+        margin-bottom: 30px;
     }
 
     p.subheading{
-        padding-left: 20px;
+        padding-left: 15px;
         margin-bottom: 20px;
-
-        position: relative;
         &::before{
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
             left: 0;
             display: block;
-            height: 15px;
+            height: 65%;
             width: 9px;
-            border-radius: 3px;
-            // border: 3px solid $transparent-gray;
+            border-radius: 6px;
             background-color: $bg-transparent-gray;
             content: '';
         }
@@ -122,12 +124,31 @@
     }
 
     ul, ol{
+        padding: 20px 0;
+        @include innerBody;
         font-size: 18px;
-        padding: 20px 10px 20px 40px;
         margin-bottom: 40px;
         border: 2px dashed $bg-transparent-gray;
         border-radius: 5px;
-        li{margin: 8px 0;}
+        li{
+            line-height: 1.7;
+            margin-bottom: 20px;
+            margin-left: 15px;
+            position :relative;
+            &::before{
+                content: "";
+                position: absolute;
+                left: -20px;
+                top: 11px;
+                height: 8px;
+                width: 8px;
+                background-color: #122f3d80;
+                border-radius: 5px;
+            }
+            &:last-child{
+                margin-bottom: 0;
+            }
+        }
     }
 
     // Table of Contents Plus [wordpress plugin]
@@ -138,9 +159,27 @@
             a{
                 color: $text-blue;
             }
+            li::before{content: none;}
         }
         @include mobile{
             width: 100%;
+        }
+    }
+
+
+
+    @include tablet{
+        ul{
+            li{
+                margin-left: 23px;
+            }
+        }
+    }
+    @include mobile{
+        ul{
+            li{
+                margin-left: 25px;
+            }
         }
     }
 

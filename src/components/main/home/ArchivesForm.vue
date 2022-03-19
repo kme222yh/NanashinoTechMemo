@@ -52,6 +52,17 @@
             color: $text-dark;
         }
     }
+
+    @include tablet{
+        &-body{
+            height: 210px;
+        }
+    }
+    @include mobile{
+        &-body{
+            height: 180px;
+        }
+    }
 }
 </style>
 

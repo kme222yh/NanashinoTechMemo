@@ -30,6 +30,13 @@
         margin-top: 70px;
         border-top: 1px solid rgba(18,47,61,.2);
     }
+
+    @include tablet{
+        .relatedArticles{
+            margin-top: 0;
+            border: none;
+        }
+    }
 }
 </style>
 
