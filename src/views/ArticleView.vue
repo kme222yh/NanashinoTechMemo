@@ -58,11 +58,15 @@ const route = useRoute();
 const router = useRouter();
 
 const article = ref([]);
+const wppIncrement = ()=>{
+    axios.post(Endpoints.wppIncrement + `?wpp_id=${route.params.post_id}`);
+}
 const getArticleInfo = async () => {
     article.value = [];
 
     axios.get(Endpoints.article + '/' + route.params.post_id).then((res)=>{
         article.value = res.data;
+        wppIncrement();
         ajaxReadyStore.ready(Endpoints.article);
     }).catch((res)=>{
         router.push({name: 'NotFound'});

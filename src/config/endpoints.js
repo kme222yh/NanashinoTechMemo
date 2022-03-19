@@ -14,6 +14,7 @@ let Endpoints = {
     footerMenu: '/nanashinotechmemo/v1/menu/footer',
     archives: '/nanashinotechmemo/v1/archives',
     footerWidget: '/nanashinotechmemo/v1/widgets/footer',
+    wppIncrement: '/wordpress-popular-posts/v1/popular-posts',
 }
 
 
