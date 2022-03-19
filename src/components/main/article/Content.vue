@@ -151,6 +151,17 @@
         }
     }
 
+    .wp-block-image{
+        position: relative;
+        a{
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
+    }
+
     // Table of Contents Plus [wordpress plugin]
     #toc_container{
         ul{
@@ -212,5 +223,25 @@ const tryOverWriteTocLink = ()=>{
 const startTryOverWriteTocLink = ()=>{setTimeout(tryOverWriteTocLink, 500)};
 
 
-onMounted(startTryOverWriteTocLink);
+const tryOverWriteImgLink = ()=>{
+    const $article = document.getElementsByClassName('content-body')[0];
+    if($article.innerHTML){
+        const $imgList = $article.getElementsByClassName('wp-block-image');
+        for(const $img of $imgList){
+            const $a = document.createElement('a');
+            $a.target = '_brank';
+            $a.href = $img.children[0].src;
+            $img.style =
+            $img.appendChild($a);
+        }
+    } else {
+        setTimeout(tryOverWriteImgLink, 700);
+    }
+}
+const startTryOverWriteImgLink = ()=>{setTimeout(tryOverWriteImgLink, 500)};
+
+onMounted(()=>{
+    startTryOverWriteTocLink();
+    startTryOverWriteImgLink();
+});
 </script>
