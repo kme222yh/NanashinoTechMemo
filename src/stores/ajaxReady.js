@@ -19,7 +19,8 @@ export const useAjaxReadyStore = defineStore('ajaxReady', {
             this.page[something] = true;
         },
         readyOther(){
-            this.page['otherView'] = true;
+            this.ready('otherView');
+            console.log('other ready!!')
         },
         refresh(){
             this.page = [];

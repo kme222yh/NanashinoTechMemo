@@ -23,8 +23,4 @@
 
 
 <script setup>
-import { onMounted } from 'vue'
-import { useAjaxReadyStore } from '@/stores/ajaxReady'
-const ajaxReadyStore = useAjaxReadyStore();
-onMounted(ajaxReadyStore.readyOther);
 </script>

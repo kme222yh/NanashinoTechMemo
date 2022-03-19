@@ -16,8 +16,11 @@
         background-color: $bg-light;
 
 
-        &.v-leave-active, &.v-enter-active{
+        &.v-enter-active{
             transition: .5s;
+        }
+        &.v-leave-active{
+            transition: .7s;
         }
         &.v-leave-from, &.v-enter-to{
             opacity: 1;
@@ -42,7 +45,7 @@ const waitmSecound = (s=500)=>{
 }
 
 
-const hideOpeningAnimation = ()=>{
+let finishOpeningAnimation = ()=>{
     const el = document.getElementById('opening-animation');
     el.classList.add('hide');
     setTimeout(()=>{el.style.display="none"}, 1010);
@@ -54,17 +57,25 @@ const { doesAppReady, refresh } = usePageDisplayReady();
 import { loadScripts, unLoadScript } from '@/config/wpJavascriptDependency'
 import sw from '@/helper/simpleWatcher'
 const visible = ref(false);
-const appWatcher = new sw(doesAppReady, ()=>{
+const finishScreenTransition = ()=>{
     visible.value = false;
-    hideOpeningAnimation();
-});
+    finishOpeningAnimation();
+    finishOpeningAnimation = ()=>{};
+}
+const appWatcher = new sw(doesAppReady, finishScreenTransition);
 
 
 router.beforeEach(async (to, from)=>{
-    if(from.name && to.fullPath == from.fullPath){return;}
+    if(from.name && to.fullPath == from.fullPath){
+        return;
+    }
     visible.value = true;
     refresh();
+    if(to.name == 'NotFound' || to.name == 'Contact'){
+        setTimeout(finishScreenTransition, 500);
+    } else {
+        appWatcher.run();
+    }
     await waitmSecound();
-    appWatcher.run()
 });
 </script>

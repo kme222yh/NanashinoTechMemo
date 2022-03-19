@@ -16,6 +16,7 @@
         <div class="articles-load" v-if="nextPage" @click="moreArticles">
             <p class="articles-load-text">さらに読み込む…</p>
         </div>
+        <StayBackground :visible="moreLoading"/>
     </section>
 </template>
 
@@ -75,6 +76,7 @@
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import Endpoints from '@/config/endpoints'
 import ArticleLink from './ArticleLink.vue'
+import StayBackground from '@/components/other/StayBackground.vue'
 
 import { useAjaxReadyStore } from '@/stores/ajaxReady'
 const ajaxReadyStore = useAjaxReadyStore();
@@ -89,6 +91,7 @@ let routerHook = null;
 
 const articles = ref([]);
 const displayedArticleIdx = ref(-1);
+const moreLoading = ref(false);
 const nextPage = ref(1);
 const initArticles = async ()=>{
     nextPage.value = 1;
@@ -101,10 +104,12 @@ const initArticles = async ()=>{
     ajaxReadyStore.ready(Endpoints.articles);
 }
 const moreArticles = async ()=>{
+    moreLoading.value = true;
     const res = await axios.get(Endpoints.articles, {params: Object.assign({page: nextPage.value}, route.query, route.params)});
     Array.prototype.push.apply(articles.value, res.data.articles);
     nextPage.value = res.data.next_page;
     setTimeout(f, 300);
+    setTimeout(()=>{moreLoading.value = false;}, 1000);
 }
 
 let watchStopHandler = null;

@@ -2,9 +2,9 @@
     <main class="contactView">
         <div class="contactView-body">
             <Messanger/>
-            <h1 class="contactView-title">{{article.title}}</h1>
+            <h1 class="contactView-title">Contact</h1>
             <ContactForm/>
-            <Breadcrumb :title="article.title" :category="article.category" :category_slug="article.category_slug" />
+            <Breadcrumb title="Contact" />
         </div>
     </main>
 </template>
@@ -39,23 +39,4 @@
 import Breadcrumb from '@/components/main/article/Breadcrumb.vue'
 import ContactForm from '@/components/main/contact/ContactForm.vue'
 import Messanger from '@/components/main/contact/Messanger.vue'
-
-import { ref, onMounted, onUnmounted } from 'vue'
-import Endpoints from '@/config/endpoints'
-
-import { useAjaxReadyStore } from '@/stores/ajaxReady'
-const ajaxReadyStore = useAjaxReadyStore();
-
-import { useRoute } from 'vue-router'
-const route = useRoute();
-
-const article = ref([]);
-const getArticleInfo = async () => {
-    article.value = [];
-    const res = await axios.get(Endpoints.article + '/' + 'contact');
-    article.value = res.data;
-    ajaxReadyStore.ready(Endpoints.article);
-}
-
-onMounted(getArticleInfo);
 </script>
