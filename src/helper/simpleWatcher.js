@@ -13,6 +13,12 @@ class simpleWatcher {
             nextTick(this.f);
         })
     }
+
+    break(){
+        if(this.watchStopHandler){
+            this.watchStopHandler();
+        }
+    }
 }
 
 

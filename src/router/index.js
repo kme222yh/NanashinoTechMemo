@@ -40,7 +40,21 @@ const router = createRouter({
         },
     ],
     scrollBehavior (to, from, savedPosition) {
-        if(from.name && to.fullPath == from.fullPath){
+        if(to.hash){
+            return new Promise((resolve, reject) => {
+                const f = () => {
+                    if(document.getElementById(to.hash.slice(1))){
+                        resolve({
+                            el: to.hash,
+                            top: 80,
+                        })
+                    } else {
+                        setTimeout(f, 10);
+                    }
+                }
+                setTimeout(f, 10);
+            })
+        } else if(from.name && to.fullPath == from.fullPath){
             return;
         } else if(to.name == 'NotFound' || to.name == 'Contact'){
             return { top: 0 }

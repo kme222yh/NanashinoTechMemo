@@ -200,6 +200,8 @@
 
 <script setup>
 import { defineProps, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+const router = useRouter();
 const props = defineProps({
     content: String,
 })
@@ -210,10 +212,10 @@ const tryOverWriteTocLink = ()=>{
         const $aList = $toc.querySelectorAll('a');
         for(const $a of $aList){
             $a.addEventListener('click', e=>{
-                const id = e.currentTarget.getAttribute('href').substr(1);
-                document.getElementById(id).scrollIntoView();
-                window.scrollBy(0, -70)
                 e.preventDefault();
+                const uri = new URL($a.href);
+                const fullPath = uri.pathname + uri.hash
+                router.push(fullPath);
             })
         }
     } else {

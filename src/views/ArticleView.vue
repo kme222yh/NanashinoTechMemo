@@ -69,7 +69,9 @@ const getArticleInfo = async () => {
 
     axios.get(Endpoints.article + '/' + route.params.post_id).then((res)=>{
         article.value = res.data;
-        wppIncrement();
+        if(!isNaN(route.params.post_id)){
+            wppIncrement();
+        }
         ajaxReadyStore.ready(Endpoints.article);
     }).catch((res)=>{
         router.push({name: 'NotFound'});
