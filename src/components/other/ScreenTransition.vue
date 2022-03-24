@@ -108,8 +108,8 @@ const waitmSecound = (s)=>{
 
 let finishOpeningAnimation = ()=>{
     const el = document.getElementById('opening-animation');
-    setTimeout(()=>{el.classList.add('hide')}, 1000);
-    setTimeout(()=>{el.style.display="none"}, 2000);
+    el.classList.add('hide');
+    setTimeout(()=>{el.style.display="none"}, 1010);
 }
 
 
@@ -135,7 +135,7 @@ router.beforeEach(async (to, from)=>{
     await nextTick();
     await waitmSecound(800);
     refresh();
-    if(to.name=='NotFound' || to.name=='Contact' || to.hash | to.path==from.path){
+    if(to.name == 'NotFound' || to.name == 'Contact'){
         setTimeout(finishScreenTransition, 500);
     } else {
         appWatcher.run();

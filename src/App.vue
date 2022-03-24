@@ -51,23 +51,14 @@ const appWatcher = new sw(doesAppReady, loadScripts);
 
 // add function to event hook
 onMounted(fetchLayoutData);
-router.beforeEach((to, from)=>{
-    if(to.path != from.path){
-        appWatcher.break();
-        unLoadScript();
-    }
-});
-router.afterEach((to, from)=>{
-    if(to.path != from.path){
-        appWatcher.run();
-    }
-});
+router.beforeEach(unLoadScript);
+router.afterEach(()=>appWatcher.run());
 </script>
 
 
 <template>
     <Header/>
-    <RouterView :key="route.path" />
+    <RouterView :key="route.fullPath" />
     <Footer/>
     <Messanger/>
     <GrayBackground />
