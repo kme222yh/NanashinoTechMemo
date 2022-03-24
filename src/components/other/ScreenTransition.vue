@@ -115,7 +115,6 @@ let finishOpeningAnimation = ()=>{
 
 import usePageDisplayReady from '@/config/pageDisplayReady'
 const { doesAppReady, refresh } = usePageDisplayReady();
-import { loadScripts, unLoadScript } from '@/config/wpJavascriptDependency'
 import sw from '@/helper/simpleWatcher'
 const visible = ref(false);
 const finishScreenTransition = async ()=>{

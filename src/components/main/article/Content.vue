@@ -199,12 +199,13 @@
 
 
 <script setup>
-import { defineProps, onMounted } from 'vue'
+import { defineProps, onMounted, onUnmounted } from 'vue'
 const props = defineProps({
     content: String,
 })
 
-const tryOverWriteTocLink = ()=>{
+
+const overWriteTocLink = ()=>{
     const $toc = document.getElementById('toc_container');
     if($toc){
         const $aList = $toc.querySelectorAll('a');
@@ -216,32 +217,37 @@ const tryOverWriteTocLink = ()=>{
                 e.preventDefault();
             })
         }
-    } else {
-        setTimeout(tryOverWriteTocLink, 700);
     }
 }
-const startTryOverWriteTocLink = ()=>{setTimeout(tryOverWriteTocLink, 500)};
-
-
-const tryOverWriteImgLink = ()=>{
+const overWriteImgLink = ()=>{
     const $article = document.getElementsByClassName('content-body')[0];
-    if($article.innerHTML){
-        const $imgList = $article.getElementsByClassName('wp-block-image');
-        for(const $img of $imgList){
-            const $a = document.createElement('a');
-            $a.target = '_brank';
-            $a.href = $img.children[0].src;
-            $img.style =
-            $img.appendChild($a);
-        }
-    } else {
-        setTimeout(tryOverWriteImgLink, 700);
+    const $imgList = $article.getElementsByClassName('wp-block-image');
+    for(const $img of $imgList){
+        const $a = document.createElement('a');
+        $a.target = '_brank';
+        $a.href = $img.children[0].src;
+        $img.style =
+        $img.appendChild($a);
     }
 }
-const startTryOverWriteImgLink = ()=>{setTimeout(tryOverWriteImgLink, 500)};
+
+
+import { loadScripts, unLoadScript } from '@/config/wpJavascriptDependency'
+import st from '@/helper/simpleTrier'
+const contentWatcher = new st;
+contentWatcher.do(()=>{
+    loadScripts('hcb');
+    overWriteTocLink();
+    overWriteImgLink();
+}).when(()=>{
+    return document.getElementsByClassName('content-body')[0].children.length>0
+})
+
 
 onMounted(()=>{
-    startTryOverWriteTocLink();
-    startTryOverWriteImgLink();
+    contentWatcher.run();
 });
+onUnmounted(()=>{
+    unLoadScript('hcb');
+})
 </script>

@@ -10,7 +10,7 @@
                 :media="article.media"
             />
             <Content :content="article.content" />
-            <RelatedArticles />
+            <RelatedArticles v-if="route.name=='Article'" />
             <Breadcrumb :title="article.title" :category="article.category" :category_slug="article.category_slug" />
         </div>
     </main>
@@ -19,9 +19,6 @@
 
 <style lang="scss">
 .articleView{
-    &-body{
-
-    }
     .topVisual{
         @include outerBody;
         padding: 0 !important;
@@ -66,10 +63,11 @@ const wppIncrement = ()=>{
 }
 const getArticleInfo = async () => {
     article.value = [];
-
     axios.get(Endpoints.article + '/' + route.params.post_id).then((res)=>{
         article.value = res.data;
-        wppIncrement();
+        if(route.name == 'Article'){
+            wppIncrement();
+        }
         ajaxReadyStore.ready(Endpoints.article);
     }).catch((res)=>{
         router.push({name: 'NotFound'});

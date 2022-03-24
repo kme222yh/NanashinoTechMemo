@@ -59,54 +59,43 @@
 
 
 <script setup>
-import { ref, onMounted, inject, nextTick } from 'vue'
-import Endpoints from '@/config/endpoints'
-
-import { useAjaxReadyStore } from '@/stores/ajaxReady'
-const ajaxReadyStore = useAjaxReadyStore();
-
+import { ref, onMounted, inject } from 'vue'
 import { useRouter } from 'vue-router'
 const router = useRouter();
-
-
-// Control the javascript that wp depends on.
-import usePageDisplayReady from '@/config/pageDisplayReady'
-const { doesAppReady } = usePageDisplayReady();
-import sw from '@/helper/simpleWatcher'
-const appWatcher = new sw(doesAppReady, ()=>{
-    // wpp widget setup
-    nextTick(()=>{document.dispatchEvent((new Event('DOMContentLoaded')))})
-});
-
-
-// over write links of wpp widget
-const overWritten = ref(false);
-const tryOverWriteWppLink = ()=>{
-    const $wpp = document.getElementsByClassName('popular-posts-sr')[0];
-    if($wpp && $wpp.shadowRoot){
-        const $aList = $wpp.shadowRoot.querySelectorAll('a');
-        for(const $a of $aList){
-            $a.addEventListener('click', e=>{
-                const url = (new URL(e.currentTarget.getAttribute('href'))).pathname;
-                if(url != window.location.pathname){
-                    router.push(url);
-                }
-                e.preventDefault();
-            })
-        }
-        overWritten.value = true;
-    } else {
-        startTryOverWriteWppLink();
-    }
-}
-const startTryOverWriteWppLink = ()=>{setTimeout(tryOverWriteWppLink, 500)};
 
 
 const widget = inject('footerWidget');
 
 
-onMounted(async ()=>{
-    appWatcher.run()
-    startTryOverWriteWppLink();
+import { loadScripts, unLoadScript } from '@/config/wpJavascriptDependency'
+import st from '@/helper/simpleTrier'
+const widgetWatcher = new st;
+widgetWatcher.do(()=>{
+    document.dispatchEvent((new Event('DOMContentLoaded')));
+    loadScripts('twitter');
+}).when(()=>document.getElementsByClassName('widget').length>0);
+const wppWatcher = new st;
+wppWatcher.do(()=>{
+    const $wpp = document.getElementsByClassName('popular-posts-sr')[0];
+    const $aList = $wpp.shadowRoot.querySelectorAll('a');
+    for(const $a of $aList){
+        const $aList = $wpp.shadowRoot.querySelectorAll('a');
+        $a.addEventListener('click', e=>{
+            const url = (new URL(e.currentTarget.getAttribute('href'))).pathname;
+            if(url != window.location.pathname){
+                router.push(url);
+            }
+            e.preventDefault();
+        })
+    }
+}).when(()=>{
+    const $wpp = document.getElementsByClassName('popular-posts-sr')[0];
+    return $wpp && $wpp.shadowRoot;
+});
+
+
+onMounted(()=>{
+    widgetWatcher.run()
+    wppWatcher.run();
 })
 </script>

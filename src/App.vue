@@ -41,18 +41,7 @@ const fetchLayoutData = async ()=>{
 }
 
 
-// Control the javascript that wp depends on.
-import { loadScripts, unLoadScript } from '@/config/wpJavascriptDependency'
-import usePageDisplayReady from '@/config/pageDisplayReady'
-const { doesAppReady } = usePageDisplayReady();
-import sw from '@/helper/simpleWatcher'
-const appWatcher = new sw(doesAppReady, loadScripts);
-
-
-// add function to event hook
 onMounted(fetchLayoutData);
-router.beforeEach(unLoadScript);
-router.afterEach(()=>appWatcher.run());
 </script>
 
 

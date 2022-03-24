@@ -29,8 +29,13 @@ const router = createRouter({
             component: () => import('@/views/ContactView.vue'),
         },
         {
-            path: '/:post_id',
+            path: '/:post_id(\\d+)',
             name: 'Article',
+            component: () => import('@/views/ArticleView.vue'),
+        },
+        {
+            path: '/:post_id',
+            name: 'Page',
             component: () => import('@/views/ArticleView.vue'),
         },
         {
@@ -44,7 +49,7 @@ const router = createRouter({
             return;
         } else if(to.name == 'NotFound' || to.name == 'Contact'){
             return { top: 0 }
-        } else if(to.name == 'Article'){
+        } else if(to.name == 'Article' || to.name == 'Page'){
             return {
                 el: '.topVisual',
                 top: 0,
