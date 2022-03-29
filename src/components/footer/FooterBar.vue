@@ -96,7 +96,8 @@ import Endpoints from '@/config/endpoints'
 import { useAjaxReadyStore } from '@/stores/ajaxReady'
 const ajaxReadyStore = useAjaxReadyStore();
 
-const copyright = `copyright ©︎ ${(new Date).getFullYear()} ${document.title}.`;
+const siteTitle = document.getElementsByName('site-title')[0].content;
+const copyright = `copyright ©︎ ${(new Date).getFullYear()} ${siteTitle}.`;
 
 const menus = inject('footerMenu');
 
