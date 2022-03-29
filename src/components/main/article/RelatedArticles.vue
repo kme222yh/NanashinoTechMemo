@@ -22,7 +22,8 @@
     &-body{
         padding-top: 50px;
         @include outerBody;
-        max-width: 100vw;
+        padding-left: 10px;
+        padding-right: 10px;
     }
     &-title{
         color: $bg-transparent-gray;
@@ -79,7 +80,7 @@ const articles = ref([]);
 const initArticles = async ()=>{
     articles.value = [];
     if(/^[-]?([1-9]\d*|0)(\.\d+)?$/.test(route.params.post_id)){
-        const res = await axios.get(Endpoints.related + '/' + route.params.post_id, {params: {_embed: true, limit: 10}});
+        const res = await axios.get(Endpoints.related + '/' + route.params.post_id, {params: {_embed: true, limit: 4}});
         articles.value = res.data;
     }
     ajaxReadyStore.ready(Endpoints.related);
