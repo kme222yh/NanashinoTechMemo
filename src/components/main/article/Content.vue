@@ -13,7 +13,14 @@
         min-height: 50vh;
         padding-top: 70px;
         padding-bottom: 70px;
+
+        font-size: 18px;
+        &>*{
+            margin: 1.5em 0;
+        }
     }
+
+
 
     .wp-block-embed, .wp-block-image {
         max-width: 100%;
@@ -52,11 +59,10 @@
         @include innerBody;
         position: relative;
         line-height: 1.4;
+        margin-top: 3em;
     }
     h2{
-        margin: 80px 0 30px 0;
         font-size: 26px;
-        margin-bottom: 40px;
         &::after{
             position: absolute;
             left: 0;
@@ -70,9 +76,7 @@
         }
     }
     h3{
-        margin: 80px 0 30px 0;
         padding-left: 15px;
-        margin-top: 60px;
         &::before{
             position: absolute;
             top: 50%;
@@ -86,15 +90,8 @@
             content: '';
         }
     }
-
-    p{
-        font-size: 18px;
-        margin-bottom: 30px;
-    }
-
     p.subheading{
         padding-left: 15px;
-        margin-bottom: 20px;
         &::before{
             position: absolute;
             top: 50%;
@@ -153,6 +150,10 @@
 
     .wp-block-image{
         position: relative;
+        transition: .3s;
+        &:hover{
+            opacity: .9;
+        }
         a{
             position: absolute;
             left: 0;
