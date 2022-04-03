@@ -63,15 +63,21 @@ const wppIncrement = ()=>{
 }
 const getArticleInfo = async () => {
     article.value = [];
-    axios.get(Endpoints.article + '/' + route.params.post_id).then((res)=>{
-        article.value = res.data;
-        if(route.name == 'Article'){
-            wppIncrement();
-        }
+    // preview
+    if(typeof(wp_preview) !== 'undefined'){
+        article.value = wp_preview;
         ajaxReadyStore.ready(Endpoints.article);
-    }).catch((res)=>{
-        router.push({name: 'NotFound'});
-    });
+    } else {
+        axios.get(Endpoints.article + '/' + route.params.post_id).then((res)=>{
+            article.value = res.data;
+            if(route.name == 'Article'){
+                wppIncrement();
+            }
+            ajaxReadyStore.ready(Endpoints.article);
+        }).catch((res)=>{
+            router.push({name: 'NotFound'});
+        });
+    }
 }
 
 onMounted(getArticleInfo);

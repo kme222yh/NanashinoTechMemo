@@ -8,6 +8,9 @@ require_once('wp_custom/menu_location.php');
 // configure custom widgets
 require_once('wp_custom/widgets.php');
 
+// configure custom widgets
+require_once('wp_custom/js_valuable.php');
+
 // Adding custom endpoints
 require_once('endpoints/index.php');
 

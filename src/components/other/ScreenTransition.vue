@@ -95,8 +95,9 @@
 
 <script setup>
 import { ref, onMounted, watch, computed, nextTick } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 const router = useRouter();
+const route = useRoute();
 
 
 const waitmSecound = (s)=>{
@@ -127,6 +128,14 @@ const appWatcher = new sw(doesAppReady, finishScreenTransition);
 
 
 router.beforeEach(async (to, from)=>{
+
+    // preview
+    if(to.name != 'Article' && to.query.preview){
+        await waitmSecound(1000);
+        router.push({name: 'Article', params: {post_id: 0}, query: to.query});
+        return;
+    }
+
     if(from.name && to.fullPath == from.fullPath){
         return;
     }
@@ -140,4 +149,13 @@ router.beforeEach(async (to, from)=>{
         appWatcher.run();
     }
 });
+
+// let routerHook = null;
+// routerHook = router.afterEach(()=>{
+//     console.log('after')
+//     if(route.query.preview){
+//         router.push({name: 'Article', params: {post_id: 0}, query: route.query});
+//     }
+//     routerHook();
+// })
 </script>
