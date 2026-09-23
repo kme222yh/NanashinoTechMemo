@@ -35,7 +35,7 @@
 </style>
 
 
-<script setup>
+<script setup lang="ts">
 import { useOpenManagimentStore } from '@/stores/openManagiment'
 const openManagimentStore = useOpenManagimentStore();
 </script>

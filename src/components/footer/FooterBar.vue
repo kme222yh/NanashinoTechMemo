@@ -89,29 +89,29 @@
 </style>
 
 
-<script setup>
-import { inject } from 'vue'
+<script setup lang="ts">
+import { inject, ref } from 'vue'
+import { getMeta } from '@/config/meta'
+import { appDataKeys } from '@/injectionKeys'
 
-const siteTitle = document.getElementsByName('site-title')[0].content;
+const siteTitle = getMeta('site-title');
 const copyright = `copyright ©︎ ${(new Date).getFullYear()} ${siteTitle}.`;
 
-const menus = inject('footerMenu');
+const menus = inject(appDataKeys.footerMenu, ref([]));
 
+// scroll to the top in 800ms with cubic easing
+const SCROLL_DURATION = 800;
 const scrollToTop = ()=>{
-    const f = function(t){
-        return -(f.L/f.T/f.T/f.T)*t*t*(2*t-3*f.T) + f.C
+    const start = window.scrollY;
+    const positionAt = (t: number) => start - start * t * t * (3 * SCROLL_DURATION - 2 * t) / SCROLL_DURATION ** 3;
+    const step = (t: number)=>{
+        if(t < SCROLL_DURATION){
+            window.scrollTo(0, positionAt(t));
+            setTimeout(step, 10, t + 10);
+        } else {
+            window.scrollTo(0, 0);
+        }
     }
-    f.T = 800
-    f.L = -scrollY
-    f.C = scrollY
-    const sct = (t)=>{
-        window.scrollTo(0, sct.f(t))
-        if(t<sct.f.T)
-            setTimeout(sct, 10, t+10)
-        else
-            window.scrollTo(0, f.C+f.L)
-    }
-    sct.f = f
-    sct(0)
+    step(0);
 };
 </script>

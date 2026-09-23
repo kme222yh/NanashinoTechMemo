@@ -24,11 +24,6 @@ const router = createRouter({
             component: () => import('@/views/HomeView.vue'),
         },
         {
-            path: '/contact',
-            name: 'Contact',
-            component: () => import('@/views/ContactView.vue'),
-        },
-        {
             path: '/:post_id(\\d+)',
             name: 'Article',
             component: () => import('@/views/ArticleView.vue'),
@@ -47,7 +42,7 @@ const router = createRouter({
     scrollBehavior (to, from) {
         if(from.name && to.fullPath == from.fullPath){
             return;
-        } else if(to.name == 'NotFound' || to.name == 'Contact'){
+        } else if(to.name == 'NotFound'){
             return { top: 0 }
         } else if(to.name == 'Article' || to.name == 'Page'){
             return {

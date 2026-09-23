@@ -41,8 +41,9 @@
 </style>
 
 
-<script setup>
+<script setup lang="ts">
 import GlobalMenuButton from './GlobalMenuButton.vue'
+import { getMeta } from '@/config/meta'
 
-const siteTitle = document.getElementsByName('site-title')[0].content;
+const siteTitle = getMeta('site-title');
 </script>

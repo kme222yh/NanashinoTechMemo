@@ -8,6 +8,9 @@ add_theme_support('title-tag');
 // load the Vue app built by Vite
 require_once('wp_custom/vite.php');
 
+// make Vue Router only routes (/search, /archive) valid WordPress URLs
+require_once('wp_custom/rewrite.php');
+
 // configure custom menu
 require_once('wp_custom/menu_location.php');
 

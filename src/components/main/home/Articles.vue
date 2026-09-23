@@ -88,10 +88,11 @@
 </style>
 
 
-<script setup>
+<script setup lang="ts">
 import axios from 'axios'
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, type WatchSource, type WatchStopHandle } from 'vue'
 import Endpoints from '@/config/endpoints'
+import type { ArticlesResponse, ArticleSummary } from '@/types/api'
 import ArticleLink from './ArticleLink.vue'
 import StayBackground from '@/components/other/StayBackground.vue'
 
@@ -104,15 +105,15 @@ const {doesReadyHomeView} = usePageDisplayReady();
 import { useRoute } from 'vue-router'
 const route = useRoute();
 
-const articles = ref([]);
+const articles = ref<ArticleSummary[]>([]);
 const displayedArticleIdx = ref(-1);
 const moreLoading = ref(false);
-const nextPage = ref(1);
+const nextPage = ref<number | null>(1);
 const initArticles = async ()=>{
     nextPage.value = 1;
     articles.value = [];
     displayedArticleIdx.value = -1;
-    const res = await axios.get(Endpoints.articles, {params: Object.assign({page: nextPage.value}, route.query, route.params)});
+    const res = await axios.get<ArticlesResponse>(Endpoints.articles, {params: Object.assign({page: nextPage.value}, route.query, route.params)});
     watchStopHandler = startRoutingWatch(doesReadyHomeView);
     articles.value = res.data.articles;
     nextPage.value = res.data.next_page;
@@ -120,23 +121,23 @@ const initArticles = async ()=>{
 }
 const moreArticles = async ()=>{
     moreLoading.value = true;
-    const res = await axios.get(Endpoints.articles, {params: Object.assign({page: nextPage.value}, route.query, route.params)});
+    const res = await axios.get<ArticlesResponse>(Endpoints.articles, {params: Object.assign({page: nextPage.value}, route.query, route.params)});
     Array.prototype.push.apply(articles.value, res.data.articles);
     nextPage.value = res.data.next_page;
     setTimeout(f, 300);
     setTimeout(()=>{moreLoading.value = false;}, 1000);
 }
 
-let watchStopHandler = null;
+let watchStopHandler: WatchStopHandle | null = null;
 const f = ()=>{
     if(displayedArticleIdx.value < articles.value.length-1){
         displayedArticleIdx.value++
         setTimeout(f, 300);
     }
 }
-const startRoutingWatch = (target)=>{
+const startRoutingWatch = (target: WatchSource)=>{
     return watch(target, ()=>{
-        watchStopHandler();
+        watchStopHandler?.();
         setTimeout(f, 300);
     })
 }

@@ -29,7 +29,7 @@
             content: "\f0d7";
             font-size: 20px;
             font-weight: 900;
-            font-family: "Font Awesome 5 Free";
+            font-family: "Font Awesome 7 Free";
             color: $text-transparent-gray;
             pointer-events: none;
         }
@@ -67,12 +67,13 @@
 </style>
 
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref, onUnmounted, inject } from 'vue'
+import { appDataKeys } from '@/injectionKeys'
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter();
 const route = useRoute();
-let routerHook = null;
+let routerHook: (() => void) | null = null;
 
 const searchParam = ref('');
 const doSearch = ()=>{
@@ -91,13 +92,13 @@ const initSearchParam = () => {
     }
 }
 
-const archives = inject('archives');
+const archives = inject(appDataKeys.archives, ref([]));
 
 onMounted(()=>{
     initSearchParam();
     routerHook = router.afterEach(initSearchParam);
 });
 onUnmounted(()=>{
-    routerHook();
+    routerHook?.();
 })
 </script>

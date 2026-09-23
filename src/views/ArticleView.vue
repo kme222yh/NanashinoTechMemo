@@ -41,7 +41,7 @@
 </style>
 
 
-<script setup>
+<script setup lang="ts">
 import axios from 'axios'
 import TopVisual from '@/components/main/home/TopVisual.vue'
 import Content from '@/components/main/article/Content.vue'
@@ -50,6 +50,7 @@ import RelatedArticles from '@/components/main/article/RelatedArticles.vue'
 
 import { ref, onMounted } from 'vue'
 import Endpoints from '@/config/endpoints'
+import type { ArticleDetail } from '@/types/api'
 
 import { useAjaxReadyStore } from '@/stores/ajaxReady'
 const ajaxReadyStore = useAjaxReadyStore();
@@ -58,18 +59,18 @@ import { useRoute, useRouter } from 'vue-router'
 const route = useRoute();
 const router = useRouter();
 
-const article = ref([]);
+const article = ref<Partial<ArticleDetail>>({});
 const wppIncrement = ()=>{
     axios.post(`${Endpoints.wppIncrement}/${route.params.post_id}`);
 }
 const getArticleInfo = async () => {
-    article.value = [];
+    article.value = {};
     // preview
     if(window.wp_preview){
         article.value = window.wp_preview;
         ajaxReadyStore.ready(Endpoints.article);
     } else {
-        axios.get(Endpoints.article + '/' + route.params.post_id).then((res)=>{
+        axios.get<ArticleDetail>(Endpoints.article + '/' + route.params.post_id).then((res)=>{
             article.value = res.data;
             if(route.name == 'Article'){
                 wppIncrement();

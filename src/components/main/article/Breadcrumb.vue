@@ -38,10 +38,10 @@
 </style>
 
 
-<script setup>
-const props = defineProps({
-    category: String,
-    category_slug: String,
-    title: String,
-})
+<script setup lang="ts">
+const props = defineProps<{
+    category?: string | null
+    category_slug?: string | null
+    title?: string
+}>()
 </script>

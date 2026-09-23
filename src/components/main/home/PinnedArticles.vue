@@ -110,15 +110,19 @@
 </style>
 
 
-<script setup>
+<script setup lang="ts">
 // import template
 import TopVisual from './TopVisual.vue'
 
 
-import { onMounted, ref, onUnmounted, inject } from 'vue'
+import { onMounted, ref, onUnmounted, inject, computed } from 'vue'
+import { appDataKeys } from '@/injectionKeys'
+import type { PinnedArticle } from '@/types/api'
 
 
-const articles = inject('pinnedArticles');
+// the API returns null for a pinned menu item whose post is not found
+const pinnedArticles = inject(appDataKeys.pinnedArticles, ref([]));
+const articles = computed(() => pinnedArticles.value.filter((a): a is PinnedArticle => a !== null));
 
 
 onMounted(()=>{
@@ -130,9 +134,9 @@ onUnmounted(()=>{
 
 
 // switch visibled article
-const visible = ref({index: 0, moveTo: 0})
-const pinnedArticleChangeInterval = ref(null);
-const pinnedArticleChange = (next)=>{
+const visible = ref<{index: number, moveTo: '' | 'left' | 'right'}>({index: 0, moveTo: ''})
+const pinnedArticleChangeInterval = ref<ReturnType<typeof setInterval>>();
+const pinnedArticleChange = (next: boolean)=>{
     if(next == true){
         if(visible.value.index >= articles.value.length-1){
             visible.value.index = 0
@@ -162,11 +166,11 @@ const pinnedArticlePrevious = ()=>{
 // switch visibled article by swipe
 const pointerStart = ref(0);
 const pointerEnd = ref(0);
-const swipeStart = (e)=>{
+const swipeStart = (e: TouchEvent)=>{
     pointerStart.value = e.touches[0].pageX;
     pointerEnd.value = e.touches[0].pageX
 }
-const swiping = (e)=>{
+const swiping = (e: TouchEvent)=>{
     pointerEnd.value = e.changedTouches[0].pageX
 }
 const swipeEnd = ()=>{
@@ -178,11 +182,11 @@ const swipeEnd = ()=>{
         pinnedArticleNext()
     }
 }
-const slideStart = (e)=>{
+const slideStart = (e: MouseEvent)=>{
     pointerStart.value = e.pageX;
     pointerEnd.value = e.pageX
 }
-const sliding = (e)=>{
+const sliding = (e: MouseEvent)=>{
     pointerEnd.value = e.pageX
 }
 </script>

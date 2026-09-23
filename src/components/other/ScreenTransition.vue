@@ -93,14 +93,14 @@
 </style>
 
 
-<script setup>
+<script setup lang="ts">
 import { ref, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 const router = useRouter();
 
 
-const waitmSecound = (s)=>{
-    return new Promise((resolve)=>{
+const waitmSecound = (s: number)=>{
+    return new Promise<void>((resolve)=>{
         setTimeout(resolve, s)
     })
 }
@@ -108,6 +108,7 @@ const waitmSecound = (s)=>{
 
 let finishOpeningAnimation = ()=>{
     const el = document.getElementById('opening-animation');
+    if(!el) return;
     el.classList.add('hide');
     setTimeout(()=>{el.style.display="none"}, 1010);
 }
@@ -142,7 +143,7 @@ router.beforeEach(async (to, from)=>{
     await nextTick();
     await waitmSecound(800);
     refresh();
-    if(to.name == 'NotFound' || to.name == 'Contact'){
+    if(to.name == 'NotFound'){
         setTimeout(finishScreenTransition, 500);
     } else {
         appWatcher.run();

@@ -27,18 +27,19 @@
 </style>
 
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, onUnmounted, inject } from 'vue'
+import { appDataKeys } from '@/injectionKeys'
 
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter();
 const route = useRoute();
-let routerHook = null;
+let routerHook: (() => void) | null = null;
 
 const description = ref('');
 const initDescription = () => {
     if(route.name == 'Category'){
-        description.value = categories.value[route.params.category] + "に関する記事";
+        description.value = categories.value[String(route.params.category)] + "に関する記事";
     }
     else if(route.name == 'Archive'){
         description.value = `${route.params.year}年${route.params.month}月に投稿された記事`
@@ -51,13 +52,13 @@ const initDescription = () => {
     }
 }
 
-const categories = inject('categories');
+const categories = inject(appDataKeys.categories, ref<Record<string, string>>({}));
 
 onMounted(async ()=>{
     initDescription();
     routerHook = router.afterEach(initDescription);
 });
 onUnmounted(()=>{
-    routerHook();
+    routerHook?.();
 })
 </script>

@@ -65,7 +65,7 @@
 </style>
 
 
-<script setup>
+<script setup lang="ts">
 import { onMounted } from 'vue'
 
 // importing openManagimentStore

@@ -63,10 +63,11 @@
 </style>
 
 
-<script setup>
+<script setup lang="ts">
 import axios from 'axios'
 import { ref, onMounted, onUnmounted } from 'vue'
 import Endpoints from '@/config/endpoints'
+import type { RelatedPost } from '@/types/api'
 import ArticleLink from '@/components/main/home/ArticleLink.vue'
 
 import { useAjaxReadyStore } from '@/stores/ajaxReady'
@@ -75,13 +76,14 @@ const ajaxReadyStore = useAjaxReadyStore();
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter();
 const route = useRoute();
-let routerHook = null;
+let routerHook: (() => void) | null = null;
 
-const articles = ref([]);
+const articles = ref<RelatedPost[]>([]);
 const initArticles = async ()=>{
     articles.value = [];
-    if(/^[-]?([1-9]\d*|0)(\.\d+)?$/.test(route.params.post_id)){
-        const res = await axios.get(Endpoints.related + '/' + route.params.post_id, {params: {_embed: true, limit: 4}});
+    const postId = String(route.params.post_id);
+    if(/^[-]?([1-9]\d*|0)(\.\d+)?$/.test(postId)){
+        const res = await axios.get<RelatedPost[]>(Endpoints.related + '/' + postId, {params: {_embed: true, limit: 4}});
         articles.value = res.data;
     }
     ajaxReadyStore.ready(Endpoints.related);
@@ -92,6 +94,6 @@ onMounted(()=>{
     routerHook = router.afterEach(initArticles);
 });
 onUnmounted(()=>{
-    routerHook();
+    routerHook?.();
 });
 </script>

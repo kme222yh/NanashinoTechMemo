@@ -1,42 +1,47 @@
-<script setup>
+<script setup lang="ts">
 import axios from 'axios'
 // import templates
-import { RouterView } from 'vue-router'
+import { RouterView, useRoute } from 'vue-router'
 import Header from '@/components/header/Header.vue'
 import Footer from '@/components/footer/Footer.vue'
-import Messanger from '@/components/other//Messanger.vue'
 import GrayBackground from '@/components/other/GrayBackground.vue'
 import ScreenTransition from '@/components/other/ScreenTransition.vue'
 
 
 import { onMounted, provide, ref } from 'vue'
-import { useRoute } from 'vue-router'
 const route = useRoute();
 
 
 // fetch layout data from endpoint and provide to child components.
 import ep from '@/config/endpoints'
+import { appDataKeys } from '@/injectionKeys'
+import type { AppData } from '@/types/api'
 import { useAjaxReadyStore } from '@/stores/ajaxReady'
 const ars = useAjaxReadyStore();
-const epAppKeys = [ // axios.get(ep.app) returns ...
-    'archives',
-    'categories',
-    'footerMenu',
-    'footerWidget',
-    'globalMenu',
-    'pinnedArticles',
-];
-let epRefObject = [];   // holds values as an arrays to dynamically define reactive variables.
-for (const key of epAppKeys) {
-    epRefObject[key] = ref([]);
-    provide(key, epRefObject[key]);
-}
+
+const appData = {
+    globalMenu: ref<AppData['globalMenu']>([]),
+    footerMenu: ref<AppData['footerMenu']>([]),
+    footerWidget: ref<AppData['footerWidget']>(''),
+    archives: ref<AppData['archives']>([]),
+    categories: ref<AppData['categories']>({}),
+    pinnedArticles: ref<AppData['pinnedArticles']>([]),
+};
+provide(appDataKeys.globalMenu, appData.globalMenu);
+provide(appDataKeys.footerMenu, appData.footerMenu);
+provide(appDataKeys.footerWidget, appData.footerWidget);
+provide(appDataKeys.archives, appData.archives);
+provide(appDataKeys.categories, appData.categories);
+provide(appDataKeys.pinnedArticles, appData.pinnedArticles);
+
 const fetchLayoutData = async ()=>{
-    const res = await axios.get(ep.app);
-    const app = res.data;
-    for(const key of epAppKeys){
-        epRefObject[key].value = app[key];
-    }
+    const { data } = await axios.get<AppData>(ep.app);
+    appData.globalMenu.value = data.globalMenu;
+    appData.footerMenu.value = data.footerMenu;
+    appData.footerWidget.value = data.footerWidget;
+    appData.archives.value = data.archives;
+    appData.categories.value = data.categories;
+    appData.pinnedArticles.value = data.pinnedArticles;
     ars.ready(ep.app, true);
 }
 
@@ -49,7 +54,6 @@ onMounted(fetchLayoutData);
     <Header/>
     <RouterView :key="route.fullPath" />
     <Footer/>
-    <Messanger/>
     <GrayBackground />
     <ScreenTransition />
 </template>

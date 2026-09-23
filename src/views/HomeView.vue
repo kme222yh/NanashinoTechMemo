@@ -18,7 +18,7 @@
 </style>
 
 
-<script setup>
+<script setup lang="ts">
 import PinnedArticles from '@/components/main/home/PinnedArticles.vue'
 import SearchForm from '@/components/main/home/SearchForm.vue'
 import ArticlesDescription from '@/components/main/home/ArticlesDescription.vue'

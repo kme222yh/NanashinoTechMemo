@@ -14,7 +14,7 @@
 </style>
 
 
-<script setup>
+<script setup lang="ts">
 import FooterWidget from './FooterWidget.vue'
 import FooterBar from './FooterBar.vue'
 </script>

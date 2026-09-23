@@ -1,15 +1,13 @@
-import js from '@eslint/js'
 import pluginVue from 'eslint-plugin-vue'
+import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
 import globals from 'globals'
 
-export default [
+export default defineConfigWithVueTs(
     { ignores: ['dist/**', '.docker/**', 'public/**'] },
-    js.configs.recommended,
-    ...pluginVue.configs['flat/essential'],
+    pluginVue.configs['flat/essential'],
+    vueTsConfigs.recommended,
     {
         languageOptions: {
-            ecmaVersion: 'latest',
-            sourceType: 'module',
             globals: { ...globals.browser },
         },
         rules: {
@@ -18,7 +16,7 @@ export default [
         },
     },
     {
-        files: ['vite.config.js', 'eslint.config.js'],
+        files: ['vite.config.ts', 'eslint.config.ts', 'tests/**'],
         languageOptions: { globals: { ...globals.node } },
     },
-]
+)

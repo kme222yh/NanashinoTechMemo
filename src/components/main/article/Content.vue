@@ -41,7 +41,7 @@
         border-radius: 5px;
         position: relative;
         &:before{
-            font-family: "Font Awesome 5 Free";
+            font-family: "Font Awesome 7 Free";
             content: '\f10d';
             font-weight: 900;
             margin-right: 10px;
@@ -199,7 +199,7 @@
 </style>
 
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue'
 const props = defineProps({
     content: String,
@@ -212,8 +212,8 @@ const overWriteTocLink = ()=>{
         const $aList = $toc.querySelectorAll('a');
         for(const $a of $aList){
             $a.addEventListener('click', e=>{
-                const id = e.currentTarget.getAttribute('href').slice(1);
-                document.getElementById(id).scrollIntoView();
+                const id = $a.getAttribute('href')?.slice(1) ?? '';
+                document.getElementById(id)?.scrollIntoView();
                 window.scrollBy(0, -70)
                 e.preventDefault();
             })
@@ -222,12 +222,15 @@ const overWriteTocLink = ()=>{
 }
 const overWriteImgLink = ()=>{
     const $article = document.getElementsByClassName('content-body')[0];
+    if(!$article) return;
     const $imgList = $article.getElementsByClassName('wp-block-image');
     for(const $img of $imgList){
         const $a = document.createElement('a');
         $a.target = '_blank';
         $a.rel = 'noopener';
-        $a.href = $img.children[0].src;
+        const $image = $img.querySelector('img');
+        if(!$image) continue;
+        $a.href = $image.src;
         $img.appendChild($a);
     }
 }

@@ -83,19 +83,19 @@
 </style>
 
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
+import type { Term } from '@/types/api'
 
-const props = defineProps({
-    date: String,
-    id: Number,
-    title: String,
-    media: String,
-    categories: Array,
-    htag_level: {
-        type: Number,
-        default: 2,
-    },
+const props = withDefaults(defineProps<{
+    date?: string
+    id: number
+    title?: string
+    media?: string | null
+    categories?: Term[]
+    htag_level?: number
+}>(), {
+    htag_level: 2,
 })
 
 const htag = computed(()=>`h${props.htag_level}`);

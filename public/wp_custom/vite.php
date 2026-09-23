@@ -5,7 +5,7 @@ Enqueue the Vue app built by Vite.
 - `npm run dev`   : dist/hot exists and contains the dev server origin, so load from it (HMR).
 - `npm run build` : read dist/.vite/manifest.json and load the hashed files.
 */
-const NANASHI_VITE_ENTRY = 'src/main.js';
+const NANASHI_VITE_ENTRY = 'src/main.ts';
 
 
 function nanashi_vite_dev_server() {

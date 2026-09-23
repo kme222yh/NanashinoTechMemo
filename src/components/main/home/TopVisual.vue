@@ -117,17 +117,17 @@
 </style>
 
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
-const props = defineProps({
-    id: Number,
-    title: String,
-    category: String,
-    category_slug: String,
-    date: String,
-    date_modified: String,
-    media: String,
-})
+const props = defineProps<{
+    id?: number
+    title?: string
+    category?: string | null
+    category_slug?: string | null
+    date?: string
+    date_modified?: string
+    media?: string | null
+}>()
 
 const bgStyle = computed(()=>{
     let style = 'linear-gradient(rgba(18, 47, 61, 0.5), rgba(18, 47, 61, 0.5))';

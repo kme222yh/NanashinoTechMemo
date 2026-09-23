@@ -1,18 +1,17 @@
 import { defineStore } from 'pinia'
 
 export const useAjaxReadyStore = defineStore('ajaxReady', {
-    state: ()=>{return {
-        base: [],   // permanently not refreshed
-        page: [],   // refresh before each change of route
-    }},
+    state: ()=>({
+        base: {} as Record<string, boolean>,   // permanently not refreshed
+        page: {} as Record<string, boolean>,   // refresh before each change of route
+    }),
     getters: {
-        isReady(){
-            // return true of not true;
-            return something => {return this.page[something];};
+        isReady(state){
+            return (something: string): boolean | undefined => state.page[something];
         }
     },
     actions: {
-        ready(something, base=false){
+        ready(something: string, base=false){
             if(base){
                 this.base[something] = true;
             }
@@ -20,10 +19,8 @@ export const useAjaxReadyStore = defineStore('ajaxReady', {
         },
         readyOther(){
             this.ready('otherView');
-            console.log('other ready!!')
         },
         refresh(){
-            this.page = [];
             this.page = { ...this.base };
         },
     }

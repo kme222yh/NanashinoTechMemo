@@ -1,4 +1,7 @@
 import '@/assets/css/reset.css'
+// icons (solid style only)
+import '@fortawesome/fontawesome-free/css/fontawesome.css'
+import '@fortawesome/fontawesome-free/css/solid.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'

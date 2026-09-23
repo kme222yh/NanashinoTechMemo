@@ -102,8 +102,8 @@
 </style>
 
 
-<script setup>
-const props = defineProps({
-    visible: Boolean,
-})
+<script setup lang="ts">
+const props = defineProps<{
+    visible?: boolean
+}>()
 </script>

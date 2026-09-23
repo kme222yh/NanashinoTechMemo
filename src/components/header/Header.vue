@@ -37,63 +37,18 @@
 </style>
 
 
-<script setup>
-import { ref, onMounted, computed } from 'vue'
-import valuables from '@/assets/sass/exports.module.scss'
-
+<script setup lang="ts">
 import SiteTitleBar from './SiteTitleBar.vue'
 import GlobalNav from './GlobalNav.vue'
+import useHeaderVisibility from '@/composables/useHeaderVisibility'
 
-// switch header visibility
 import { useOpenManagimentStore } from '@/stores/openManagiment'
 const openManagimentStore = useOpenManagimentStore();
-const headerVisiblity = ref(false);
-const switchHeaderVisibility = ()=>{
-    if(window.innerWidth > Number(valuables.breakpointsTablet.replace(/[^0-9]/g, ''))){
-        headerVisiblity.value = window.pageYOffset > 600;
-    } else {
-        if(openManagimentStore.isOpened('globalMenu')){
-            headerVisiblity.value = true;
-        } else {
-            headerVisiblity.value = window.pageYOffset > 600;
-        }
-    }
-}
-const headerVisibleByScrolling = ref(false);
-const scrolledValue = ref(0);
-const scrollingWatch = ()=>{
-    const scrolled = window.pageYOffset - scrolledValue.value
-    if(scrolled > 10){
-        scrolledValue.value = window.pageYOffset
-        headerVisibleByScrolling.value = false
-    }
-    else if(scrolled < -20){
-        scrolledValue.value = window.pageYOffset
-        headerVisibleByScrolling.value = true
-    }
-};
-const isHeaderVisible = computed(()=>{
-    if(window.innerWidth > Number(valuables.breakpointsTablet.replace(/[^0-9]/g, ''))){
-        return headerVisiblity.value;
-    } else {
-        return headerVisiblity.value && headerVisibleByScrolling.value;
-    }
-});
 
-// watch ready to teleport
 import { useTeleportReadyStore } from '@/stores/teleportReady'
 const teleportReadyStore = useTeleportReadyStore();
-const doesGlobalNavTeleport = ref(false);
-const switchGloballNavTeleport = () => {
-    doesGlobalNavTeleport.value = window.innerWidth < Number(valuables.breakpointsTablet.replace(/[^0-9]/g, ''));
-}
 
-// start switching visibility
-onMounted(()=>{
-    setInterval(()=>{
-        scrollingWatch();
-        switchHeaderVisibility();
-        switchGloballNavTeleport();
-    }, 400);
-})
+// switch header visibility / global nav position by scroll and resize
+const { visible: isHeaderVisible, teleportGlobalNav: doesGlobalNavTeleport } =
+    useHeaderVisibility(() => openManagimentStore.isOpened('globalMenu'));
 </script>

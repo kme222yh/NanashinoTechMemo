@@ -63,13 +63,13 @@
 </style>
 
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter();
 const route = useRoute();
-let routerHook = null;
+let routerHook: (() => void) | null = null;
 
 const searchWord = ref('');
 const oldSearchWord = ref('');
@@ -83,8 +83,8 @@ const doSearch = ()=>{
 }
 const initSearchWord = () => {
     if(route.query.s != undefined){
-        searchWord.value = route.query.s;
-        oldSearchWord.value = route.query.s;
+        searchWord.value = String(route.query.s);
+        oldSearchWord.value = String(route.query.s);
     }
     else{
         searchWord.value = '';
@@ -97,6 +97,6 @@ onMounted(()=>{
     routerHook = router.afterEach(initSearchWord);
 });
 onUnmounted(()=>{
-    routerHook();
+    routerHook?.();
 })
 </script>

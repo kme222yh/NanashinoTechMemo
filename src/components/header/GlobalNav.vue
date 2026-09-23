@@ -77,10 +77,11 @@
 </style>
 
 
-<script setup>
-import { inject } from 'vue'
+<script setup lang="ts">
+import { inject, ref } from 'vue'
+import { appDataKeys } from '@/injectionKeys'
 
-const menus = inject('globalMenu');
+const menus = inject(appDataKeys.globalMenu, ref([]));
 
 // importing openManagimentStore
 import { useOpenManagimentStore } from '@/stores/openManagiment'

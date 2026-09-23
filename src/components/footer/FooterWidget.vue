@@ -58,13 +58,14 @@
 </style>
 
 
-<script setup>
-import { onMounted, inject } from 'vue'
+<script setup lang="ts">
+import { onMounted, inject, ref } from 'vue'
+import { appDataKeys } from '@/injectionKeys'
 import { useRouter } from 'vue-router'
 const router = useRouter();
 
 
-const widget = inject('footerWidget');
+const widget = inject(appDataKeys.footerWidget, ref(''));
 
 
 import { loadScripts } from '@/config/wpJavascriptDependency'
@@ -76,11 +77,10 @@ widgetWatcher.do(()=>{
 }).when(()=>document.getElementsByClassName('widget').length>0);
 const wppWatcher = new st;
 wppWatcher.do(()=>{
-    const $wpp = document.getElementsByClassName('popular-posts-sr')[0];
-    const $aList = $wpp.shadowRoot.querySelectorAll('a');
+    const $aList = document.querySelector('.popular-posts-sr')?.shadowRoot?.querySelectorAll('a') ?? [];
     for(const $a of $aList){
         $a.addEventListener('click', e=>{
-            const url = (new URL(e.currentTarget.getAttribute('href'))).pathname;
+            const url = (new URL($a.href)).pathname;
             if(url != window.location.pathname){
                 router.push(url);
             }
@@ -88,8 +88,7 @@ wppWatcher.do(()=>{
         })
     }
 }).when(()=>{
-    const $wpp = document.getElementsByClassName('popular-posts-sr')[0];
-    return $wpp && $wpp.shadowRoot;
+    return document.querySelector('.popular-posts-sr')?.shadowRoot;
 });
 
 
