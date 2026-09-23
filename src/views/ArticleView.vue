@@ -42,12 +42,13 @@
 
 
 <script setup>
+import axios from 'axios'
 import TopVisual from '@/components/main/home/TopVisual.vue'
 import Content from '@/components/main/article/Content.vue'
 import Breadcrumb from '@/components/main/article/Breadcrumb.vue'
 import RelatedArticles from '@/components/main/article/RelatedArticles.vue'
 
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import Endpoints from '@/config/endpoints'
 
 import { useAjaxReadyStore } from '@/stores/ajaxReady'
@@ -59,13 +60,13 @@ const router = useRouter();
 
 const article = ref([]);
 const wppIncrement = ()=>{
-    axios.post(Endpoints.wppIncrement + `?wpp_id=${route.params.post_id}`);
+    axios.post(`${Endpoints.wppIncrement}/${route.params.post_id}`);
 }
 const getArticleInfo = async () => {
     article.value = [];
     // preview
-    if(typeof(wp_preview) !== 'undefined'){
-        article.value = wp_preview;
+    if(window.wp_preview){
+        article.value = window.wp_preview;
         ajaxReadyStore.ready(Endpoints.article);
     } else {
         axios.get(Endpoints.article + '/' + route.params.post_id).then((res)=>{
@@ -74,7 +75,7 @@ const getArticleInfo = async () => {
                 wppIncrement();
             }
             ajaxReadyStore.ready(Endpoints.article);
-        }).catch((res)=>{
+        }).catch(()=>{
             router.push({name: 'NotFound'});
         });
     }

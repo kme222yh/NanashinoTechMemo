@@ -1,7 +1,7 @@
+import '@/assets/css/reset.css'
+
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import Axios from 'axios'
-window.axios = Axios
 
 import App from './App.vue'
 import router from './router'

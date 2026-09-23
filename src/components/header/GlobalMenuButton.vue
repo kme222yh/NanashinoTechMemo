@@ -66,7 +66,7 @@
 
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { onMounted } from 'vue'
 
 // importing openManagimentStore
 import { useOpenManagimentStore } from '@/stores/openManagiment'

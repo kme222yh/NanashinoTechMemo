@@ -3,26 +3,29 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --base=/wp-content/themes/nanashinotechmemo/",
-    "preview": "vite preview --port 5050",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-    "watch": "vite build --mode development --base=/wp-content/themes/nanashinotechmemo/ --watch"
+    "build": "vite build",
+    "watch": "vite build --mode development --watch",
+    "lint": "eslint . --fix"
   },
   "dependencies": {
-    "axios": "^0.26.1",
-    "fast-glob": "^3.2.11",
-    "pinia": "^2.0.11",
-    "sass": "^1.49.9",
-    "vue": "^3.2.31",
-    "vue-router": "^4.0.12"
+    "@vue/devtools-api": "^8.2.1",
+    "axios": "^1.20.0",
+    "pinia": "^4.0.3",
+    "vue": "^3.5.43",
+    "vue-router": "^5.3.1"
+  },
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=22.12.0"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "^1.1.0",
-    "@vitejs/plugin-vue": "^2.2.2",
-    "@vue/eslint-config-prettier": "^7.0.0",
-    "eslint": "^8.5.0",
-    "eslint-plugin-vue": "^8.2.0",
-    "prettier": "^2.5.1",
-    "vite": "^2.8.4"
+    "@eslint/js": "^10.0.1",
+    "@vitejs/plugin-vue": "^6.0.9",
+    "eslint": "^10.11.0",
+    "eslint-plugin-vue": "^10.11.0",
+    "globals": "^17.12.0",
+    "sass": "^1.105.0",
+    "vite": "^8.3.0"
   }
 }

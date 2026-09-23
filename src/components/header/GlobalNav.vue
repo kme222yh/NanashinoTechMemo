@@ -78,7 +78,7 @@
 
 
 <script setup>
-import { onMounted, ref, inject } from 'vue'
+import { inject } from 'vue'
 
 const menus = inject('globalMenu');
 

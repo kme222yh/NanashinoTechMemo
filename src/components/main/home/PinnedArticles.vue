@@ -124,6 +124,9 @@ const articles = inject('pinnedArticles');
 onMounted(()=>{
     pinnedArticleChangeInterval.value = setInterval(()=>pinnedArticleChange(true), 10000);
 });
+onUnmounted(()=>{
+    clearInterval(pinnedArticleChangeInterval.value);
+});
 
 
 // switch visibled article

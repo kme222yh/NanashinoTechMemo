@@ -2,6 +2,12 @@
 // enable thumbnails
 add_theme_support('post-thumbnails');
 
+// let WordPress (and SEO plugins) output <title>
+add_theme_support('title-tag');
+
+// load the Vue app built by Vite
+require_once('wp_custom/vite.php');
+
 // configure custom menu
 require_once('wp_custom/menu_location.php');
 
@@ -15,19 +21,10 @@ require_once('wp_custom/js_valuable.php');
 require_once('endpoints/index.php');
 
 
-function twpp_deregister_scripts() {
-	wp_deregister_script( 'hcb_prism_script' );
-	wp_deregister_script('hcb_script');
-	// wp_deregister_script('wpp-js');
-}
-add_action( 'wp_enqueue_scripts', 'twpp_deregister_scripts', 100 );
-
-
 // https://wemo.tech/2163
 // ブロックエディタにカスタムブロックを追加
 function add_my_assets_to_block_editor(){
-    wp_enqueue_script( 'block-custom', get_stylesheet_directory_uri() . '/wp_assets/js/block_custom.js',array(), "", true);
-	// wp_enqueue_script( 'block-custom', get_stylesheet_directory_uri() . '/assets/js/block_custom.js',array(), "", true);
+    wp_enqueue_script( 'block-custom', get_theme_file_uri('wp_assets/js/block_custom.js'), ['wp-blocks', 'wp-element', 'wp-block-editor'], wp_get_theme()->get('Version'), true );
 }
 add_action( 'enqueue_block_editor_assets', 'add_my_assets_to_block_editor' );
 

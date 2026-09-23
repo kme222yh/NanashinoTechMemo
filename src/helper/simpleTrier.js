@@ -16,13 +16,19 @@ class simpleTrier {
     }
 
     run(interval=100){
+        this.stop();
         this.interval = interval;
         this.setIntervalId = setInterval(()=>{
             if(this.condition()){
-                clearInterval(this.setIntervalId);
+                this.stop();
                 this.f();
             }
         }, this.interval);
+    }
+
+    stop(){
+        clearInterval(this.setIntervalId);
+        this.setIntervalId = null;
     }
 }
 

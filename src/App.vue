@@ -1,4 +1,5 @@
 <script setup>
+import axios from 'axios'
 // import templates
 import { RouterView } from 'vue-router'
 import Header from '@/components/header/Header.vue'
@@ -9,8 +10,7 @@ import ScreenTransition from '@/components/other/ScreenTransition.vue'
 
 
 import { onMounted, provide, ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-const router = useRouter();
+import { useRoute } from 'vue-router'
 const route = useRoute();
 
 
@@ -56,11 +56,6 @@ onMounted(fetchLayoutData);
 
 
 <style lang="scss">
-@import '@/assets/css/reset.css';
-
-@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@500&display=swap');
-
 #app{
     width: 100%;
 }

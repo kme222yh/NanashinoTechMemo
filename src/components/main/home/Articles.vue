@@ -89,7 +89,8 @@
 
 
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from 'vue'
+import axios from 'axios'
+import { ref, onMounted, watch } from 'vue'
 import Endpoints from '@/config/endpoints'
 import ArticleLink from './ArticleLink.vue'
 import StayBackground from '@/components/other/StayBackground.vue'
@@ -100,10 +101,8 @@ const ajaxReadyStore = useAjaxReadyStore();
 import usePageDisplayReady from '@/config/pageDisplayReady'
 const {doesReadyHomeView} = usePageDisplayReady();
 
-import { useRouter, useRoute } from 'vue-router'
-const router = useRouter();
+import { useRoute } from 'vue-router'
 const route = useRoute();
-let routerHook = null;
 
 const articles = ref([]);
 const displayedArticleIdx = ref(-1);

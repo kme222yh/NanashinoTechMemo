@@ -7,8 +7,8 @@
                     :id="article.id"
                     :date="article.date"
                     :title="article['title'].rendered"
-                    :media="article['_embedded']['wp:featuredmedia'][0]['source_url']"
-                    :categories="article['_embedded']['wp:term'][0]"
+                    :media="article._embedded?.['wp:featuredmedia']?.[0]?.source_url"
+                    :categories="article._embedded?.['wp:term']?.[0] ?? []"
                     :htag_level="5"
                 />
             </ul>
@@ -64,6 +64,7 @@
 
 
 <script setup>
+import axios from 'axios'
 import { ref, onMounted, onUnmounted } from 'vue'
 import Endpoints from '@/config/endpoints'
 import ArticleLink from '@/components/main/home/ArticleLink.vue'

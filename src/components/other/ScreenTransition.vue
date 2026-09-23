@@ -94,10 +94,9 @@
 
 
 <script setup>
-import { ref, onMounted, watch, computed, nextTick } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { ref, nextTick } from 'vue'
+import { useRouter } from 'vue-router'
 const router = useRouter();
-const route = useRoute();
 
 
 const waitmSecound = (s)=>{

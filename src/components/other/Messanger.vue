@@ -107,7 +107,7 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
-import { useMessangerStore } from '@/stores/Messanger'
+import { useMessangerStore } from '@/stores/messanger'
 import { useRouter } from 'vue-router'
 const router = useRouter();
 const messages = ref([]);

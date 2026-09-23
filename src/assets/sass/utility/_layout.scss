@@ -1,3 +1,6 @@
+@use "valuables" as *;
+@use "media_queries" as *;
+
 @mixin outerBody{
     max-width: $desktop-max;
     width: 100%;

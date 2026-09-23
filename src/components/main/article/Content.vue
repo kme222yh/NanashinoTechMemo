@@ -200,7 +200,7 @@
 
 
 <script setup>
-import { defineProps, onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 const props = defineProps({
     content: String,
 })
@@ -212,7 +212,7 @@ const overWriteTocLink = ()=>{
         const $aList = $toc.querySelectorAll('a');
         for(const $a of $aList){
             $a.addEventListener('click', e=>{
-                const id = e.currentTarget.getAttribute('href').substr(1);
+                const id = e.currentTarget.getAttribute('href').slice(1);
                 document.getElementById(id).scrollIntoView();
                 window.scrollBy(0, -70)
                 e.preventDefault();
@@ -225,9 +225,9 @@ const overWriteImgLink = ()=>{
     const $imgList = $article.getElementsByClassName('wp-block-image');
     for(const $img of $imgList){
         const $a = document.createElement('a');
-        $a.target = '_brank';
+        $a.target = '_blank';
+        $a.rel = 'noopener';
         $a.href = $img.children[0].src;
-        $img.style =
         $img.appendChild($a);
     }
 }
@@ -241,7 +241,7 @@ contentWatcher.do(()=>{
     overWriteTocLink();
     overWriteImgLink();
 }).when(()=>{
-    return document.getElementsByClassName('content-body')[0].children.length>0
+    return document.getElementsByClassName('content-body')[0]?.children.length>0
 })
 
 
@@ -249,6 +249,7 @@ onMounted(()=>{
     contentWatcher.run();
 });
 onUnmounted(()=>{
+    contentWatcher.stop();
     unLoadScript('hcb');
 })
 </script>

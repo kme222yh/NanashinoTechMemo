@@ -59,7 +59,7 @@
 
 
 <script setup>
-import { ref, onMounted, inject } from 'vue'
+import { onMounted, inject } from 'vue'
 import { useRouter } from 'vue-router'
 const router = useRouter();
 
@@ -67,7 +67,7 @@ const router = useRouter();
 const widget = inject('footerWidget');
 
 
-import { loadScripts, unLoadScript } from '@/config/wpJavascriptDependency'
+import { loadScripts } from '@/config/wpJavascriptDependency'
 import st from '@/helper/simpleTrier'
 const widgetWatcher = new st;
 widgetWatcher.do(()=>{
@@ -79,7 +79,6 @@ wppWatcher.do(()=>{
     const $wpp = document.getElementsByClassName('popular-posts-sr')[0];
     const $aList = $wpp.shadowRoot.querySelectorAll('a');
     for(const $a of $aList){
-        const $aList = $wpp.shadowRoot.querySelectorAll('a');
         $a.addEventListener('click', e=>{
             const url = (new URL(e.currentTarget.getAttribute('href'))).pathname;
             if(url != window.location.pathname){

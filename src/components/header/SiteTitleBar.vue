@@ -42,12 +42,7 @@
 
 
 <script setup>
-import { ref } from 'vue'
 import GlobalMenuButton from './GlobalMenuButton.vue'
 
 const siteTitle = document.getElementsByName('site-title')[0].content;
-
-// importing openManagimentStore
-import { useOpenManagimentStore } from '@/stores/openManagiment'
-const openManagimentStore = useOpenManagimentStore();
 </script>

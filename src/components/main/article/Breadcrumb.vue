@@ -39,7 +39,6 @@
 
 
 <script setup>
-import { defineProps, computed } from 'vue'
 const props = defineProps({
     category: String,
     category_slug: String,

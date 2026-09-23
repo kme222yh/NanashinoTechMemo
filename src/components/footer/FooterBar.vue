@@ -90,11 +90,7 @@
 
 
 <script setup>
-import { ref, onMounted, inject } from 'vue'
-import Endpoints from '@/config/endpoints'
-
-import { useAjaxReadyStore } from '@/stores/ajaxReady'
-const ajaxReadyStore = useAjaxReadyStore();
+import { inject } from 'vue'
 
 const siteTitle = document.getElementsByName('site-title')[0].content;
 const copyright = `copyright ©︎ ${(new Date).getFullYear()} ${siteTitle}.`;

@@ -92,14 +92,14 @@
 
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref } from 'vue'
 import ep from '@/config/endpoints.js'
-import AxiosMailer from 'axios'
-AxiosMailer.defaults.withCredentials = true;
+import axios from 'axios'
+const AxiosMailer = axios.create({ withCredentials: true });
 
 import StayBackground from '@/components/other/StayBackground.vue'
 
-import { useMessangerStore } from '@/stores/Messanger'
+import { useMessangerStore } from '@/stores/messanger'
 const messangerStore = useMessangerStore();
 
 
@@ -192,14 +192,14 @@ const button_action = ()=>{
 
 
 const decrease = ()=>{
-    buttonMessage.value = buttonMessage.value.substr(1,buttonMessage.value.length-1)
+    buttonMessage.value = buttonMessage.value.slice(1)
     if(buttonMessage.value.length > 1)
         setTimeout(decrease, 80)
     else
         setTimeout(increase, 400)
 }
 const increase = ()=>{
-    buttonMessage.value = 'submit'.substr(6-buttonMessage.value.length-1,buttonMessage.value.length+1)
+    buttonMessage.value = 'submit'.slice(5-buttonMessage.value.length)
     if(buttonMessage.value.length < 6)
         setTimeout(increase, 110)
 }

@@ -44,7 +44,7 @@ const router = createRouter({
             component: () => import('@/views/NotFoundView.vue'),
         },
     ],
-    scrollBehavior (to, from, savedPosition) {
+    scrollBehavior (to, from) {
         if(from.name && to.fullPath == from.fullPath){
             return;
         } else if(to.name == 'NotFound' || to.name == 'Contact'){

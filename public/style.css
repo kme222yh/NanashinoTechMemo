@@ -1,9 +1,11 @@
 /*
 Theme Name: Nanashi no Tech Memo
-Theme URL: https://github.com/kme222yh/NanashinoTechMemo
+Theme URI: https://github.com/kme222yh/NanashinoTechMemo
 Description: Nanashi's tech memo. Plugin dependency: Default featured image, Yet Another Related Posts Plugin (YARPP), All In One SEO Pack, Highlighting Code Block, WordPress Popular Posts, Table of Contents Plus
 Author: reuhul
-Version: 2.0
+Version: 3.0
+Requires at least: 6.5
+Requires PHP: 8.1
 Tags:
 License: GNU General Public License v2 or later
 */
