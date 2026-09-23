@@ -20,10 +20,13 @@ npm run build
 ### When developing
 
 ```
+cp .env.example .env   # optional
+docker compose up -d
 npm run watch
-cd wordpress
-php -S localhost:8000
 ```
+
+Open http://localhost:8000 and activate the theme.
+WordPress / MySQL data is stored under `.docker/`. `dist/` is mounted as `wp-content/themes/nanashinotechmemo`.
 
 
 ### Command log

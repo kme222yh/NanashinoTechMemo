@@ -25,18 +25,18 @@ function custom_articles( WP_REST_Request $request ) {
                 'id' => $e->term_id,
                 'name' => $e->name,
                 'slug' => $e->slug,
-            ];}, get_the_tags());
+            ];}, get_the_tags() ?: []);
             array_push($articles, [
                 'id' => get_the_ID(),
                 'title' => get_the_title(),
                 'date' => get_the_date(),
-                'media' => wp_get_attachment_image_src(get_post_thumbnail_id(), 'full')[0],
+                'media' => get_the_post_thumbnail_url(null, 'full') ?: null,
                 'categories' => array_map(function($e){return [
                     'id' => $e->term_id,
                     'name' => $e->name,
                     'slug' => $e->slug,
-                ];}, get_the_category()),
-                'tags' => $tags?$tags:[],
+                ];}, get_the_category() ?: []),
+                'tags' => $tags,
             ]);
         }
     }

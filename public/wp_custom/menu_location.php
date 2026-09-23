@@ -12,8 +12,9 @@ add_action( 'after_setup_theme', 'mytheme_nav_menu' );
 
 
 function custom_get_menu_items_by_location($menuName){
-    $wpMenuId = get_nav_menu_locations()[$menuName];
+    $wpMenuId = get_nav_menu_locations()[$menuName] ?? 0;
     $menuObject = wp_get_nav_menu_object($wpMenuId);
-    $menuItems = wp_get_nav_menu_items($menuObject->name);
-    return $menuItems;
+    if(!$menuObject)
+        return [];
+    return wp_get_nav_menu_items($menuObject->name) ?: [];
 }
